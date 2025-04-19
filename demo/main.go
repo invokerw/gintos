@@ -31,6 +31,10 @@ type App struct {
 	engine *gin.Engine
 }
 
+func (a *App) Run(addr ...string) error {
+	return a.engine.Run(addr...)
+}
+
 func newApp(engine *gin.Engine) *App {
 	return &App{engine: engine}
 }
@@ -68,7 +72,7 @@ func main() {
 	defer cleanup()
 
 	// start and wait for stop signal
-	if err := app.engine.Run(bc.Server.Http.Addr); err != nil {
+	if err := app.Run(bc.Server.Http.Addr); err != nil {
 		panic(err)
 	}
 }
