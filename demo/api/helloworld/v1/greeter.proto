@@ -21,7 +21,7 @@ service Greeter {
 
 // The request message containing the user's name.
 message HelloRequest {
-  string name = 1;
+  string name = 1; // @gotags: uri:"name" form:"name"
 }
 
 // The response message containing the greetings

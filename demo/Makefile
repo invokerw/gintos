@@ -19,6 +19,7 @@ endif
 # init env
 init:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install github.com/favadi/protoc-go-inject-tag@latest
 	cd ../cmd/protoc-gen-go-gin/; go install .; cd -
 
 
@@ -32,6 +33,15 @@ api:
  	       --go-gin-http_out=paths=source_relative:./api \
 	       --openapi_out=fq_schema_naming=true,default_response=false:. \
 	       $(API_PROTO_FILES)
+	PB_GO_FILES=$$(find api -name '*.pb.go' | grep -v gin.pb.go); \
+		for file in $$PB_GO_FILES; do \
+			echo "Injecting tags into: $$file"; \
+			protoc-go-inject-tag -input="$${file}"; \
+		done
+#	echo "Generated files from: $(API_PROTO_FILES)"
+#	echo "Injecting tags into: $(shell find api -name '*.pb.go' | grep -v gin.pb.go)"
+#	protoc-go-inject-tag -input="$(shell find api -name '*.pb.go' | grep -v gin.pb.go)"
+
 
 .PHONY: all
 # generate all

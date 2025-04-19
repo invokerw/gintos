@@ -223,16 +223,15 @@ func buildPathVars(path string) (res map[string]*string) {
 	if strings.HasSuffix(path, "/") {
 		fmt.Fprintf(os.Stderr, "\u001B[31mWARN\u001B[m: Path %s should not end with \"/\" \n", path)
 	}
-	// FIXME : {name} to :name
-	pattern := regexp.MustCompile(`(?i){([a-z.0-9_\s]*)=?([^{}]*)}`)
-	matches := pattern.FindAllStringSubmatch(path, -1)
-	res = make(map[string]*string, len(matches))
-	for _, m := range matches {
-		name := strings.TrimSpace(m[1])
-		if len(name) > 1 && len(m[2]) > 0 {
-			res[name] = &m[2]
-		} else {
-			res[name] = nil
+
+	infos := strings.Split(path, "/")
+	if len(infos) == 0 {
+		return
+	}
+	res = make(map[string]*string)
+	for _, info := range infos {
+		if strings.HasPrefix(info, ":") || strings.HasPrefix(info, "*") {
+			res[info[1:]] = nil
 		}
 	}
 	return

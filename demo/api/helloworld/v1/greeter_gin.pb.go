@@ -34,6 +34,10 @@ func _Greeter_SayHello0_HTTP_Handler(srv IGreeterServer) func(ctx *gin.Context) 
 			resp.FailWithMessage(ctx, err.Error())
 			return
 		}
+		if err := ctx.ShouldBindUri(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
 		// http.SetOperation(ctx, OperationGreeterSayHello)
 		reply, err := srv.SayHello(ctx, &in)
 		if err != nil {
