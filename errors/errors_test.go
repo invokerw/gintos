@@ -49,12 +49,6 @@ func TestErrors(t *testing.T) {
 		t.Error("not expected metadata")
 	}
 
-	gs := err.GRPCStatus()
-	se := FromError(gs.Err())
-	if se.Reason != "reason" {
-		t.Errorf("got %+v want %+v", se, err)
-	}
-
 	gs2 := status.New(codes.InvalidArgument, "bad request")
 	se2 := FromError(gs2.Err())
 	// codes.InvalidArgument should convert to http.StatusBadRequest

@@ -24,7 +24,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&flagConf, "conf", "../../configs", "config path, eg: -conf config.yaml")
+	flag.StringVar(&flagConf, "conf", "./configs", "config path, eg: -conf config.yaml")
 }
 
 type App struct {
@@ -61,14 +61,14 @@ func main() {
 		panic(err)
 	}
 
-	//app, cleanup, err := wireApp(bc.Server, bc.Data, logger)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//defer cleanup()
-	//
-	//// start and wait for stop signal
-	//if err := app.Run(); err != nil {
-	//	panic(err)
-	//}
+	app, cleanup, err := wireApp(bc.Server, bc.Data, logger)
+	if err != nil {
+		panic(err)
+	}
+	defer cleanup()
+
+	// start and wait for stop signal
+	if err := app.engine.Run(bc.Server.Http.Addr); err != nil {
+		panic(err)
+	}
 }

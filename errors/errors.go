@@ -3,11 +3,6 @@ package errors
 import (
 	"errors"
 	"fmt"
-
-	"google.golang.org/genproto/googleapis/rpc/errdetails"
-	"google.golang.org/grpc/status"
-
-	httpstatus "github.com/go-kratos/kratos/v2/transport/http/status"
 )
 
 const (
@@ -52,16 +47,6 @@ func (e *Error) WithMetadata(md map[string]string) *Error {
 	err := Clone(e)
 	err.Metadata = md
 	return err
-}
-
-// GRPCStatus returns the Status represented by se.
-func (e *Error) GRPCStatus() *status.Status {
-	s, _ := status.New(httpstatus.ToGRPCCode(int(e.Code)), e.Message).
-		WithDetails(&errdetails.ErrorInfo{
-			Reason:   e.Reason,
-			Metadata: e.Metadata,
-		})
-	return s
 }
 
 // New returns an error object for the code, message.
@@ -132,21 +117,5 @@ func FromError(err error) *Error {
 	if se := new(Error); errors.As(err, &se) {
 		return se
 	}
-	gs, ok := status.FromError(err)
-	if !ok {
-		return New(UnknownCode, UnknownReason, err.Error())
-	}
-	ret := New(
-		httpstatus.FromGRPCCode(gs.Code()),
-		UnknownReason,
-		gs.Message(),
-	)
-	for _, detail := range gs.Details() {
-		switch d := detail.(type) {
-		case *errdetails.ErrorInfo:
-			ret.Reason = d.Reason
-			return ret.WithMetadata(d.Metadata)
-		}
-	}
-	return ret
+	return New(UnknownCode, UnknownReason, err.Error())
 }
