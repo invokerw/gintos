@@ -4,7 +4,14 @@ go 1.23.0
 
 toolchain go1.23.8
 
-require github.com/gin-gonic/gin v1.10.0
+require (
+	dario.cat/mergo v1.0.1
+	github.com/fsnotify/fsnotify v1.9.0
+	github.com/gin-gonic/gin v1.10.0
+	github.com/go-playground/form/v4 v4.2.1
+	google.golang.org/protobuf v1.36.6
+	gopkg.in/yaml.v3 v3.0.1
+)
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect
@@ -31,7 +38,4 @@ require (
 	golang.org/x/net v0.37.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
-	google.golang.org/genproto v0.0.0-20250414145226-207652e42e2e // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

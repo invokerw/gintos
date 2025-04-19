@@ -18,6 +18,7 @@ endif
 .PHONY: init
 # init env
 init:
+	go install github.com/google/wire/cmd/wire@latest
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install github.com/favadi/protoc-go-inject-tag@latest
 	cd ../cmd/protoc-gen-go-gin/; go install .; cd -
@@ -38,10 +39,23 @@ api:
 			echo "Injecting tags into: $$file"; \
 			protoc-go-inject-tag -input="$${file}"; \
 		done
-#	echo "Generated files from: $(API_PROTO_FILES)"
-#	echo "Injecting tags into: $(shell find api -name '*.pb.go' | grep -v gin.pb.go)"
-#	protoc-go-inject-tag -input="$(shell find api -name '*.pb.go' | grep -v gin.pb.go)"
 
+conf:
+	protoc --proto_path=./internal \
+		   --proto_path=../third_party \
+		   --go_out=paths=source_relative:./internal \
+		   $(INTERNAL_PROTO_FILES)
+
+.PHONY: build
+# build
+build:
+	mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./...
+
+.PHONY: generate
+# generate
+generate:
+	go generate ./...
+	go mod tidy
 
 .PHONY: all
 # generate all

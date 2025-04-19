@@ -37,4 +37,4 @@ endif
 
 .PHONY: proto
 proto:
-	protoc --proto_path=./proto --proto_path=./third_party --go_out=paths=source_relative:./proto/ ./proto/errors/errors.proto
+	protoc --proto_path=./errors --proto_path=./third_party --go_out=paths=source_relative:./errors ./errors/errors.proto
