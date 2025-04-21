@@ -1,29 +1,30 @@
 package service
 
 import (
-	v1 "github/invokerw/gintos/demo/api/helloworld/v1"
-	"github/invokerw/gintos/demo/internal/biz"
-
 	"github.com/gin-gonic/gin"
+	"github/invokerw/gintos/demo/api/v1/helloworld"
+	"github/invokerw/gintos/demo/internal/biz"
+	"github/invokerw/gintos/log"
 )
 
 // GreeterService is a greeter service.
 type GreeterService struct {
-	uc *biz.GreeterUsecase
+	uc  *biz.GreeterUsecase
+	log *log.Helper
 }
 
-var _ v1.IGreeterServer = (*GreeterService)(nil)
+var _ helloworld.IGreeterServer = (*GreeterService)(nil)
 
 // NewGreeterService new a greeter service.
-func NewGreeterService(uc *biz.GreeterUsecase) *GreeterService {
-	return &GreeterService{uc: uc}
+func NewGreeterService(uc *biz.GreeterUsecase, logger log.Logger) *GreeterService {
+	return &GreeterService{uc: uc, log: log.NewHelper(logger)}
 }
 
 // SayHello implements helloworld.GreeterServer.
-func (s *GreeterService) SayHello(ctx *gin.Context, in *v1.HelloRequest) (*v1.HelloReply, error) {
+func (s *GreeterService) SayHello(ctx *gin.Context, in *helloworld.HelloRequest) (*helloworld.HelloReply, error) {
 	g, err := s.uc.CreateGreeter(ctx, &biz.Greeter{Hello: in.Name})
 	if err != nil {
 		return nil, err
 	}
-	return &v1.HelloReply{Message: "Hello " + g.Hello}, nil
+	return &helloworld.HelloReply{Message: "Hello " + g.Hello}, nil
 }

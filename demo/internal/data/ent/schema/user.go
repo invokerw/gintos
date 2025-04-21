@@ -92,7 +92,7 @@ func (User) Fields() []ent.Field {
 			).
 			Default("CUSTOMER_USER"),
 
-		field.Uint32("role_id").
+		field.Uint64("role_id").
 			Comment("角色ID").
 			Optional().
 			Nillable(),

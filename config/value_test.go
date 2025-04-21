@@ -39,7 +39,7 @@ func TestAtomicValue_Bool(t *testing.T) {
 		v.Store(x)
 		_, err := v.Bool()
 		if err == nil {
-			t.Fatal("err is nil")
+			t.Fatal("errs is nil")
 		}
 	}
 }
@@ -64,7 +64,7 @@ func TestAtomicValue_Int(t *testing.T) {
 		v.Store(x)
 		_, err := v.Int()
 		if err == nil {
-			t.Fatal("err is nil")
+			t.Fatal("errs is nil")
 		}
 	}
 }
@@ -89,7 +89,7 @@ func TestAtomicValue_Float(t *testing.T) {
 		v.Store(x)
 		_, err := v.Float()
 		if err == nil {
-			t.Fatal("err is nil")
+			t.Fatal("errs is nil")
 		}
 	}
 }

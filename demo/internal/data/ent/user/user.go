@@ -21,8 +21,6 @@ const (
 	FieldCreateTime = "create_time"
 	// FieldUpdateTime holds the string denoting the update_time field in the database.
 	FieldUpdateTime = "update_time"
-	// FieldDeleteTime holds the string denoting the delete_time field in the database.
-	FieldDeleteTime = "delete_time"
 	// FieldRemark holds the string denoting the remark field in the database.
 	FieldRemark = "remark"
 	// FieldStatus holds the string denoting the status field in the database.
@@ -58,7 +56,6 @@ var Columns = []string{
 	FieldUpdateBy,
 	FieldCreateTime,
 	FieldUpdateTime,
-	FieldDeleteTime,
 	FieldRemark,
 	FieldStatus,
 	FieldUsername,
@@ -101,7 +98,7 @@ var (
 	// AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.
 	AvatarValidator func(string) error
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
-	IDValidator func(uint32) error
+	IDValidator func(uint64) error
 )
 
 // Status defines the type for the "status" enum field.
@@ -209,11 +206,6 @@ func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdateTime orders the results by the update_time field.
 func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdateTime, opts...).ToFunc()
-}
-
-// ByDeleteTime orders the results by the delete_time field.
-func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
 }
 
 // ByRemark orders the results by the remark field.

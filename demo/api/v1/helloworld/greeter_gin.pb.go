@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-gin v1.0.0
 // - protoc             v3.14.0
-// source: helloworld/v1/greeter.proto
+// source: v1/helloworld/greeter.proto
 
-package v1
+package helloworld
 
 import (
 	gin "github.com/gin-gonic/gin"
@@ -41,7 +41,7 @@ func _Greeter_SayHello0_HTTP_Handler(srv IGreeterServer) func(ctx *gin.Context) 
 		// http.SetOperation(ctx, OperationGreeterSayHello)
 		reply, err := srv.SayHello(ctx, &in)
 		if err != nil {
-			resp.FailWithMessage(ctx, err.Error())
+			resp.FailWithError(ctx, err)
 			return
 		}
 		resp.OkWithData(ctx, reply)

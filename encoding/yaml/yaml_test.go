@@ -79,7 +79,7 @@ func TestCodec_Unmarshal(t *testing.T) {
 		value := reflect.New(v)
 		err := (codec{}).Unmarshal([]byte(tt.data), value.Interface())
 		if err != nil {
-			t.Fatalf("(codec{}).Unmarshal should not return err")
+			t.Fatalf("(codec{}).Unmarshal should not return errs")
 		}
 	}
 	spec := struct {
@@ -88,7 +88,7 @@ func TestCodec_Unmarshal(t *testing.T) {
 	}{A: "a"}
 	err := (codec{}).Unmarshal([]byte("v: hi"), &spec.B)
 	if err != nil {
-		t.Fatalf("(codec{}).Unmarshal should not return err")
+		t.Fatalf("(codec{}).Unmarshal should not return errs")
 	}
 }
 
@@ -96,7 +96,7 @@ func TestCodec_Marshal(t *testing.T) {
 	value := map[string]string{"v": "hi"}
 	got, err := (codec{}).Marshal(value)
 	if err != nil {
-		t.Fatalf("should not return err")
+		t.Fatalf("should not return errs")
 	}
 	if string(got) != "v: hi\n" {
 		t.Fatalf("want \"v: hi\n\" return \"%s\"", string(got))

@@ -43,7 +43,7 @@ func (Role) Fields() []ent.Field {
 			Nillable().
 			MaxLen(128),
 
-		field.Uint32("parent_id").
+		field.Uint64("parent_id").
 			Comment("上一层角色ID").
 			Nillable().
 			Optional(),

@@ -34,7 +34,7 @@ func TestReader_Merge(t *testing.T) {
 		Format: "json",
 	})
 	if err == nil {
-		t.Fatal("err is nil")
+		t.Fatal("errs is nil")
 	}
 
 	err = r.Merge(&KeyValue{
@@ -242,7 +242,7 @@ func TestCloneMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		if got, err := cloneMap(tt.input); err != nil {
-			t.Errorf("expect no err, got %v", err)
+			t.Errorf("expect no errs, got %v", err)
 		} else if !reflect.DeepEqual(got, tt.want) {
 			t.Errorf("cloneMap(%v) = %v, want %v", tt.input, got, tt.want)
 		}

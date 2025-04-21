@@ -124,7 +124,6 @@ func (Time) Fields() []ent.Field {
 	var fields []ent.Field
 	fields = append(fields, CreateTime{}.Fields()...)
 	fields = append(fields, UpdateTime{}.Fields()...)
-	fields = append(fields, DeleteTime{}.Fields()...)
 	return fields
 }
 

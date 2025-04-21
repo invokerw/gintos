@@ -20,13 +20,13 @@ type UserCreate struct {
 }
 
 // SetCreateBy sets the "create_by" field.
-func (uc *UserCreate) SetCreateBy(u uint32) *UserCreate {
+func (uc *UserCreate) SetCreateBy(u uint64) *UserCreate {
 	uc.mutation.SetCreateBy(u)
 	return uc
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (uc *UserCreate) SetNillableCreateBy(u *uint32) *UserCreate {
+func (uc *UserCreate) SetNillableCreateBy(u *uint64) *UserCreate {
 	if u != nil {
 		uc.SetCreateBy(*u)
 	}
@@ -34,13 +34,13 @@ func (uc *UserCreate) SetNillableCreateBy(u *uint32) *UserCreate {
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (uc *UserCreate) SetUpdateBy(u uint32) *UserCreate {
+func (uc *UserCreate) SetUpdateBy(u uint64) *UserCreate {
 	uc.mutation.SetUpdateBy(u)
 	return uc
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (uc *UserCreate) SetNillableUpdateBy(u *uint32) *UserCreate {
+func (uc *UserCreate) SetNillableUpdateBy(u *uint64) *UserCreate {
 	if u != nil {
 		uc.SetUpdateBy(*u)
 	}
@@ -71,20 +71,6 @@ func (uc *UserCreate) SetUpdateTime(t time.Time) *UserCreate {
 func (uc *UserCreate) SetNillableUpdateTime(t *time.Time) *UserCreate {
 	if t != nil {
 		uc.SetUpdateTime(*t)
-	}
-	return uc
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (uc *UserCreate) SetDeleteTime(t time.Time) *UserCreate {
-	uc.mutation.SetDeleteTime(t)
-	return uc
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (uc *UserCreate) SetNillableDeleteTime(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetDeleteTime(*t)
 	}
 	return uc
 }
@@ -230,13 +216,13 @@ func (uc *UserCreate) SetNillableAuthority(u *user.Authority) *UserCreate {
 }
 
 // SetRoleID sets the "role_id" field.
-func (uc *UserCreate) SetRoleID(u uint32) *UserCreate {
+func (uc *UserCreate) SetRoleID(u uint64) *UserCreate {
 	uc.mutation.SetRoleID(u)
 	return uc
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uc *UserCreate) SetNillableRoleID(u *uint32) *UserCreate {
+func (uc *UserCreate) SetNillableRoleID(u *uint64) *UserCreate {
 	if u != nil {
 		uc.SetRoleID(*u)
 	}
@@ -258,7 +244,7 @@ func (uc *UserCreate) SetNillableLastLoginTime(i *int64) *UserCreate {
 }
 
 // SetID sets the "id" field.
-func (uc *UserCreate) SetID(u uint32) *UserCreate {
+func (uc *UserCreate) SetID(u uint64) *UserCreate {
 	uc.mutation.SetID(u)
 	return uc
 }
@@ -384,7 +370,7 @@ func (uc *UserCreate) sqlSave(ctx context.Context) (*User, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = uint32(id)
+		_node.ID = uint64(id)
 	}
 	uc.mutation.id = &_node.ID
 	uc.mutation.done = true
@@ -394,18 +380,18 @@ func (uc *UserCreate) sqlSave(ctx context.Context) (*User, error) {
 func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	var (
 		_node = &User{config: uc.config}
-		_spec = sqlgraph.NewCreateSpec(user.Table, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUint32))
+		_spec = sqlgraph.NewCreateSpec(user.Table, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUint64))
 	)
 	if id, ok := uc.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
 	if value, ok := uc.mutation.CreateBy(); ok {
-		_spec.SetField(user.FieldCreateBy, field.TypeUint32, value)
+		_spec.SetField(user.FieldCreateBy, field.TypeUint64, value)
 		_node.CreateBy = &value
 	}
 	if value, ok := uc.mutation.UpdateBy(); ok {
-		_spec.SetField(user.FieldUpdateBy, field.TypeUint32, value)
+		_spec.SetField(user.FieldUpdateBy, field.TypeUint64, value)
 		_node.UpdateBy = &value
 	}
 	if value, ok := uc.mutation.CreateTime(); ok {
@@ -415,10 +401,6 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.UpdateTime(); ok {
 		_spec.SetField(user.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
-	}
-	if value, ok := uc.mutation.DeleteTime(); ok {
-		_spec.SetField(user.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
 	}
 	if value, ok := uc.mutation.Remark(); ok {
 		_spec.SetField(user.FieldRemark, field.TypeString, value)
@@ -461,7 +443,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_node.Authority = &value
 	}
 	if value, ok := uc.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint32, value)
+		_spec.SetField(user.FieldRoleID, field.TypeUint64, value)
 		_node.RoleID = &value
 	}
 	if value, ok := uc.mutation.LastLoginTime(); ok {
@@ -518,7 +500,7 @@ func (ucb *UserCreateBulk) Save(ctx context.Context) ([]*User, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint32(id)
+					nodes[i].ID = uint64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

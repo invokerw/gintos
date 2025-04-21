@@ -5,7 +5,7 @@ import (
 )
 
 func Test_watcher_next(t *testing.T) {
-	t.Run("next after stop should return err", func(t *testing.T) {
+	t.Run("next after stop should return errs", func(t *testing.T) {
 		w, err := NewWatcher()
 		if err != nil {
 			t.Errorf("expect no error, got %v", err)

@@ -17,17 +17,15 @@ type User struct {
 	config `json:"-"`
 	// ID of the ent.
 	// id
-	ID uint32 `json:"id,omitempty"`
+	ID uint64 `json:"id,omitempty"`
 	// 创建者ID
-	CreateBy *uint32 `json:"create_by,omitempty"`
+	CreateBy *uint64 `json:"create_by,omitempty"`
 	// 更新者ID
-	UpdateBy *uint32 `json:"update_by,omitempty"`
+	UpdateBy *uint64 `json:"update_by,omitempty"`
 	// 创建时间
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	// 更新时间
 	UpdateTime *time.Time `json:"update_time,omitempty"`
-	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 状态
@@ -49,7 +47,7 @@ type User struct {
 	// 授权
 	Authority *user.Authority `json:"authority,omitempty"`
 	// 角色ID
-	RoleID *uint32 `json:"role_id,omitempty"`
+	RoleID *uint64 `json:"role_id,omitempty"`
 	// 最后一次登录的时间
 	LastLoginTime *int64 `json:"last_login_time,omitempty"`
 	selectValues  sql.SelectValues
@@ -64,7 +62,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldEmail, user.FieldMobile, user.FieldAvatar, user.FieldGender, user.FieldAuthority:
 			values[i] = new(sql.NullString)
-		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime:
+		case user.FieldCreateTime, user.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -86,20 +84,20 @@ func (u *User) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			u.ID = uint32(value.Int64)
+			u.ID = uint64(value.Int64)
 		case user.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				u.CreateBy = new(uint32)
-				*u.CreateBy = uint32(value.Int64)
+				u.CreateBy = new(uint64)
+				*u.CreateBy = uint64(value.Int64)
 			}
 		case user.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				u.UpdateBy = new(uint32)
-				*u.UpdateBy = uint32(value.Int64)
+				u.UpdateBy = new(uint64)
+				*u.UpdateBy = uint64(value.Int64)
 			}
 		case user.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -114,13 +112,6 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.UpdateTime = new(time.Time)
 				*u.UpdateTime = value.Time
-			}
-		case user.FieldDeleteTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
-			} else if value.Valid {
-				u.DeleteTime = new(time.Time)
-				*u.DeleteTime = value.Time
 			}
 		case user.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -196,8 +187,8 @@ func (u *User) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
 			} else if value.Valid {
-				u.RoleID = new(uint32)
-				*u.RoleID = uint32(value.Int64)
+				u.RoleID = new(uint64)
+				*u.RoleID = uint64(value.Int64)
 			}
 		case user.FieldLastLoginTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -259,11 +250,6 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	if v := u.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := u.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")

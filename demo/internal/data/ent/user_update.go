@@ -29,14 +29,14 @@ func (uu *UserUpdate) Where(ps ...predicate.User) *UserUpdate {
 }
 
 // SetCreateBy sets the "create_by" field.
-func (uu *UserUpdate) SetCreateBy(u uint32) *UserUpdate {
+func (uu *UserUpdate) SetCreateBy(u uint64) *UserUpdate {
 	uu.mutation.ResetCreateBy()
 	uu.mutation.SetCreateBy(u)
 	return uu
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableCreateBy(u *uint32) *UserUpdate {
+func (uu *UserUpdate) SetNillableCreateBy(u *uint64) *UserUpdate {
 	if u != nil {
 		uu.SetCreateBy(*u)
 	}
@@ -44,7 +44,7 @@ func (uu *UserUpdate) SetNillableCreateBy(u *uint32) *UserUpdate {
 }
 
 // AddCreateBy adds u to the "create_by" field.
-func (uu *UserUpdate) AddCreateBy(u int32) *UserUpdate {
+func (uu *UserUpdate) AddCreateBy(u int64) *UserUpdate {
 	uu.mutation.AddCreateBy(u)
 	return uu
 }
@@ -56,14 +56,14 @@ func (uu *UserUpdate) ClearCreateBy() *UserUpdate {
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (uu *UserUpdate) SetUpdateBy(u uint32) *UserUpdate {
+func (uu *UserUpdate) SetUpdateBy(u uint64) *UserUpdate {
 	uu.mutation.ResetUpdateBy()
 	uu.mutation.SetUpdateBy(u)
 	return uu
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableUpdateBy(u *uint32) *UserUpdate {
+func (uu *UserUpdate) SetNillableUpdateBy(u *uint64) *UserUpdate {
 	if u != nil {
 		uu.SetUpdateBy(*u)
 	}
@@ -71,7 +71,7 @@ func (uu *UserUpdate) SetNillableUpdateBy(u *uint32) *UserUpdate {
 }
 
 // AddUpdateBy adds u to the "update_by" field.
-func (uu *UserUpdate) AddUpdateBy(u int32) *UserUpdate {
+func (uu *UserUpdate) AddUpdateBy(u int64) *UserUpdate {
 	uu.mutation.AddUpdateBy(u)
 	return uu
 }
@@ -99,26 +99,6 @@ func (uu *UserUpdate) SetNillableUpdateTime(t *time.Time) *UserUpdate {
 // ClearUpdateTime clears the value of the "update_time" field.
 func (uu *UserUpdate) ClearUpdateTime() *UserUpdate {
 	uu.mutation.ClearUpdateTime()
-	return uu
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (uu *UserUpdate) SetDeleteTime(t time.Time) *UserUpdate {
-	uu.mutation.SetDeleteTime(t)
-	return uu
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableDeleteTime(t *time.Time) *UserUpdate {
-	if t != nil {
-		uu.SetDeleteTime(*t)
-	}
-	return uu
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (uu *UserUpdate) ClearDeleteTime() *UserUpdate {
-	uu.mutation.ClearDeleteTime()
 	return uu
 }
 
@@ -303,14 +283,14 @@ func (uu *UserUpdate) ClearAuthority() *UserUpdate {
 }
 
 // SetRoleID sets the "role_id" field.
-func (uu *UserUpdate) SetRoleID(u uint32) *UserUpdate {
+func (uu *UserUpdate) SetRoleID(u uint64) *UserUpdate {
 	uu.mutation.ResetRoleID()
 	uu.mutation.SetRoleID(u)
 	return uu
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableRoleID(u *uint32) *UserUpdate {
+func (uu *UserUpdate) SetNillableRoleID(u *uint64) *UserUpdate {
 	if u != nil {
 		uu.SetRoleID(*u)
 	}
@@ -318,7 +298,7 @@ func (uu *UserUpdate) SetNillableRoleID(u *uint32) *UserUpdate {
 }
 
 // AddRoleID adds u to the "role_id" field.
-func (uu *UserUpdate) AddRoleID(u int32) *UserUpdate {
+func (uu *UserUpdate) AddRoleID(u int64) *UserUpdate {
 	uu.mutation.AddRoleID(u)
 	return uu
 }
@@ -437,7 +417,7 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if err := uu.check(); err != nil {
 		return n, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUint64))
 	if ps := uu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -446,22 +426,22 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 	}
 	if value, ok := uu.mutation.CreateBy(); ok {
-		_spec.SetField(user.FieldCreateBy, field.TypeUint32, value)
+		_spec.SetField(user.FieldCreateBy, field.TypeUint64, value)
 	}
 	if value, ok := uu.mutation.AddedCreateBy(); ok {
-		_spec.AddField(user.FieldCreateBy, field.TypeUint32, value)
+		_spec.AddField(user.FieldCreateBy, field.TypeUint64, value)
 	}
 	if uu.mutation.CreateByCleared() {
-		_spec.ClearField(user.FieldCreateBy, field.TypeUint32)
+		_spec.ClearField(user.FieldCreateBy, field.TypeUint64)
 	}
 	if value, ok := uu.mutation.UpdateBy(); ok {
-		_spec.SetField(user.FieldUpdateBy, field.TypeUint32, value)
+		_spec.SetField(user.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if value, ok := uu.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(user.FieldUpdateBy, field.TypeUint32, value)
+		_spec.AddField(user.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if uu.mutation.UpdateByCleared() {
-		_spec.ClearField(user.FieldUpdateBy, field.TypeUint32)
+		_spec.ClearField(user.FieldUpdateBy, field.TypeUint64)
 	}
 	if uu.mutation.CreateTimeCleared() {
 		_spec.ClearField(user.FieldCreateTime, field.TypeTime)
@@ -471,12 +451,6 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if uu.mutation.UpdateTimeCleared() {
 		_spec.ClearField(user.FieldUpdateTime, field.TypeTime)
-	}
-	if value, ok := uu.mutation.DeleteTime(); ok {
-		_spec.SetField(user.FieldDeleteTime, field.TypeTime, value)
-	}
-	if uu.mutation.DeleteTimeCleared() {
-		_spec.ClearField(user.FieldDeleteTime, field.TypeTime)
 	}
 	if value, ok := uu.mutation.Remark(); ok {
 		_spec.SetField(user.FieldRemark, field.TypeString, value)
@@ -536,13 +510,13 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
 	}
 	if value, ok := uu.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint32, value)
+		_spec.SetField(user.FieldRoleID, field.TypeUint64, value)
 	}
 	if value, ok := uu.mutation.AddedRoleID(); ok {
-		_spec.AddField(user.FieldRoleID, field.TypeUint32, value)
+		_spec.AddField(user.FieldRoleID, field.TypeUint64, value)
 	}
 	if uu.mutation.RoleIDCleared() {
-		_spec.ClearField(user.FieldRoleID, field.TypeUint32)
+		_spec.ClearField(user.FieldRoleID, field.TypeUint64)
 	}
 	if value, ok := uu.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)
@@ -574,14 +548,14 @@ type UserUpdateOne struct {
 }
 
 // SetCreateBy sets the "create_by" field.
-func (uuo *UserUpdateOne) SetCreateBy(u uint32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetCreateBy(u uint64) *UserUpdateOne {
 	uuo.mutation.ResetCreateBy()
 	uuo.mutation.SetCreateBy(u)
 	return uuo
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableCreateBy(u *uint32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetNillableCreateBy(u *uint64) *UserUpdateOne {
 	if u != nil {
 		uuo.SetCreateBy(*u)
 	}
@@ -589,7 +563,7 @@ func (uuo *UserUpdateOne) SetNillableCreateBy(u *uint32) *UserUpdateOne {
 }
 
 // AddCreateBy adds u to the "create_by" field.
-func (uuo *UserUpdateOne) AddCreateBy(u int32) *UserUpdateOne {
+func (uuo *UserUpdateOne) AddCreateBy(u int64) *UserUpdateOne {
 	uuo.mutation.AddCreateBy(u)
 	return uuo
 }
@@ -601,14 +575,14 @@ func (uuo *UserUpdateOne) ClearCreateBy() *UserUpdateOne {
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (uuo *UserUpdateOne) SetUpdateBy(u uint32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetUpdateBy(u uint64) *UserUpdateOne {
 	uuo.mutation.ResetUpdateBy()
 	uuo.mutation.SetUpdateBy(u)
 	return uuo
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableUpdateBy(u *uint32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetNillableUpdateBy(u *uint64) *UserUpdateOne {
 	if u != nil {
 		uuo.SetUpdateBy(*u)
 	}
@@ -616,7 +590,7 @@ func (uuo *UserUpdateOne) SetNillableUpdateBy(u *uint32) *UserUpdateOne {
 }
 
 // AddUpdateBy adds u to the "update_by" field.
-func (uuo *UserUpdateOne) AddUpdateBy(u int32) *UserUpdateOne {
+func (uuo *UserUpdateOne) AddUpdateBy(u int64) *UserUpdateOne {
 	uuo.mutation.AddUpdateBy(u)
 	return uuo
 }
@@ -644,26 +618,6 @@ func (uuo *UserUpdateOne) SetNillableUpdateTime(t *time.Time) *UserUpdateOne {
 // ClearUpdateTime clears the value of the "update_time" field.
 func (uuo *UserUpdateOne) ClearUpdateTime() *UserUpdateOne {
 	uuo.mutation.ClearUpdateTime()
-	return uuo
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (uuo *UserUpdateOne) SetDeleteTime(t time.Time) *UserUpdateOne {
-	uuo.mutation.SetDeleteTime(t)
-	return uuo
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableDeleteTime(t *time.Time) *UserUpdateOne {
-	if t != nil {
-		uuo.SetDeleteTime(*t)
-	}
-	return uuo
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (uuo *UserUpdateOne) ClearDeleteTime() *UserUpdateOne {
-	uuo.mutation.ClearDeleteTime()
 	return uuo
 }
 
@@ -848,14 +802,14 @@ func (uuo *UserUpdateOne) ClearAuthority() *UserUpdateOne {
 }
 
 // SetRoleID sets the "role_id" field.
-func (uuo *UserUpdateOne) SetRoleID(u uint32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetRoleID(u uint64) *UserUpdateOne {
 	uuo.mutation.ResetRoleID()
 	uuo.mutation.SetRoleID(u)
 	return uuo
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableRoleID(u *uint32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetNillableRoleID(u *uint64) *UserUpdateOne {
 	if u != nil {
 		uuo.SetRoleID(*u)
 	}
@@ -863,7 +817,7 @@ func (uuo *UserUpdateOne) SetNillableRoleID(u *uint32) *UserUpdateOne {
 }
 
 // AddRoleID adds u to the "role_id" field.
-func (uuo *UserUpdateOne) AddRoleID(u int32) *UserUpdateOne {
+func (uuo *UserUpdateOne) AddRoleID(u int64) *UserUpdateOne {
 	uuo.mutation.AddRoleID(u)
 	return uuo
 }
@@ -995,7 +949,7 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if err := uuo.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUint64))
 	id, ok := uuo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "User.id" for update`)}
@@ -1021,22 +975,22 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 		}
 	}
 	if value, ok := uuo.mutation.CreateBy(); ok {
-		_spec.SetField(user.FieldCreateBy, field.TypeUint32, value)
+		_spec.SetField(user.FieldCreateBy, field.TypeUint64, value)
 	}
 	if value, ok := uuo.mutation.AddedCreateBy(); ok {
-		_spec.AddField(user.FieldCreateBy, field.TypeUint32, value)
+		_spec.AddField(user.FieldCreateBy, field.TypeUint64, value)
 	}
 	if uuo.mutation.CreateByCleared() {
-		_spec.ClearField(user.FieldCreateBy, field.TypeUint32)
+		_spec.ClearField(user.FieldCreateBy, field.TypeUint64)
 	}
 	if value, ok := uuo.mutation.UpdateBy(); ok {
-		_spec.SetField(user.FieldUpdateBy, field.TypeUint32, value)
+		_spec.SetField(user.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if value, ok := uuo.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(user.FieldUpdateBy, field.TypeUint32, value)
+		_spec.AddField(user.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if uuo.mutation.UpdateByCleared() {
-		_spec.ClearField(user.FieldUpdateBy, field.TypeUint32)
+		_spec.ClearField(user.FieldUpdateBy, field.TypeUint64)
 	}
 	if uuo.mutation.CreateTimeCleared() {
 		_spec.ClearField(user.FieldCreateTime, field.TypeTime)
@@ -1046,12 +1000,6 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.UpdateTimeCleared() {
 		_spec.ClearField(user.FieldUpdateTime, field.TypeTime)
-	}
-	if value, ok := uuo.mutation.DeleteTime(); ok {
-		_spec.SetField(user.FieldDeleteTime, field.TypeTime, value)
-	}
-	if uuo.mutation.DeleteTimeCleared() {
-		_spec.ClearField(user.FieldDeleteTime, field.TypeTime)
 	}
 	if value, ok := uuo.mutation.Remark(); ok {
 		_spec.SetField(user.FieldRemark, field.TypeString, value)
@@ -1111,13 +1059,13 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
 	}
 	if value, ok := uuo.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint32, value)
+		_spec.SetField(user.FieldRoleID, field.TypeUint64, value)
 	}
 	if value, ok := uuo.mutation.AddedRoleID(); ok {
-		_spec.AddField(user.FieldRoleID, field.TypeUint32, value)
+		_spec.AddField(user.FieldRoleID, field.TypeUint64, value)
 	}
 	if uuo.mutation.RoleIDCleared() {
-		_spec.ClearField(user.FieldRoleID, field.TypeUint32)
+		_spec.ClearField(user.FieldRoleID, field.TypeUint64)
 	}
 	if value, ok := uuo.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)

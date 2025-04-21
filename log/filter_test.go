@@ -120,7 +120,7 @@ func TestFilterFuncWitchLoggerPrefix(t *testing.T) {
 	for _, tt := range tests {
 		err := tt.logger.Log(LevelInfo, "msg", "msg", "filtered", "true")
 		if err != nil {
-			t.Fatal("err should be nil")
+			t.Fatal("errs should be nil")
 		}
 		got := buf.String()
 		if got != tt.want {

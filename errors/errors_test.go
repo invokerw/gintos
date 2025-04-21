@@ -53,7 +53,7 @@ func TestErrors(t *testing.T) {
 	se2 := FromError(gs2.Err())
 	// codes.InvalidArgument should convert to http.StatusBadRequest
 	if se2.Code != http.StatusBadRequest {
-		t.Errorf("convert code err, got %d want %d", UnknownCode, http.StatusBadRequest)
+		t.Errorf("convert code errs, got %d want %d", UnknownCode, http.StatusBadRequest)
 	}
 	if FromError(nil) != nil {
 		t.Errorf("FromError(nil) should be nil")
@@ -116,7 +116,7 @@ func TestOther(t *testing.T) {
 		t.Errorf(`Code(errors.New("test")) = %v, want %v`, Code(nil), 200)
 	}
 	if !reflect.DeepEqual(Code(err), 10001) {
-		t.Errorf(`Code(err) = %v, want %v`, Code(err), 10001)
+		t.Errorf(`Code(errs) = %v, want %v`, Code(err), 10001)
 	}
 	// Reason
 	if !reflect.DeepEqual(Reason(nil), UnknownReason) {
@@ -126,7 +126,7 @@ func TestOther(t *testing.T) {
 		t.Errorf(`Reason(errors.New("test")) = %v, want %v`, Reason(nil), UnknownReason)
 	}
 	if !reflect.DeepEqual(Reason(err), "test code 10001") {
-		t.Errorf(`Reason(err) = %v, want %v`, Reason(err), "test code 10001")
+		t.Errorf(`Reason(errs) = %v, want %v`, Reason(err), "test code 10001")
 	}
 	// Clone
 	err400 := Newf(http.StatusBadRequest, "BAD_REQUEST", "param invalid")
@@ -135,7 +135,7 @@ func TestOther(t *testing.T) {
 		"key2": "val2",
 	}
 	if cerr := Clone(err400); cerr == nil || cerr.Error() != err400.Error() {
-		t.Errorf("Clone(err) = %v, want %v", Clone(err400), err400)
+		t.Errorf("Clone(errs) = %v, want %v", Clone(err400), err400)
 	}
 	if cerr := Clone(nil); cerr != nil {
 		t.Errorf("Clone(nil) = %v, want %v", Clone(err400), err400)

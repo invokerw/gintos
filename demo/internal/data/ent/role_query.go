@@ -129,8 +129,8 @@ func (rq *RoleQuery) FirstX(ctx context.Context) *Role {
 
 // FirstID returns the first Role ID from the query.
 // Returns a *NotFoundError when no Role ID was found.
-func (rq *RoleQuery) FirstID(ctx context.Context) (id uint32, err error) {
-	var ids []uint32
+func (rq *RoleQuery) FirstID(ctx context.Context) (id uint64, err error) {
+	var ids []uint64
 	if ids, err = rq.Limit(1).IDs(setContextOp(ctx, rq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -142,7 +142,7 @@ func (rq *RoleQuery) FirstID(ctx context.Context) (id uint32, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (rq *RoleQuery) FirstIDX(ctx context.Context) uint32 {
+func (rq *RoleQuery) FirstIDX(ctx context.Context) uint64 {
 	id, err := rq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -180,8 +180,8 @@ func (rq *RoleQuery) OnlyX(ctx context.Context) *Role {
 // OnlyID is like Only, but returns the only Role ID in the query.
 // Returns a *NotSingularError when more than one Role ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (rq *RoleQuery) OnlyID(ctx context.Context) (id uint32, err error) {
-	var ids []uint32
+func (rq *RoleQuery) OnlyID(ctx context.Context) (id uint64, err error) {
+	var ids []uint64
 	if ids, err = rq.Limit(2).IDs(setContextOp(ctx, rq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -197,7 +197,7 @@ func (rq *RoleQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (rq *RoleQuery) OnlyIDX(ctx context.Context) uint32 {
+func (rq *RoleQuery) OnlyIDX(ctx context.Context) uint64 {
 	id, err := rq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -225,7 +225,7 @@ func (rq *RoleQuery) AllX(ctx context.Context) []*Role {
 }
 
 // IDs executes the query and returns a list of Role IDs.
-func (rq *RoleQuery) IDs(ctx context.Context) (ids []uint32, err error) {
+func (rq *RoleQuery) IDs(ctx context.Context) (ids []uint64, err error) {
 	if rq.ctx.Unique == nil && rq.path != nil {
 		rq.Unique(true)
 	}
@@ -237,7 +237,7 @@ func (rq *RoleQuery) IDs(ctx context.Context) (ids []uint32, err error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (rq *RoleQuery) IDsX(ctx context.Context) []uint32 {
+func (rq *RoleQuery) IDsX(ctx context.Context) []uint64 {
 	ids, err := rq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -445,8 +445,8 @@ func (rq *RoleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Role, e
 }
 
 func (rq *RoleQuery) loadParent(ctx context.Context, query *RoleQuery, nodes []*Role, init func(*Role), assign func(*Role, *Role)) error {
-	ids := make([]uint32, 0, len(nodes))
-	nodeids := make(map[uint32][]*Role)
+	ids := make([]uint64, 0, len(nodes))
+	nodeids := make(map[uint64][]*Role)
 	for i := range nodes {
 		if nodes[i].ParentID == nil {
 			continue
@@ -478,7 +478,7 @@ func (rq *RoleQuery) loadParent(ctx context.Context, query *RoleQuery, nodes []*
 }
 func (rq *RoleQuery) loadChildren(ctx context.Context, query *RoleQuery, nodes []*Role, init func(*Role), assign func(*Role, *Role)) error {
 	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[uint32]*Role)
+	nodeids := make(map[uint64]*Role)
 	for i := range nodes {
 		fks = append(fks, nodes[i].ID)
 		nodeids[nodes[i].ID] = nodes[i]
@@ -520,7 +520,7 @@ func (rq *RoleQuery) sqlCount(ctx context.Context) (int, error) {
 }
 
 func (rq *RoleQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewQuerySpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64))
 	_spec.From = rq.sql
 	if unique := rq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

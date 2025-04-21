@@ -47,20 +47,6 @@ func (rc *RoleCreate) SetNillableUpdateTime(t *time.Time) *RoleCreate {
 	return rc
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (rc *RoleCreate) SetDeleteTime(t time.Time) *RoleCreate {
-	rc.mutation.SetDeleteTime(t)
-	return rc
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableDeleteTime(t *time.Time) *RoleCreate {
-	if t != nil {
-		rc.SetDeleteTime(*t)
-	}
-	return rc
-}
-
 // SetStatus sets the "status" field.
 func (rc *RoleCreate) SetStatus(r role.Status) *RoleCreate {
 	rc.mutation.SetStatus(r)
@@ -76,13 +62,13 @@ func (rc *RoleCreate) SetNillableStatus(r *role.Status) *RoleCreate {
 }
 
 // SetCreateBy sets the "create_by" field.
-func (rc *RoleCreate) SetCreateBy(u uint32) *RoleCreate {
+func (rc *RoleCreate) SetCreateBy(u uint64) *RoleCreate {
 	rc.mutation.SetCreateBy(u)
 	return rc
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableCreateBy(u *uint32) *RoleCreate {
+func (rc *RoleCreate) SetNillableCreateBy(u *uint64) *RoleCreate {
 	if u != nil {
 		rc.SetCreateBy(*u)
 	}
@@ -90,13 +76,13 @@ func (rc *RoleCreate) SetNillableCreateBy(u *uint32) *RoleCreate {
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (rc *RoleCreate) SetUpdateBy(u uint32) *RoleCreate {
+func (rc *RoleCreate) SetUpdateBy(u uint64) *RoleCreate {
 	rc.mutation.SetUpdateBy(u)
 	return rc
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableUpdateBy(u *uint32) *RoleCreate {
+func (rc *RoleCreate) SetNillableUpdateBy(u *uint64) *RoleCreate {
 	if u != nil {
 		rc.SetUpdateBy(*u)
 	}
@@ -146,13 +132,13 @@ func (rc *RoleCreate) SetNillableCode(s *string) *RoleCreate {
 }
 
 // SetParentID sets the "parent_id" field.
-func (rc *RoleCreate) SetParentID(u uint32) *RoleCreate {
+func (rc *RoleCreate) SetParentID(u uint64) *RoleCreate {
 	rc.mutation.SetParentID(u)
 	return rc
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableParentID(u *uint32) *RoleCreate {
+func (rc *RoleCreate) SetNillableParentID(u *uint64) *RoleCreate {
 	if u != nil {
 		rc.SetParentID(*u)
 	}
@@ -180,7 +166,7 @@ func (rc *RoleCreate) SetMenus(u []uint32) *RoleCreate {
 }
 
 // SetID sets the "id" field.
-func (rc *RoleCreate) SetID(u uint32) *RoleCreate {
+func (rc *RoleCreate) SetID(u uint64) *RoleCreate {
 	rc.mutation.SetID(u)
 	return rc
 }
@@ -191,14 +177,14 @@ func (rc *RoleCreate) SetParent(r *Role) *RoleCreate {
 }
 
 // AddChildIDs adds the "children" edge to the Role entity by IDs.
-func (rc *RoleCreate) AddChildIDs(ids ...uint32) *RoleCreate {
+func (rc *RoleCreate) AddChildIDs(ids ...uint64) *RoleCreate {
 	rc.mutation.AddChildIDs(ids...)
 	return rc
 }
 
 // AddChildren adds the "children" edges to the Role entity.
 func (rc *RoleCreate) AddChildren(r ...*Role) *RoleCreate {
-	ids := make([]uint32, len(r))
+	ids := make([]uint64, len(r))
 	for i := range r {
 		ids[i] = r[i].ID
 	}
@@ -296,7 +282,7 @@ func (rc *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = uint32(id)
+		_node.ID = uint64(id)
 	}
 	rc.mutation.id = &_node.ID
 	rc.mutation.done = true
@@ -306,7 +292,7 @@ func (rc *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
 func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Role{config: rc.config}
-		_spec = sqlgraph.NewCreateSpec(role.Table, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32))
+		_spec = sqlgraph.NewCreateSpec(role.Table, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64))
 	)
 	if id, ok := rc.mutation.ID(); ok {
 		_node.ID = id
@@ -320,20 +306,16 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := rc.mutation.DeleteTime(); ok {
-		_spec.SetField(role.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
-	}
 	if value, ok := rc.mutation.Status(); ok {
 		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
 	if value, ok := rc.mutation.CreateBy(); ok {
-		_spec.SetField(role.FieldCreateBy, field.TypeUint32, value)
+		_spec.SetField(role.FieldCreateBy, field.TypeUint64, value)
 		_node.CreateBy = &value
 	}
 	if value, ok := rc.mutation.UpdateBy(); ok {
-		_spec.SetField(role.FieldUpdateBy, field.TypeUint32, value)
+		_spec.SetField(role.FieldUpdateBy, field.TypeUint64, value)
 		_node.UpdateBy = &value
 	}
 	if value, ok := rc.mutation.Remark(); ok {
@@ -364,7 +346,7 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 			Columns: []string{role.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -381,7 +363,7 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -439,7 +421,7 @@ func (rcb *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint32(id)
+					nodes[i].ID = uint64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

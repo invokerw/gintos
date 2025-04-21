@@ -49,26 +49,6 @@ func (ru *RoleUpdate) ClearUpdateTime() *RoleUpdate {
 	return ru
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (ru *RoleUpdate) SetDeleteTime(t time.Time) *RoleUpdate {
-	ru.mutation.SetDeleteTime(t)
-	return ru
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableDeleteTime(t *time.Time) *RoleUpdate {
-	if t != nil {
-		ru.SetDeleteTime(*t)
-	}
-	return ru
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (ru *RoleUpdate) ClearDeleteTime() *RoleUpdate {
-	ru.mutation.ClearDeleteTime()
-	return ru
-}
-
 // SetStatus sets the "status" field.
 func (ru *RoleUpdate) SetStatus(r role.Status) *RoleUpdate {
 	ru.mutation.SetStatus(r)
@@ -90,14 +70,14 @@ func (ru *RoleUpdate) ClearStatus() *RoleUpdate {
 }
 
 // SetCreateBy sets the "create_by" field.
-func (ru *RoleUpdate) SetCreateBy(u uint32) *RoleUpdate {
+func (ru *RoleUpdate) SetCreateBy(u uint64) *RoleUpdate {
 	ru.mutation.ResetCreateBy()
 	ru.mutation.SetCreateBy(u)
 	return ru
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableCreateBy(u *uint32) *RoleUpdate {
+func (ru *RoleUpdate) SetNillableCreateBy(u *uint64) *RoleUpdate {
 	if u != nil {
 		ru.SetCreateBy(*u)
 	}
@@ -105,7 +85,7 @@ func (ru *RoleUpdate) SetNillableCreateBy(u *uint32) *RoleUpdate {
 }
 
 // AddCreateBy adds u to the "create_by" field.
-func (ru *RoleUpdate) AddCreateBy(u int32) *RoleUpdate {
+func (ru *RoleUpdate) AddCreateBy(u int64) *RoleUpdate {
 	ru.mutation.AddCreateBy(u)
 	return ru
 }
@@ -117,14 +97,14 @@ func (ru *RoleUpdate) ClearCreateBy() *RoleUpdate {
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (ru *RoleUpdate) SetUpdateBy(u uint32) *RoleUpdate {
+func (ru *RoleUpdate) SetUpdateBy(u uint64) *RoleUpdate {
 	ru.mutation.ResetUpdateBy()
 	ru.mutation.SetUpdateBy(u)
 	return ru
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableUpdateBy(u *uint32) *RoleUpdate {
+func (ru *RoleUpdate) SetNillableUpdateBy(u *uint64) *RoleUpdate {
 	if u != nil {
 		ru.SetUpdateBy(*u)
 	}
@@ -132,7 +112,7 @@ func (ru *RoleUpdate) SetNillableUpdateBy(u *uint32) *RoleUpdate {
 }
 
 // AddUpdateBy adds u to the "update_by" field.
-func (ru *RoleUpdate) AddUpdateBy(u int32) *RoleUpdate {
+func (ru *RoleUpdate) AddUpdateBy(u int64) *RoleUpdate {
 	ru.mutation.AddUpdateBy(u)
 	return ru
 }
@@ -204,13 +184,13 @@ func (ru *RoleUpdate) ClearCode() *RoleUpdate {
 }
 
 // SetParentID sets the "parent_id" field.
-func (ru *RoleUpdate) SetParentID(u uint32) *RoleUpdate {
+func (ru *RoleUpdate) SetParentID(u uint64) *RoleUpdate {
 	ru.mutation.SetParentID(u)
 	return ru
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableParentID(u *uint32) *RoleUpdate {
+func (ru *RoleUpdate) SetNillableParentID(u *uint64) *RoleUpdate {
 	if u != nil {
 		ru.SetParentID(*u)
 	}
@@ -274,14 +254,14 @@ func (ru *RoleUpdate) SetParent(r *Role) *RoleUpdate {
 }
 
 // AddChildIDs adds the "children" edge to the Role entity by IDs.
-func (ru *RoleUpdate) AddChildIDs(ids ...uint32) *RoleUpdate {
+func (ru *RoleUpdate) AddChildIDs(ids ...uint64) *RoleUpdate {
 	ru.mutation.AddChildIDs(ids...)
 	return ru
 }
 
 // AddChildren adds the "children" edges to the Role entity.
 func (ru *RoleUpdate) AddChildren(r ...*Role) *RoleUpdate {
-	ids := make([]uint32, len(r))
+	ids := make([]uint64, len(r))
 	for i := range r {
 		ids[i] = r[i].ID
 	}
@@ -306,14 +286,14 @@ func (ru *RoleUpdate) ClearChildren() *RoleUpdate {
 }
 
 // RemoveChildIDs removes the "children" edge to Role entities by IDs.
-func (ru *RoleUpdate) RemoveChildIDs(ids ...uint32) *RoleUpdate {
+func (ru *RoleUpdate) RemoveChildIDs(ids ...uint64) *RoleUpdate {
 	ru.mutation.RemoveChildIDs(ids...)
 	return ru
 }
 
 // RemoveChildren removes "children" edges to Role entities.
 func (ru *RoleUpdate) RemoveChildren(r ...*Role) *RoleUpdate {
-	ids := make([]uint32, len(r))
+	ids := make([]uint64, len(r))
 	for i := range r {
 		ids[i] = r[i].ID
 	}
@@ -371,7 +351,7 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if err := ru.check(); err != nil {
 		return n, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64))
 	if ps := ru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -388,12 +368,6 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ru.mutation.UpdateTimeCleared() {
 		_spec.ClearField(role.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := ru.mutation.DeleteTime(); ok {
-		_spec.SetField(role.FieldDeleteTime, field.TypeTime, value)
-	}
-	if ru.mutation.DeleteTimeCleared() {
-		_spec.ClearField(role.FieldDeleteTime, field.TypeTime)
-	}
 	if value, ok := ru.mutation.Status(); ok {
 		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
 	}
@@ -401,22 +375,22 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(role.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := ru.mutation.CreateBy(); ok {
-		_spec.SetField(role.FieldCreateBy, field.TypeUint32, value)
+		_spec.SetField(role.FieldCreateBy, field.TypeUint64, value)
 	}
 	if value, ok := ru.mutation.AddedCreateBy(); ok {
-		_spec.AddField(role.FieldCreateBy, field.TypeUint32, value)
+		_spec.AddField(role.FieldCreateBy, field.TypeUint64, value)
 	}
 	if ru.mutation.CreateByCleared() {
-		_spec.ClearField(role.FieldCreateBy, field.TypeUint32)
+		_spec.ClearField(role.FieldCreateBy, field.TypeUint64)
 	}
 	if value, ok := ru.mutation.UpdateBy(); ok {
-		_spec.SetField(role.FieldUpdateBy, field.TypeUint32, value)
+		_spec.SetField(role.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if value, ok := ru.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(role.FieldUpdateBy, field.TypeUint32, value)
+		_spec.AddField(role.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if ru.mutation.UpdateByCleared() {
-		_spec.ClearField(role.FieldUpdateBy, field.TypeUint32)
+		_spec.ClearField(role.FieldUpdateBy, field.TypeUint64)
 	}
 	if value, ok := ru.mutation.Remark(); ok {
 		_spec.SetField(role.FieldRemark, field.TypeString, value)
@@ -464,7 +438,7 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{role.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -477,7 +451,7 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{role.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -493,7 +467,7 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -506,7 +480,7 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -522,7 +496,7 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -570,26 +544,6 @@ func (ruo *RoleUpdateOne) ClearUpdateTime() *RoleUpdateOne {
 	return ruo
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (ruo *RoleUpdateOne) SetDeleteTime(t time.Time) *RoleUpdateOne {
-	ruo.mutation.SetDeleteTime(t)
-	return ruo
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableDeleteTime(t *time.Time) *RoleUpdateOne {
-	if t != nil {
-		ruo.SetDeleteTime(*t)
-	}
-	return ruo
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (ruo *RoleUpdateOne) ClearDeleteTime() *RoleUpdateOne {
-	ruo.mutation.ClearDeleteTime()
-	return ruo
-}
-
 // SetStatus sets the "status" field.
 func (ruo *RoleUpdateOne) SetStatus(r role.Status) *RoleUpdateOne {
 	ruo.mutation.SetStatus(r)
@@ -611,14 +565,14 @@ func (ruo *RoleUpdateOne) ClearStatus() *RoleUpdateOne {
 }
 
 // SetCreateBy sets the "create_by" field.
-func (ruo *RoleUpdateOne) SetCreateBy(u uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) SetCreateBy(u uint64) *RoleUpdateOne {
 	ruo.mutation.ResetCreateBy()
 	ruo.mutation.SetCreateBy(u)
 	return ruo
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableCreateBy(u *uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) SetNillableCreateBy(u *uint64) *RoleUpdateOne {
 	if u != nil {
 		ruo.SetCreateBy(*u)
 	}
@@ -626,7 +580,7 @@ func (ruo *RoleUpdateOne) SetNillableCreateBy(u *uint32) *RoleUpdateOne {
 }
 
 // AddCreateBy adds u to the "create_by" field.
-func (ruo *RoleUpdateOne) AddCreateBy(u int32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) AddCreateBy(u int64) *RoleUpdateOne {
 	ruo.mutation.AddCreateBy(u)
 	return ruo
 }
@@ -638,14 +592,14 @@ func (ruo *RoleUpdateOne) ClearCreateBy() *RoleUpdateOne {
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (ruo *RoleUpdateOne) SetUpdateBy(u uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) SetUpdateBy(u uint64) *RoleUpdateOne {
 	ruo.mutation.ResetUpdateBy()
 	ruo.mutation.SetUpdateBy(u)
 	return ruo
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableUpdateBy(u *uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) SetNillableUpdateBy(u *uint64) *RoleUpdateOne {
 	if u != nil {
 		ruo.SetUpdateBy(*u)
 	}
@@ -653,7 +607,7 @@ func (ruo *RoleUpdateOne) SetNillableUpdateBy(u *uint32) *RoleUpdateOne {
 }
 
 // AddUpdateBy adds u to the "update_by" field.
-func (ruo *RoleUpdateOne) AddUpdateBy(u int32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) AddUpdateBy(u int64) *RoleUpdateOne {
 	ruo.mutation.AddUpdateBy(u)
 	return ruo
 }
@@ -725,13 +679,13 @@ func (ruo *RoleUpdateOne) ClearCode() *RoleUpdateOne {
 }
 
 // SetParentID sets the "parent_id" field.
-func (ruo *RoleUpdateOne) SetParentID(u uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) SetParentID(u uint64) *RoleUpdateOne {
 	ruo.mutation.SetParentID(u)
 	return ruo
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableParentID(u *uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) SetNillableParentID(u *uint64) *RoleUpdateOne {
 	if u != nil {
 		ruo.SetParentID(*u)
 	}
@@ -795,14 +749,14 @@ func (ruo *RoleUpdateOne) SetParent(r *Role) *RoleUpdateOne {
 }
 
 // AddChildIDs adds the "children" edge to the Role entity by IDs.
-func (ruo *RoleUpdateOne) AddChildIDs(ids ...uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) AddChildIDs(ids ...uint64) *RoleUpdateOne {
 	ruo.mutation.AddChildIDs(ids...)
 	return ruo
 }
 
 // AddChildren adds the "children" edges to the Role entity.
 func (ruo *RoleUpdateOne) AddChildren(r ...*Role) *RoleUpdateOne {
-	ids := make([]uint32, len(r))
+	ids := make([]uint64, len(r))
 	for i := range r {
 		ids[i] = r[i].ID
 	}
@@ -827,14 +781,14 @@ func (ruo *RoleUpdateOne) ClearChildren() *RoleUpdateOne {
 }
 
 // RemoveChildIDs removes the "children" edge to Role entities by IDs.
-func (ruo *RoleUpdateOne) RemoveChildIDs(ids ...uint32) *RoleUpdateOne {
+func (ruo *RoleUpdateOne) RemoveChildIDs(ids ...uint64) *RoleUpdateOne {
 	ruo.mutation.RemoveChildIDs(ids...)
 	return ruo
 }
 
 // RemoveChildren removes "children" edges to Role entities.
 func (ruo *RoleUpdateOne) RemoveChildren(r ...*Role) *RoleUpdateOne {
-	ids := make([]uint32, len(r))
+	ids := make([]uint64, len(r))
 	for i := range r {
 		ids[i] = r[i].ID
 	}
@@ -905,7 +859,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if err := ruo.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64))
 	id, ok := ruo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Role.id" for update`)}
@@ -939,12 +893,6 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if ruo.mutation.UpdateTimeCleared() {
 		_spec.ClearField(role.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := ruo.mutation.DeleteTime(); ok {
-		_spec.SetField(role.FieldDeleteTime, field.TypeTime, value)
-	}
-	if ruo.mutation.DeleteTimeCleared() {
-		_spec.ClearField(role.FieldDeleteTime, field.TypeTime)
-	}
 	if value, ok := ruo.mutation.Status(); ok {
 		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
 	}
@@ -952,22 +900,22 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 		_spec.ClearField(role.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := ruo.mutation.CreateBy(); ok {
-		_spec.SetField(role.FieldCreateBy, field.TypeUint32, value)
+		_spec.SetField(role.FieldCreateBy, field.TypeUint64, value)
 	}
 	if value, ok := ruo.mutation.AddedCreateBy(); ok {
-		_spec.AddField(role.FieldCreateBy, field.TypeUint32, value)
+		_spec.AddField(role.FieldCreateBy, field.TypeUint64, value)
 	}
 	if ruo.mutation.CreateByCleared() {
-		_spec.ClearField(role.FieldCreateBy, field.TypeUint32)
+		_spec.ClearField(role.FieldCreateBy, field.TypeUint64)
 	}
 	if value, ok := ruo.mutation.UpdateBy(); ok {
-		_spec.SetField(role.FieldUpdateBy, field.TypeUint32, value)
+		_spec.SetField(role.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if value, ok := ruo.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(role.FieldUpdateBy, field.TypeUint32, value)
+		_spec.AddField(role.FieldUpdateBy, field.TypeUint64, value)
 	}
 	if ruo.mutation.UpdateByCleared() {
-		_spec.ClearField(role.FieldUpdateBy, field.TypeUint32)
+		_spec.ClearField(role.FieldUpdateBy, field.TypeUint64)
 	}
 	if value, ok := ruo.mutation.Remark(); ok {
 		_spec.SetField(role.FieldRemark, field.TypeString, value)
@@ -1015,7 +963,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 			Columns: []string{role.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1028,7 +976,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 			Columns: []string{role.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -1044,7 +992,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1057,7 +1005,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -1073,7 +1021,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {

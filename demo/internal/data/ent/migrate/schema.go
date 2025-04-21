@@ -11,19 +11,18 @@ import (
 var (
 	// RolesColumns holds the columns for the "roles" table.
 	RolesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "id", Type: field.TypeUint64, Increment: true, Comment: "id"},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "create_by", Type: field.TypeUint64, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint64, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Size: 128, Comment: "角色名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色标识", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint64, Nullable: true, Comment: "上一层角色ID"},
 	}
 	// RolesTable holds the schema information for the "roles" table.
 	RolesTable = &schema.Table{
@@ -33,7 +32,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "roles_roles_children",
-				Columns:    []*schema.Column{RolesColumns[12]},
+				Columns:    []*schema.Column{RolesColumns[11]},
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -48,12 +47,11 @@ var (
 	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "id", Type: field.TypeUint64, Increment: true, Comment: "id"},
+		{Name: "create_by", Type: field.TypeUint64, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint64, Nullable: true, Comment: "更新者ID"},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Comment: "用户名"},
@@ -64,7 +62,7 @@ var (
 		{Name: "avatar", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "头像"},
 		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"UNKNOWN", "MALE", "FEMALE"}},
 		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "SYS_MANAGER", "CUSTOMER_USER", "GUEST_USER", "REFRESH_TOKEN"}, Default: "CUSTOMER_USER"},
-		{Name: "role_id", Type: field.TypeUint32, Nullable: true, Comment: "角色ID"},
+		{Name: "role_id", Type: field.TypeUint64, Nullable: true, Comment: "角色ID"},
 		{Name: "last_login_time", Type: field.TypeInt64, Nullable: true, Comment: "最后一次登录的时间"},
 	}
 	// UsersTable holds the schema information for the "users" table.
@@ -81,7 +79,7 @@ var (
 			{
 				Name:    "user_id_username",
 				Unique:  true,
-				Columns: []*schema.Column{UsersColumns[0], UsersColumns[8]},
+				Columns: []*schema.Column{UsersColumns[0], UsersColumns[7]},
 			},
 		},
 	}

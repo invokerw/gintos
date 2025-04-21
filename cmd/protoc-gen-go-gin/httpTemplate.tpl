@@ -43,7 +43,7 @@ func _{{$svrType}}_{{.Name}}{{.Num}}_HTTP_Handler(srv I{{$svrType}}Server) func(
 		// http.SetOperation(ctx, Operation{{$svrType}}{{.OriginalName}})
 		reply, err := srv.{{.Name}}(ctx, &in)
 		if err != nil {
-		    resp.FailWithMessage(ctx, err.Error())
+		    resp.FailWithError(ctx, err)
 			return
 		}
 		resp.OkWithData(ctx, reply{{.ResponseBody}})

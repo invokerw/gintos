@@ -20,6 +20,7 @@ endif
 init:
 	go install github.com/google/wire/cmd/wire@latest
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
 	go install github.com/favadi/protoc-go-inject-tag@latest
 	cd ../cmd/protoc-gen-go-gin/; go install .; cd -
 
@@ -32,7 +33,7 @@ api:
 	       --proto_path=../third_party \
  	       --go_out=paths=source_relative:./api \
  	       --go-gin-http_out=paths=source_relative:./api \
-	       --openapi_out=fq_schema_naming=true,default_response=false:. \
+	       --openapi_out=fq_schema_naming=true,default_response=false:./internal/router/ \
 	       $(API_PROTO_FILES)
 	PB_GO_FILES=$$(find api -name '*.pb.go' | grep -v gin.pb.go); \
 		for file in $$PB_GO_FILES; do \

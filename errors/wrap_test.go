@@ -18,7 +18,7 @@ func TestWarp(t *testing.T) {
 		t.Errorf("got %v want: %v", err, Unwrap(err2))
 	}
 	if !Is(err2, err) {
-		t.Errorf("Is(err2, err) got %v want: %v", Is(err2, err), true)
+		t.Errorf("Is(err2, errs) got %v want: %v", Is(err2, err), true)
 	}
 	err3 := &mockErr{}
 	if !As(err2, &err3) {

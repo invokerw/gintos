@@ -18,19 +18,17 @@ type Role struct {
 	config `json:"-"`
 	// ID of the ent.
 	// id
-	ID uint32 `json:"id,omitempty"`
+	ID uint64 `json:"id,omitempty"`
 	// 创建时间
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	// 更新时间
 	UpdateTime *time.Time `json:"update_time,omitempty"`
-	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
 	// 状态
 	Status *role.Status `json:"status,omitempty"`
 	// 创建者ID
-	CreateBy *uint32 `json:"create_by,omitempty"`
+	CreateBy *uint64 `json:"create_by,omitempty"`
 	// 更新者ID
-	UpdateBy *uint32 `json:"update_by,omitempty"`
+	UpdateBy *uint64 `json:"update_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 角色名称
@@ -38,7 +36,7 @@ type Role struct {
 	// 角色标识
 	Code *string `json:"code,omitempty"`
 	// 上一层角色ID
-	ParentID *uint32 `json:"parent_id,omitempty"`
+	ParentID *uint64 `json:"parent_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
 	// 分配的菜单列表
@@ -91,7 +89,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode:
 			values[i] = new(sql.NullString)
-		case role.FieldCreateTime, role.FieldUpdateTime, role.FieldDeleteTime:
+		case role.FieldCreateTime, role.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -113,7 +111,7 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			r.ID = uint32(value.Int64)
+			r.ID = uint64(value.Int64)
 		case role.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
@@ -128,13 +126,6 @@ func (r *Role) assignValues(columns []string, values []any) error {
 				r.UpdateTime = new(time.Time)
 				*r.UpdateTime = value.Time
 			}
-		case role.FieldDeleteTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
-			} else if value.Valid {
-				r.DeleteTime = new(time.Time)
-				*r.DeleteTime = value.Time
-			}
 		case role.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
@@ -146,15 +137,15 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				r.CreateBy = new(uint32)
-				*r.CreateBy = uint32(value.Int64)
+				r.CreateBy = new(uint64)
+				*r.CreateBy = uint64(value.Int64)
 			}
 		case role.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				r.UpdateBy = new(uint32)
-				*r.UpdateBy = uint32(value.Int64)
+				r.UpdateBy = new(uint64)
+				*r.UpdateBy = uint64(value.Int64)
 			}
 		case role.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -181,8 +172,8 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				r.ParentID = new(uint32)
-				*r.ParentID = uint32(value.Int64)
+				r.ParentID = new(uint64)
+				*r.ParentID = uint64(value.Int64)
 			}
 		case role.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -252,11 +243,6 @@ func (r *Role) String() string {
 	builder.WriteString(", ")
 	if v := r.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := r.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")

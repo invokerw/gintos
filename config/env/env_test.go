@@ -423,7 +423,7 @@ func Test_env_watch(t *testing.T) {
 	source := NewSource(prefixes...)
 	w, err := source.Watch()
 	if err != nil {
-		t.Errorf("expect no err, got %v", err)
+		t.Errorf("expect no errs, got %v", err)
 	}
 	_ = w.Stop()
 }
