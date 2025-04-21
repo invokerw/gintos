@@ -13,19 +13,18 @@ import (
 type UserRepo interface {
 	CreateUser(ctx context.Context, in *common.User) (*ent.User, error)
 	GetUser(ctx context.Context, username string) (*ent.User, error)
+	GetUserByID(ctx context.Context, id uint64) (*ent.User, error)
 	DeleteUser(ctx context.Context, username string) error
 	UpdateUser(ctx context.Context, in *common.User) (*ent.User, error)
 }
 
-// UserUsecase is a Greeter usecase.
 type UserUsecase struct {
 	repo UserRepo
 	log  *log.Helper
 }
 
-// NewUserUsecase new a Greeter usecase.
 func NewUserUsecase(repo UserRepo, logger log.Logger) *UserUsecase {
-	return &UserUsecase{repo: repo, log: log.NewHelper(logger)}
+	return &UserUsecase{repo: repo, log: log.NewHelper(log.With(logger, "usecase", "user"))}
 }
 
 func (uc *UserUsecase) CreateUser(ctx context.Context, user *common.User) (*common.User, error) {
@@ -38,6 +37,14 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, user *common.User) (*comm
 
 func (uc *UserUsecase) GetUser(ctx context.Context, username string) (*common.User, error) {
 	u, err := uc.repo.GetUser(ctx, username)
+	if err != nil {
+		return nil, err
+	}
+	return uc.convertToUser(u), nil
+}
+
+func (uc *UserUsecase) GetUserByID(ctx context.Context, id uint64) (*common.User, error) {
+	u, err := uc.repo.GetUserByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}

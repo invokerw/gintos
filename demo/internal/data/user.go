@@ -123,6 +123,17 @@ func (r *userRepo) GetUser(ctx context.Context, username string) (*ent.User, err
 	return u, nil
 }
 
+func (r *userRepo) GetUserByID(ctx context.Context, id uint64) (*ent.User, error) {
+	u, err := r.data.db.User.Query().Where(user.ID(id)).Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, errs.DBErrUserNotFound
+		}
+		return nil, errs.DBErrEntError.Wrap(err)
+	}
+	return u, nil
+}
+
 func (r *userRepo) DeleteUser(ctx context.Context, username string) error {
 	u, err := r.GetUser(ctx, username)
 	if err != nil {

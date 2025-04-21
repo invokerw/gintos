@@ -26,7 +26,9 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 	greeterRepo := data.NewGreeterRepo(dataData, logger)
 	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
 	greeterService := service.NewGreeterService(greeterUsecase, logger)
-	authService := service.NewAuthService(logger)
+	userRepo := data.NewUserRepo(dataData, logger)
+	userUsecase := biz.NewUserUsecase(userRepo, logger)
+	authService := service.NewAuthService(userUsecase, logger)
 	engine := router.NewGinHttpServer(server, greeterService, authService, logger)
 	app := newApp(engine)
 	return app, func() {
