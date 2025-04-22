@@ -80,7 +80,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.auth.v1.LoginResponse'
+                                $ref: '#/components/schemas/api.auth.v1.RefreshTokenResponse'
     /auth/v1/register:
         post:
             tags:
@@ -135,23 +135,27 @@ components:
             description: 用户后台登录 - 请求
         api.auth.v1.LoginResponse:
             required:
+                - user
                 - access_token
                 - refresh_token
+                - expires_at
+                - refresh_expires_at
             type: object
             properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
                 access_token:
                     type: string
-                    description: 访问令牌，必选项。授权服务器颁发的访问令牌字符串。
+                    description: 访问令牌，必选项。
                 refresh_token:
                     type: string
-                    description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
-                token_type:
+                    description: 更新令牌，用来获取下一次的访问令牌，
+                expires_at:
                     type: string
-                    default: Bearer
-                    description: 令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。
-                expires_in:
+                    description: 令牌过期时间，单位为秒
+                refresh_expires_at:
                     type: string
-                    description: 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
+                    description: 刷新令牌过期时间，单位为秒
             description: 用户后台登录 - 回应
         api.auth.v1.LogoutRequest:
             type: object
@@ -167,14 +171,29 @@ components:
             properties:
                 refresh_token:
                     type: string
-                    description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
-                client_id:
-                    type: string
-                    description: 应用程序的识别ID
-                client_secret:
-                    type: string
-                    description: 应用程序的密码
+                    description: 更新令牌，用来获取下一次的访问令牌
             description: 用户刷新令牌 - 请求
+        api.auth.v1.RefreshTokenResponse:
+            required:
+                - access_token
+                - refresh_token
+                - expires_at
+                - refresh_expires_at
+            type: object
+            properties:
+                access_token:
+                    type: string
+                    description: 访问令牌，必选项。
+                refresh_token:
+                    type: string
+                    description: 更新令牌，用来获取下一次的访问令牌，
+                expires_at:
+                    type: string
+                    description: 令牌过期时间，单位为秒
+                refresh_expires_at:
+                    type: string
+                    description: 刷新令牌过期时间，单位为秒
+            description: 用户刷新令牌 - 回应
         api.auth.v1.RegisterRequest:
             required:
                 - username

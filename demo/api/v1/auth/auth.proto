@@ -41,7 +41,7 @@ service Auth {
 	}
 
 	// 刷新认证令牌
-	rpc RefreshToken (RefreshTokenRequest) returns (LoginResponse) {
+	rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse) {
 		option (google.api.http) = {
 			post: "/auth/v1/refresh_token"
 			body: "*"
@@ -103,37 +103,43 @@ message LoginRequest {
 
 // 用户后台登录 - 回应
 message LoginResponse {
-	string access_token = 1 [
+	common.v1.User user = 1 [
+		json_name = "user",
+		(google.api.field_behavior) = REQUIRED,
+		(openapi.v3.property) = {
+			description: "用户信息"
+		}
+	]; // 用户信息，必选项。
+	string access_token = 2 [
 		json_name = "access_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "访问令牌，必选项。授权服务器颁发的访问令牌字符串。"
+			description: "访问令牌，必选项。"
 		}
 	]; // 访问令牌，必选项。
 
-	string refresh_token = 2 [
+	string refresh_token = 3 [
 		json_name = "refresh_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
+			description: "更新令牌，用来获取下一次的访问令牌，"
 		}
 	]; // 更新令牌，用来获取下一次的访问令牌，可选项。
 
-	string token_type = 3 [
-		json_name = "token_type",
+	int64 expires_at = 4 [
+		json_name = "expires_at",
+		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。",
-			default: {string: "Bearer"}
+			description: "令牌过期时间，单位为秒"
 		}
-	]; // 令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。
-
-	optional int64 expires_in = 4 [
-		json_name = "expires_in",
-		(google.api.field_behavior) = OPTIONAL,
+	];
+	int64 refresh_expires_at = 5 [
+		json_name = "refresh_expires_at",
+		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。"
+			description: "刷新令牌过期时间，单位为秒"
 		}
-	]; // 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
+	];
 }
 
 // 用户刷新令牌 - 请求
@@ -142,35 +148,43 @@ message RefreshTokenRequest {
 		json_name = "refresh_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
+			description: "更新令牌，用来获取下一次的访问令牌"
 		}
 	]; // 更新令牌，用来获取下一次的访问令牌，必选项。
-
-	optional string client_id = 5 [
-		json_name = "client_id",
-		(google.api.field_behavior) = OPTIONAL,
-		(openapi.v3.property) = {
-			description: "应用程序的识别ID"
-		}
-	];
-	optional string client_secret = 6 [
-		json_name = "client_secret",
-		(google.api.field_behavior) = OPTIONAL,
-		(openapi.v3.property) = {
-			description: "应用程序的密码"
-		}
-	];
 }
 
 // 用户刷新令牌 - 回应
 message RefreshTokenResponse {
-	string refresh_token = 1 [
+	string access_token = 1 [
+		json_name = "access_token",
+		(google.api.field_behavior) = REQUIRED,
+		(openapi.v3.property) = {
+			description: "访问令牌，必选项。"
+		}
+	]; // 访问令牌，必选项。
+
+	string refresh_token = 2 [
 		json_name = "refresh_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
+			description: "更新令牌，用来获取下一次的访问令牌，"
 		}
 	]; // 更新令牌，用来获取下一次的访问令牌，可选项。
+
+	int64 expires_at = 3 [
+		json_name = "expires_at",
+		(google.api.field_behavior) = REQUIRED,
+		(openapi.v3.property) = {
+			description: "令牌过期时间，单位为秒"
+		}
+	];
+	int64 refresh_expires_at = 4 [
+		json_name = "refresh_expires_at",
+		(google.api.field_behavior) = REQUIRED,
+		(openapi.v3.property) = {
+			description: "刷新令牌过期时间，单位为秒"
+		}
+	];
 }
 
 

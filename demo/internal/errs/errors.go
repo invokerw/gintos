@@ -7,4 +7,5 @@ import "github/invokerw/gintos/common/resp"
 var (
 	ErrUserNotFound      = resp.NewErr(300000, "user not found")
 	ErrUserPasswordWrong = resp.NewErr(300001, "password wrong")
+	ErrTokenExpired      = resp.NewErr(300002, "token expired")
 )

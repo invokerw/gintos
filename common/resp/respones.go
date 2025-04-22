@@ -39,6 +39,20 @@ func (e *Error) MetaData() map[string]string {
 	return e.metadata
 }
 
+func (e *Error) Equal(other error) bool {
+	if e == nil && other == nil {
+		return true
+	}
+	if e == nil || other == nil {
+		return false
+	}
+	var oe *Error
+	if !errors.As(other, &oe) {
+		return false
+	}
+	return e.code == oe.code
+}
+
 func (e *Error) CloneWithMetadata(metadata map[string]string) *Error {
 	if e == nil {
 		return nil

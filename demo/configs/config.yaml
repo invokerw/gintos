@@ -11,3 +11,8 @@ data:
     dial_timeout: 1s
     read_timeout: 0.2s
     write_timeout: 0.2s
+jwt:
+    secret: 123456
+    expire: 15min
+    refresh_expire : 1d
+    issuer: web-demo

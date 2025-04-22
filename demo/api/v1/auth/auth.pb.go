@@ -8,7 +8,7 @@ package auth
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	_ "github/invokerw/gintos/demo/api/v1/common"
+	common "github/invokerw/gintos/demo/api/v1/common"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -258,13 +258,14 @@ func (x *LoginRequest) GetClientSecret() string {
 
 // 用户后台登录 - 回应
 type LoginResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,proto3" json:"access_token,omitempty"`    // 访问令牌，必选项。
-	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"`  // 更新令牌，用来获取下一次的访问令牌，可选项。
-	TokenType     string                 `protobuf:"bytes,3,opt,name=token_type,proto3" json:"token_type,omitempty"`        // 令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。
-	ExpiresIn     *int64                 `protobuf:"varint,4,opt,name=expires_in,proto3,oneof" json:"expires_in,omitempty"` // 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	User             *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                   // 用户信息，必选项。
+	AccessToken      string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌，必选项。
+	RefreshToken     string                 `protobuf:"bytes,3,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
+	ExpiresAt        int64                  `protobuf:"varint,4,opt,name=expires_at,proto3" json:"expires_at,omitempty"`
+	RefreshExpiresAt int64                  `protobuf:"varint,5,opt,name=refresh_expires_at,proto3" json:"refresh_expires_at,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *LoginResponse) Reset() {
@@ -297,6 +298,13 @@ func (*LoginResponse) Descriptor() ([]byte, []int) {
 	return file_v1_auth_auth_proto_rawDescGZIP(), []int{3}
 }
 
+func (x *LoginResponse) GetUser() *common.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 func (x *LoginResponse) GetAccessToken() string {
 	if x != nil {
 		return x.AccessToken
@@ -311,16 +319,16 @@ func (x *LoginResponse) GetRefreshToken() string {
 	return ""
 }
 
-func (x *LoginResponse) GetTokenType() string {
+func (x *LoginResponse) GetExpiresAt() int64 {
 	if x != nil {
-		return x.TokenType
+		return x.ExpiresAt
 	}
-	return ""
+	return 0
 }
 
-func (x *LoginResponse) GetExpiresIn() int64 {
-	if x != nil && x.ExpiresIn != nil {
-		return *x.ExpiresIn
+func (x *LoginResponse) GetRefreshExpiresAt() int64 {
+	if x != nil {
+		return x.RefreshExpiresAt
 	}
 	return 0
 }
@@ -329,8 +337,6 @@ func (x *LoginResponse) GetExpiresIn() int64 {
 type RefreshTokenRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，必选项。
-	ClientId      *string                `protobuf:"bytes,5,opt,name=client_id,proto3,oneof" json:"client_id,omitempty"`
-	ClientSecret  *string                `protobuf:"bytes,6,opt,name=client_secret,proto3,oneof" json:"client_secret,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -372,26 +378,15 @@ func (x *RefreshTokenRequest) GetRefreshToken() string {
 	return ""
 }
 
-func (x *RefreshTokenRequest) GetClientId() string {
-	if x != nil && x.ClientId != nil {
-		return *x.ClientId
-	}
-	return ""
-}
-
-func (x *RefreshTokenRequest) GetClientSecret() string {
-	if x != nil && x.ClientSecret != nil {
-		return *x.ClientSecret
-	}
-	return ""
-}
-
 // 用户刷新令牌 - 回应
 type RefreshTokenResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	AccessToken      string                 `protobuf:"bytes,1,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌，必选项。
+	RefreshToken     string                 `protobuf:"bytes,2,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
+	ExpiresAt        int64                  `protobuf:"varint,3,opt,name=expires_at,proto3" json:"expires_at,omitempty"`
+	RefreshExpiresAt int64                  `protobuf:"varint,4,opt,name=refresh_expires_at,proto3" json:"refresh_expires_at,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RefreshTokenResponse) Reset() {
@@ -424,11 +419,32 @@ func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
 	return file_v1_auth_auth_proto_rawDescGZIP(), []int{5}
 }
 
+func (x *RefreshTokenResponse) GetAccessToken() string {
+	if x != nil {
+		return x.AccessToken
+	}
+	return ""
+}
+
 func (x *RefreshTokenResponse) GetRefreshToken() string {
 	if x != nil {
 		return x.RefreshToken
 	}
 	return ""
+}
+
+func (x *RefreshTokenResponse) GetExpiresAt() int64 {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return 0
+}
+
+func (x *RefreshTokenResponse) GetRefreshExpiresAt() int64 {
+	if x != nil {
+		return x.RefreshExpiresAt
+	}
+	return 0
 }
 
 var File_v1_auth_auth_proto protoreflect.FileDescriptor
@@ -449,38 +465,36 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\rclient_secret\x18\x06 \x01(\tB\x1f\xe2A\x01\x01\xbaG\x18\x92\x02\x15应用程序的密码H\x01R\rclient_secret\x88\x01\x01B\f\n" +
 	"\n" +
 	"_client_idB\x10\n" +
-	"\x0e_client_secret\"\xfe\x06\n" +
-	"\rLoginResponse\x12y\n" +
-	"\faccess_token\x18\x01 \x01(\tBU\xe2A\x01\x02\xbaGN\x92\x02K访问令牌，必选项。授权服务器颁发的访问令牌字符串。R\faccess_token\x12\xc1\x02\n" +
-	"\rrefresh_token\x18\x02 \x01(\tB\x9a\x02\xe2A\x01\x02\xbaG\x92\x02\x92\x02\x8e\x02更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。R\rrefresh_token\x12\xb5\x01\n" +
+	"\x0e_client_secret\"\xb3\x03\n" +
+	"\rLoginResponse\x12?\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12I\n" +
+	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
+	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12K\n" +
 	"\n" +
-	"token_type\x18\x03 \x01(\tB\x94\x01\xbaG\x90\x01\x8a\x02\b\x1a\x06Bearer\x92\x02\x81\x01令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。R\n" +
-	"token_type\x12\xe6\x01\n" +
+	"expires_at\x18\x04 \x01(\x03B+\xe2A\x01\x02\xbaG$\x92\x02!令牌过期时间，单位为秒R\n" +
+	"expires_at\x12a\n" +
+	"\x12refresh_expires_at\x18\x05 \x01(\x03B1\xe2A\x01\x02\xbaG*\x92\x02'刷新令牌过期时间，单位为秒R\x12refresh_expires_at\"z\n" +
+	"\x13RefreshTokenRequest\x12c\n" +
+	"\rrefresh_token\x18\x01 \x01(\tB=\xe2A\x01\x02\xbaG6\x92\x023更新令牌，用来获取下一次的访问令牌R\rrefresh_token\"\xf9\x02\n" +
+	"\x14RefreshTokenResponse\x12I\n" +
+	"\faccess_token\x18\x01 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
+	"\rrefresh_token\x18\x02 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12K\n" +
 	"\n" +
-	"expires_in\x18\x04 \x01(\x03B\xc0\x01\xe2A\x01\x01\xbaG\xb8\x01\x92\x02\xb4\x01令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。H\x00R\n" +
-	"expires_in\x88\x01\x01B\r\n" +
-	"\v_expires_in\"\x8b\x04\n" +
-	"\x13RefreshTokenRequest\x12\xc1\x02\n" +
-	"\rrefresh_token\x18\x01 \x01(\tB\x9a\x02\xe2A\x01\x02\xbaG\x92\x02\x92\x02\x8e\x02更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。R\rrefresh_token\x12D\n" +
-	"\tclient_id\x18\x05 \x01(\tB!\xe2A\x01\x01\xbaG\x1a\x92\x02\x17应用程序的识别IDH\x00R\tclient_id\x88\x01\x01\x12J\n" +
-	"\rclient_secret\x18\x06 \x01(\tB\x1f\xe2A\x01\x01\xbaG\x18\x92\x02\x15应用程序的密码H\x01R\rclient_secret\x88\x01\x01B\f\n" +
-	"\n" +
-	"_client_idB\x10\n" +
-	"\x0e_client_secret\"\xda\x02\n" +
-	"\x14RefreshTokenResponse\x12\xc1\x02\n" +
-	"\rrefresh_token\x18\x01 \x01(\tB\x9a\x02\xe2A\x01\x02\xbaG\x92\x02\x92\x02\x8e\x02更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。R\rrefresh_token*h\n" +
+	"expires_at\x18\x03 \x01(\x03B+\xe2A\x01\x02\xbaG$\x92\x02!令牌过期时间，单位为秒R\n" +
+	"expires_at\x12a\n" +
+	"\x12refresh_expires_at\x18\x04 \x01(\x03B1\xe2A\x01\x02\xbaG*\x92\x02'刷新令牌过期时间，单位为秒R\x12refresh_expires_at*h\n" +
 	"\x14VerifyPasswordResult\x12\v\n" +
 	"\aSUCCESS\x10\x00\x12\x16\n" +
 	"\x12ACCOUNT_NOT_EXISTS\x10\x01\x12\x12\n" +
 	"\x0eWRONG_PASSWORD\x10\x02\x12\n" +
 	"\n" +
 	"\x06FREEZE\x10\x03\x12\v\n" +
-	"\aDELETED\x10\x042\x91\x03\n" +
+	"\aDELETED\x10\x042\x98\x03\n" +
 	"\x04Auth\x12^\n" +
 	"\x05Login\x12\x19.api.auth.v1.LoginRequest\x1a\x1a.api.auth.v1.LoginResponse\"\x1e\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/auth/v1/login\x12X\n" +
 	"\x06Logout\x12\x1a.api.auth.v1.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/auth/v1/logout\x12^\n" +
-	"\bRegister\x12\x1c.api.auth.v1.RegisterRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/auth/v1/register\x12o\n" +
-	"\fRefreshToken\x12 .api.auth.v1.RefreshTokenRequest\x1a\x1a.api.auth.v1.LoginResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/auth/v1/refresh_tokenB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
+	"\bRegister\x12\x1c.api.auth.v1.RegisterRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/auth/v1/register\x12v\n" +
+	"\fRefreshToken\x12 .api.auth.v1.RefreshTokenRequest\x1a!.api.auth.v1.RefreshTokenResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/auth/v1/refresh_tokenB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
 
 var (
 	file_v1_auth_auth_proto_rawDescOnce sync.Once
@@ -504,22 +518,24 @@ var file_v1_auth_auth_proto_goTypes = []any{
 	(*LoginResponse)(nil),        // 4: api.auth.v1.LoginResponse
 	(*RefreshTokenRequest)(nil),  // 5: api.auth.v1.RefreshTokenRequest
 	(*RefreshTokenResponse)(nil), // 6: api.auth.v1.RefreshTokenResponse
-	(*emptypb.Empty)(nil),        // 7: google.protobuf.Empty
+	(*common.User)(nil),          // 7: api.common.v1.User
+	(*emptypb.Empty)(nil),        // 8: google.protobuf.Empty
 }
 var file_v1_auth_auth_proto_depIdxs = []int32{
-	3, // 0: api.auth.v1.Auth.Login:input_type -> api.auth.v1.LoginRequest
-	2, // 1: api.auth.v1.Auth.Logout:input_type -> api.auth.v1.LogoutRequest
-	1, // 2: api.auth.v1.Auth.Register:input_type -> api.auth.v1.RegisterRequest
-	5, // 3: api.auth.v1.Auth.RefreshToken:input_type -> api.auth.v1.RefreshTokenRequest
-	4, // 4: api.auth.v1.Auth.Login:output_type -> api.auth.v1.LoginResponse
-	7, // 5: api.auth.v1.Auth.Logout:output_type -> google.protobuf.Empty
-	7, // 6: api.auth.v1.Auth.Register:output_type -> google.protobuf.Empty
-	4, // 7: api.auth.v1.Auth.RefreshToken:output_type -> api.auth.v1.LoginResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	7, // 0: api.auth.v1.LoginResponse.user:type_name -> api.common.v1.User
+	3, // 1: api.auth.v1.Auth.Login:input_type -> api.auth.v1.LoginRequest
+	2, // 2: api.auth.v1.Auth.Logout:input_type -> api.auth.v1.LogoutRequest
+	1, // 3: api.auth.v1.Auth.Register:input_type -> api.auth.v1.RegisterRequest
+	5, // 4: api.auth.v1.Auth.RefreshToken:input_type -> api.auth.v1.RefreshTokenRequest
+	4, // 5: api.auth.v1.Auth.Login:output_type -> api.auth.v1.LoginResponse
+	8, // 6: api.auth.v1.Auth.Logout:output_type -> google.protobuf.Empty
+	8, // 7: api.auth.v1.Auth.Register:output_type -> google.protobuf.Empty
+	6, // 8: api.auth.v1.Auth.RefreshToken:output_type -> api.auth.v1.RefreshTokenResponse
+	5, // [5:9] is the sub-list for method output_type
+	1, // [1:5] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_v1_auth_auth_proto_init() }
@@ -528,8 +544,6 @@ func file_v1_auth_auth_proto_init() {
 		return
 	}
 	file_v1_auth_auth_proto_msgTypes[2].OneofWrappers = []any{}
-	file_v1_auth_auth_proto_msgTypes[3].OneofWrappers = []any{}
-	file_v1_auth_auth_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -62,6 +62,14 @@ func (r *userRepo) CreateUser(ctx context.Context, in *common.User) (*ent.User, 
 	if in == nil || in.UserName == nil || in.Password == nil {
 		return nil, errs.DBErrInvalidParam
 	}
+	// 因为 username 唯一，所以不需要 transaction
+	existingUser, err := r.GetUser(ctx, *in.UserName)
+	if err != nil && !errs.ErrUserNotFound.Equal(err) {
+		return nil, err
+	}
+	if existingUser != nil {
+		return nil, errs.DBErrUserExist
+	}
 	uc := r.data.db.User.Create().
 		SetUsername(*in.UserName).
 		SetPassword(*in.Password).

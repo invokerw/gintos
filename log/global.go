@@ -33,7 +33,7 @@ func SetLogger(logger Logger) {
 	global.SetLogger(logger)
 }
 
-// GetLogger returns global logger appliance as logger in current process.
+// GetLogger returns g logger appliance as logger in current process.
 func GetLogger() Logger {
 	global.lock.RLock()
 	defer global.lock.RUnlock()

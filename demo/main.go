@@ -5,6 +5,7 @@ import (
 	"github/invokerw/gintos/config"
 	"github/invokerw/gintos/config/file"
 	"github/invokerw/gintos/demo/internal/conf"
+	"github/invokerw/gintos/demo/internal/g"
 	"github/invokerw/gintos/log"
 	"os"
 
@@ -64,6 +65,9 @@ func main() {
 	if err := c.Scan(&bc); err != nil {
 		panic(err)
 	}
+
+	g.Config = &bc
+	g.Log = log.NewHelper(log.With(logger, "from", "global"))
 
 	app, cleanup, err := wireApp(bc.Server, bc.Data, logger)
 	if err != nil {

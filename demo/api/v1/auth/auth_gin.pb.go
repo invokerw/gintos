@@ -28,7 +28,7 @@ type IAuthServer interface {
 	// Logout 登出
 	Logout(*gin.Context, *LogoutRequest) (*emptypb.Empty, error)
 	// RefreshToken 刷新认证令牌
-	RefreshToken(*gin.Context, *RefreshTokenRequest) (*LoginResponse, error)
+	RefreshToken(*gin.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	Register(*gin.Context, *RegisterRequest) (*emptypb.Empty, error)
 }
 
