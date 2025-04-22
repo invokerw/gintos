@@ -7,6 +7,7 @@ import (
 	"github/invokerw/gintos/demo/internal/conf"
 	"github/invokerw/gintos/demo/internal/g"
 	"github/invokerw/gintos/log"
+	"github/invokerw/gintos/log/zap"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -42,13 +43,7 @@ func newApp(engine *gin.Engine) *App {
 
 func main() {
 	flag.Parse()
-	logger := log.With(log.NewStdLogger(os.Stdout),
-		"ts", log.DefaultTimestamp,
-		"caller", log.DefaultCaller,
-		"service.id", id,
-		"service.name", Name,
-		"service.version", Version,
-	)
+	logger := log.With(zap.NewLogger(zap.NewZapLogger()))
 	_ = logger
 	c := config.New(
 		config.WithSource(
