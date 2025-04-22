@@ -17,22 +17,22 @@ var ProviderSet = wire.NewSet(NewGinHttpServer)
 func NewGinHttpServer(c *conf.Server, greeter *service.GreeterService, a *service.AuthService, logger log.Logger) *gin.Engine {
 	engine := gin.Default()
 	{
-		g := engine.Group("/").Use(gin.Logger())
+		g := engine.Group("/")
 		g.GET("/", func(c *gin.Context) {
 			c.String(200, "Hello World")
 		})
 	}
 	{
-		g := engine.Group("/").Use(gin.Logger())
+		g := engine.Group("/")
 		helloworld.RegisterGreeterServer(g, greeter)
 	}
 	{
-		g := engine.Group("/").Use(gin.Logger())
+		g := engine.Group("/")
 		auth.RegisterAuthServer(g, a)
 	}
 	// swagger
 	{
-		g := engine.Group("/").Use(gin.Logger())
+		g := engine.Group("/")
 		registerSwaggerOpenApi(g)
 	}
 	return engine

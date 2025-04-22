@@ -192,8 +192,6 @@ type LoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"` // 用户名，必选项。
 	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"` // 用户的密码，必选项。
-	ClientId      *string                `protobuf:"bytes,5,opt,name=client_id,proto3,oneof" json:"client_id,omitempty"`
-	ClientSecret  *string                `protobuf:"bytes,6,opt,name=client_secret,proto3,oneof" json:"client_secret,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -238,20 +236,6 @@ func (x *LoginRequest) GetUsername() string {
 func (x *LoginRequest) GetPassword() string {
 	if x != nil {
 		return x.Password
-	}
-	return ""
-}
-
-func (x *LoginRequest) GetClientId() string {
-	if x != nil && x.ClientId != nil {
-		return *x.ClientId
-	}
-	return ""
-}
-
-func (x *LoginRequest) GetClientSecret() string {
-	if x != nil && x.ClientSecret != nil {
-		return *x.ClientSecret
 	}
 	return ""
 }
@@ -457,15 +441,10 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\x12\x1a\n" +
 	"\x05email\x18\x03 \x01(\tB\x04\xe2A\x01\x02R\x05email\"\x1f\n" +
 	"\rLogoutRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"\x84\x02\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\"R\n" +
 	"\fLoginRequest\x12 \n" +
 	"\busername\x18\x01 \x01(\tB\x04\xe2A\x01\x02R\busername\x12 \n" +
-	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\x12D\n" +
-	"\tclient_id\x18\x05 \x01(\tB!\xe2A\x01\x01\xbaG\x1a\x92\x02\x17应用程序的识别IDH\x00R\tclient_id\x88\x01\x01\x12J\n" +
-	"\rclient_secret\x18\x06 \x01(\tB\x1f\xe2A\x01\x01\xbaG\x18\x92\x02\x15应用程序的密码H\x01R\rclient_secret\x88\x01\x01B\f\n" +
-	"\n" +
-	"_client_idB\x10\n" +
-	"\x0e_client_secret\"\xb3\x03\n" +
+	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\"\xb3\x03\n" +
 	"\rLoginResponse\x12?\n" +
 	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12I\n" +
 	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
@@ -543,7 +522,6 @@ func file_v1_auth_auth_proto_init() {
 	if File_v1_auth_auth_proto != nil {
 		return
 	}
-	file_v1_auth_auth_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

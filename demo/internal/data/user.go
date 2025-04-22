@@ -7,7 +7,6 @@ import (
 	"github/invokerw/gintos/demo/internal/data/ent"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
 	"github/invokerw/gintos/demo/internal/errs"
-	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
 	"time"
 )
@@ -64,18 +63,20 @@ func (r *userRepo) CreateUser(ctx context.Context, in *common.User) (*ent.User, 
 	}
 	// 因为 username 唯一，所以不需要 transaction
 	existingUser, err := r.GetUser(ctx, *in.UserName)
-	if err != nil && !errs.ErrUserNotFound.Equal(err) {
+	if err != nil && !errs.DBErrUserNotFound.Equal(err) {
 		return nil, err
 	}
 	if existingUser != nil {
 		return nil, errs.DBErrUserExist
 	}
+	now := time.Now()
 	uc := r.data.db.User.Create().
 		SetUsername(*in.UserName).
 		SetPassword(*in.Password).
 		SetNillableNickName(in.NickName).
 		SetNillableCreateBy(in.CreateBy).
-		SetNillableCreateTime(utils.Int64PrtToTimePtr(in.CreateTime)).
+		SetCreateTime(now).
+		SetUpdateTime(now).
 		SetNillableRemark(in.Remark).
 		SetNillableStatus(r.convertToStatus(in.Status)).
 		SetNillableEmail(in.Email).

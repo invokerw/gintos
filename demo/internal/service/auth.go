@@ -35,7 +35,7 @@ func (s *AuthService) Login(ctx *gin.Context, req *auth.LoginRequest) (*auth.Log
 		return nil, errs.ErrUserNotFound.Wrap(err)
 	}
 
-	if user.Password != nil && utils.BcryptCheck(req.Password, *user.Password) {
+	if user.Password != nil && !utils.BcryptCheck(req.Password, *user.Password) {
 		return nil, errs.ErrUserPasswordWrong
 	}
 

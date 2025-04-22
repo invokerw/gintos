@@ -84,21 +84,6 @@ message LoginRequest {
 		json_name = "password",
 		(google.api.field_behavior) = REQUIRED
 	]; // 用户的密码，必选项。
-
-	optional string client_id = 5 [
-		json_name = "client_id",
-		(google.api.field_behavior) = OPTIONAL,
-		(openapi.v3.property) = {
-			description: "应用程序的识别ID"
-		}
-	];
-	optional string client_secret = 6 [
-		json_name = "client_secret",
-		(google.api.field_behavior) = OPTIONAL,
-		(openapi.v3.property) = {
-			description: "应用程序的密码"
-		}
-	];
 }
 
 // 用户后台登录 - 回应
