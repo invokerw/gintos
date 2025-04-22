@@ -19,7 +19,7 @@ func NewGinHttpServer(c *conf.Server, greeter *service.GreeterService, a *servic
 	//engine := gin.Default()
 	engine := gin.New()
 	ginHelper := log.NewHelper(log.With(logger, "module", "router"))
-	engine.Use(gin.Logger(), middleware.GinZapLogger(ginHelper), middleware.GinZapRecovery(ginHelper))
+	engine.Use(middleware.GinZapLogger(ginHelper), middleware.GinZapRecovery(ginHelper))
 	{
 		g := engine.Group("/")
 		g.GET("/", func(c *gin.Context) {
