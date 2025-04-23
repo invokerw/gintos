@@ -81,7 +81,17 @@ func (s *AuthService) RefreshToken(ctx *gin.Context, req *auth.RefreshTokenReque
 	if rClaims.RegisteredClaims.ExpiresAt.Before(time.Now()) {
 		return nil, errs.ErrTokenExpired
 	}
-	token, claims, err := utils.CreateAccessToken(rClaims.BaseClaims)
+	user, err := s.uc.GetUserByID(ctx, rClaims.BaseClaims.ID)
+	if err != nil {
+		return nil, err
+	}
+	baseC := utils.BaseClaims{
+		ID:          user.GetId(),
+		Username:    user.GetUserName(),
+		NickName:    user.GetNickName(),
+		AuthorityId: int32(user.GetAuthority()),
+	}
+	token, claims, err := utils.CreateAccessToken(baseC)
 	if err != nil {
 		return nil, err
 	}
