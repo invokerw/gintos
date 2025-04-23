@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/biz"
 	"github/invokerw/gintos/demo/internal/data/ent"
@@ -130,6 +131,25 @@ func (r *userRepo) GetUser(ctx context.Context, username string) (*ent.User, err
 		return nil, errs.DBErrEntError.Wrap(err)
 	}
 	return u, nil
+}
+
+func (r *userRepo) GetUserList(ctx context.Context, req *admin.GetUserListRequest) ([]*ent.User, error) {
+	if req == nil {
+		return nil, errs.DBErrInvalidParam
+	}
+	q := r.data.db.User.Query().Offset(int(req.Page.Offset)).Limit(int(req.Page.PageSize))
+	if req.Username != nil && *req.Username != "" {
+		q.Where(user.UsernameContains(*req.Username))
+	}
+	if req.Nickname != nil && *req.Nickname != "" {
+		q.Where(user.NickNameContains(*req.Nickname))
+	}
+
+	users, err := q.All(ctx)
+	if err != nil {
+		return nil, errs.DBErrEntError.Wrap(err)
+	}
+	return users, nil
 }
 
 func (r *userRepo) GetUserByID(ctx context.Context, id uint64) (*ent.User, error) {

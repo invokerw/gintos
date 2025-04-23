@@ -16,8 +16,6 @@ enum UserAuthority {
   SYS_MANAGER = 1;  // 系统管理员
   CUSTOMER_USER = 2;  // 普通用户
   GUEST_USER = 3;  // 游客
-
-  REFRESH_TOKEN = 4; // 刷新令牌
 }
 
 

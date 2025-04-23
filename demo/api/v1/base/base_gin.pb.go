@@ -2,14 +2,13 @@
 // versions:
 // - protoc-gen-go-gin v1.0.0
 // - protoc             v3.14.0
-// source: v1/base/user.proto
+// source: v1/base/base.proto
 
 package base
 
 import (
 	gin "github.com/gin-gonic/gin"
 	resp "github/invokerw/gintos/common/resp"
-	common "github/invokerw/gintos/demo/api/v1/common"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -21,11 +20,11 @@ const OperationBaseGetMe = "/api.base.v1.Base/GetMe"
 
 type IBaseServer interface {
 	// GetMe 后台获取已经登录的用户的数据
-	GetMe(*gin.Context, *GetMeRequest) (*common.User, error)
+	GetMe(*gin.Context, *GetMeRequest) (*GetMeResponse, error)
 }
 
 func RegisterBaseServer(r gin.IRoutes, srv IBaseServer) {
-	r.GET("/auth/v1/me", _Base_GetMe0_HTTP_Handler(srv))
+	r.GET("/base/v1/me", _Base_GetMe0_HTTP_Handler(srv))
 }
 
 func _Base_GetMe0_HTTP_Handler(srv IBaseServer) func(ctx *gin.Context) {

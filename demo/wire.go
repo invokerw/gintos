@@ -9,6 +9,7 @@ import (
 	"github/invokerw/gintos/demo/internal/biz"
 	"github/invokerw/gintos/demo/internal/conf"
 	"github/invokerw/gintos/demo/internal/data"
+	"github/invokerw/gintos/demo/internal/initialize"
 	"github/invokerw/gintos/demo/internal/router"
 	"github/invokerw/gintos/demo/internal/service"
 	"github/invokerw/gintos/log"
@@ -18,5 +19,11 @@ import (
 
 // wireApp init kratos application.
 func wireApp(*conf.Server, *conf.Data, log.Logger) (*App, func(), error) {
-	panic(wire.Build(data.ProviderSet, biz.ProviderSet, service.ProviderSet, router.ProviderSet, newApp))
+	panic(wire.Build(
+		data.ProviderSet,
+		biz.ProviderSet,
+		initialize.ProviderSet,
+		service.ProviderSet,
+		router.ProviderSet,
+		newApp))
 }

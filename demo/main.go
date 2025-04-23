@@ -6,6 +6,7 @@ import (
 	"github/invokerw/gintos/config/file"
 	"github/invokerw/gintos/demo/internal/conf"
 	"github/invokerw/gintos/demo/internal/g"
+	"github/invokerw/gintos/demo/internal/initialize"
 	"github/invokerw/gintos/log"
 	"github/invokerw/gintos/log/zap"
 	"os"
@@ -37,7 +38,7 @@ func (a *App) Run(addr ...string) error {
 	return a.engine.Run(addr...)
 }
 
-func newApp(engine *gin.Engine) *App {
+func newApp(_ *initialize.InitRet, engine *gin.Engine) *App {
 	return &App{engine: engine}
 }
 

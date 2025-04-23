@@ -3,6 +3,7 @@ package biz
 import (
 	"context"
 	"github.com/gin-gonic/gin"
+	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/data/ent"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
@@ -17,6 +18,7 @@ type UserRepo interface {
 	GetUserByID(ctx context.Context, id uint64) (*ent.User, error)
 	DeleteUser(ctx context.Context, username string) error
 	UpdateUser(ctx context.Context, in *common.User) (*ent.User, error)
+	GetUserList(ctx context.Context, req *admin.GetUserListRequest) ([]*ent.User, error)
 }
 
 type UserUsecase struct {
@@ -66,6 +68,18 @@ func (uc *UserUsecase) UpdateUser(ctx context.Context, user *common.User) (*comm
 		return nil, err
 	}
 	return uc.convertToUser(u), nil
+}
+
+func (uc *UserUsecase) GetUserList(ctx *gin.Context, req *admin.GetUserListRequest) ([]*common.User, error) {
+	users, err := uc.repo.GetUserList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	var userList []*common.User
+	for _, u := range users {
+		userList = append(userList, uc.convertToUser(u))
+	}
+	return userList, nil
 }
 
 func (uc *UserUsecase) convertToGender(g *user.Gender) *common.UserGender {

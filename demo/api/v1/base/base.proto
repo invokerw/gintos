@@ -14,9 +14,9 @@ option go_package = "github/invokerw/gintos/demo/api/v1/base;base";
 
 service Base {
   // 后台获取已经登录的用户的数据
-  rpc GetMe (GetMeRequest) returns (common.v1.User) {
+  rpc GetMe (GetMeRequest) returns (GetMeResponse) {
     option (google.api.http) = {
-      get: "/auth/v1/me"
+      get: "/base/v1/me"
     };
   }
 }
@@ -24,4 +24,8 @@ service Base {
 // 获取当前用户信息 - 请求
 message GetMeRequest {
   uint32 id = 1;
+}
+
+message GetMeResponse {
+  common.v1.User user = 1;
 }

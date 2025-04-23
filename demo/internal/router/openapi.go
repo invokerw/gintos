@@ -21,7 +21,7 @@ func registerSwaggerOpenApi(r gin.IRoutes) {
 			return
 		}
 		h := gin.WrapH(v5emb.New(
-			"My API",             // 标题
+			"Gintos API",         // 标题
 			"/docs/openapi.yaml", // OpenAPI JSON 文件的地址
 			"/docs/",             // Swagger UI 的访问路径
 		))

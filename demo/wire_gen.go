@@ -10,6 +10,7 @@ import (
 	"github/invokerw/gintos/demo/internal/biz"
 	"github/invokerw/gintos/demo/internal/conf"
 	"github/invokerw/gintos/demo/internal/data"
+	"github/invokerw/gintos/demo/internal/initialize"
 	"github/invokerw/gintos/demo/internal/router"
 	"github/invokerw/gintos/demo/internal/service"
 	"github/invokerw/gintos/log"
@@ -23,14 +24,17 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 	if err != nil {
 		return nil, nil, err
 	}
+	userRepo := data.NewUserRepo(dataData, logger)
+	initRet := initialize.DoInit(userRepo, logger)
 	greeterRepo := data.NewGreeterRepo(dataData, logger)
 	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
 	greeterService := service.NewGreeterService(greeterUsecase, logger)
-	userRepo := data.NewUserRepo(dataData, logger)
 	userUsecase := biz.NewUserUsecase(userRepo, logger)
 	authService := service.NewAuthService(userUsecase, logger)
-	engine := router.NewGinHttpServer(server, greeterService, authService, logger)
-	app := newApp(engine)
+	adminService := service.NewAdminService(userUsecase, logger)
+	baseService := service.NewBaseService(userUsecase, logger)
+	engine := router.NewGinHttpServer(server, greeterService, authService, adminService, baseService, logger)
+	app := newApp(initRet, engine)
 	return app, func() {
 		cleanup()
 	}, nil

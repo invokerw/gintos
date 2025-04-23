@@ -6,6 +6,27 @@ info:
     title: ""
     version: 0.0.1
 paths:
+    /admin/v1/get_user_list:
+        post:
+            tags:
+                - Admin
+            description: 登录
+            operationId: Admin_GetUserList
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.auth.v1.GetUserListRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.auth.v1.GetUserListResponse'
+            security:
+                - {}
     /auth/v1/login:
         post:
             tags:
@@ -43,25 +64,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /auth/v1/me:
-        get:
-            tags:
-                - Base
-            description: 后台获取已经登录的用户的数据
-            operationId: Base_GetMe
-            parameters:
-                - name: id
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.common.v1.User'
     /auth/v1/refresh_token:
         post:
             tags:
@@ -96,6 +98,25 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /base/v1/me:
+        get:
+            tags:
+                - Base
+            description: 后台获取已经登录的用户的数据
+            operationId: Base_GetMe
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.base.v1.GetMeResponse'
     /helloworld/:name:
         get:
             tags:
@@ -116,6 +137,24 @@ paths:
                                 $ref: '#/components/schemas/helloworld.v1.HelloReply'
 components:
     schemas:
+        api.auth.v1.GetUserListRequest:
+            type: object
+            properties:
+                page:
+                    $ref: '#/components/schemas/api.common.v1.PageInfo'
+                username:
+                    type: string
+                    description: 登录名
+                nickname:
+                    type: string
+                    description: 昵称
+        api.auth.v1.GetUserListResponse:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.User'
         api.auth.v1.LoginRequest:
             required:
                 - username
@@ -201,6 +240,22 @@ components:
                     type: string
                 email:
                     type: string
+        api.base.v1.GetMeResponse:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+        api.common.v1.PageInfo:
+            type: object
+            properties:
+                offset:
+                    type: integer
+                    description: 偏移
+                    format: int32
+                pageSize:
+                    type: integer
+                    description: 数量
+                    format: int32
         api.common.v1.User:
             type: object
             properties:
@@ -276,6 +331,7 @@ components:
                     type: string
             description: The response message containing the greetings
 tags:
+    - name: Admin
     - name: Auth
     - name: Base
     - name: Greeter

@@ -33,7 +33,6 @@ const (
 	UserAuthority_SYS_MANAGER   UserAuthority = 1 // 系统管理员
 	UserAuthority_CUSTOMER_USER UserAuthority = 2 // 普通用户
 	UserAuthority_GUEST_USER    UserAuthority = 3 // 游客
-	UserAuthority_REFRESH_TOKEN UserAuthority = 4 // 刷新令牌
 )
 
 // Enum value maps for UserAuthority.
@@ -43,14 +42,12 @@ var (
 		1: "SYS_MANAGER",
 		2: "CUSTOMER_USER",
 		3: "GUEST_USER",
-		4: "REFRESH_TOKEN",
 	}
 	UserAuthority_value = map[string]int32{
 		"SYS_ADMIN":     0,
 		"SYS_MANAGER":   1,
 		"CUSTOMER_USER": 2,
 		"GUEST_USER":    3,
-		"REFRESH_TOKEN": 4,
 	}
 )
 
@@ -409,14 +406,13 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
 	"_authorityB\x0e\n" +
 	"\f_create_timeB\x0e\n" +
-	"\f_update_time*e\n" +
+	"\f_update_time*R\n" +
 	"\rUserAuthority\x12\r\n" +
 	"\tSYS_ADMIN\x10\x00\x12\x0f\n" +
 	"\vSYS_MANAGER\x10\x01\x12\x11\n" +
 	"\rCUSTOMER_USER\x10\x02\x12\x0e\n" +
 	"\n" +
-	"GUEST_USER\x10\x03\x12\x11\n" +
-	"\rREFRESH_TOKEN\x10\x04*.\n" +
+	"GUEST_USER\x10\x03*.\n" +
 	"\n" +
 	"UserGender\x12\n" +
 	"\n" +

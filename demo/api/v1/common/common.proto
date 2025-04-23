@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package api.common.v1;
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github/invokerw/gintos/demo/api/v1/common;common";
+
+
+message PageInfo {
+  int32 offset = 1 [
+    (openapi.v3.property) = {description: "偏移"}
+  ]; // 页码
+  int32 page_size = 2 [
+    (openapi.v3.property) = {description: "数量"}
+  ]; // 每页数量
+}

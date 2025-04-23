@@ -4,11 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github/invokerw/gintos/demo/internal/g"
 	"net"
-	"time"
 )
 
 const (
 	AccessTokenName = "Authorization"
+	ClaimsName      = "claims"
 )
 
 func ClearAccessToken(c *gin.Context) {
@@ -18,9 +18,9 @@ func ClearAccessToken(c *gin.Context) {
 	}
 
 	if net.ParseIP(host) != nil {
-		c.SetCookie("Authorization", "", -1, "/", "", false, false)
+		c.SetCookie(AccessTokenName, "", -1, "/", "", false, false)
 	} else {
-		c.SetCookie("Authorization", "", -1, "/", host, false, false)
+		c.SetCookie(AccessTokenName, "", -1, "/", host, false, false)
 	}
 }
 
@@ -32,23 +32,23 @@ func SetAccessToken(c *gin.Context, token string, maxAge int) {
 	}
 
 	if net.ParseIP(host) != nil {
-		c.SetCookie("Authorization", token, maxAge, "/", "", false, false)
+		c.SetCookie(AccessTokenName, token, maxAge, "/", "", false, false)
 	} else {
-		c.SetCookie("Authorization", token, maxAge, "/", host, false, false)
+		c.SetCookie(AccessTokenName, token, maxAge, "/", host, false, false)
 	}
 }
 
 func GetAccessToken(c *gin.Context) string {
-	token := c.Request.Header.Get("Authorization")
+	token := c.Request.Header.Get(AccessTokenName)
 	if token == "" {
 		j := NewJWT(g.Config.Jwt.Secret)
-		token, _ = c.Cookie("Authorization")
+		token, _ = c.Cookie(AccessTokenName)
 		claims, err := j.ParseToken(token)
 		if err != nil {
-			g.Log.Error("重新写入cookie token失败,未能成功解析token,请检查请求头是否存在x-token且claims是否为规定结构")
+			g.Log.Error("重新写入cookie token失败 " + err.Error())
 			return token
 		}
-		SetAccessToken(c, token, int((claims.ExpiresAt.Unix()-time.Now().Unix())/60))
+		_ = claims
 	}
 	return token
 }
@@ -70,7 +70,7 @@ func ParseToken(token string) (*CustomClaims, error) {
 
 // GetUserID 从Gin的Context中获取从jwt解析出来的用户ID
 func GetUserID(c *gin.Context) uint64 {
-	if claims, exists := c.Get("claims"); !exists {
+	if claims, exists := c.Get(ClaimsName); !exists {
 		if cl, err := GetAccessClaims(c); err != nil {
 			return 0
 		} else {
@@ -84,7 +84,7 @@ func GetUserID(c *gin.Context) uint64 {
 
 // GetUserAuthorityId 从Gin的Context中获取从jwt解析出来的用户角色id
 func GetUserAuthorityId(c *gin.Context) int32 {
-	if claims, exists := c.Get("claims"); !exists {
+	if claims, exists := c.Get(ClaimsName); !exists {
 		if cl, err := GetAccessClaims(c); err != nil {
 			return 0
 		} else {
@@ -98,7 +98,7 @@ func GetUserAuthorityId(c *gin.Context) int32 {
 
 // GetUserInfo 从Gin的Context中获取从jwt解析出来的用户角色id
 func GetUserInfo(c *gin.Context) *CustomClaims {
-	if claims, exists := c.Get("claims"); !exists {
+	if claims, exists := c.Get(ClaimsName); !exists {
 		if cl, err := GetAccessClaims(c); err != nil {
 			return nil
 		} else {
@@ -112,7 +112,7 @@ func GetUserInfo(c *gin.Context) *CustomClaims {
 
 // GetUserName 从Gin的Context中获取从jwt解析出来的用户名
 func GetUserName(c *gin.Context) string {
-	if claims, exists := c.Get("claims"); !exists {
+	if claims, exists := c.Get(ClaimsName); !exists {
 		if cl, err := GetAccessClaims(c); err != nil {
 			return ""
 		} else {
