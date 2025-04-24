@@ -16,7 +16,7 @@ service Auth {
 	// 登录
 	rpc Login (LoginRequest) returns (LoginResponse) {
 		option (google.api.http) = {
-			post: "/auth/v1/login"
+			post: "/api/auth/v1/login"
 			body: "*"
 		};
 
@@ -28,14 +28,14 @@ service Auth {
 	// 登出
 	rpc Logout (LogoutRequest) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
-			post: "/auth/v1/logout"
+			post: "/api/auth/v1/logout"
 			body: "*"
 		};
 	}
 
 	rpc Register (RegisterRequest) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
-			post: "/auth/v1/register"
+			post: "/api/auth/v1/register"
 			body: "*"
 		};
 	}
@@ -43,7 +43,7 @@ service Auth {
 	// 刷新认证令牌
 	rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse) {
 		option (google.api.http) = {
-			post: "/auth/v1/refresh_token"
+			post: "/api/auth/v1/refresh_token"
 			body: "*"
 		};
 	}

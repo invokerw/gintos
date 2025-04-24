@@ -121,9 +121,9 @@ const file_v1_helloworld_greeter_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"&\n" +
 	"\n" +
 	"HelloReply\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2h\n" +
-	"\aGreeter\x12]\n" +
-	"\bSayHello\x12\x1b.helloworld.v1.HelloRequest\x1a\x19.helloworld.v1.HelloReply\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/helloworld/:nameB:Z8github/invokerw/gintos/demo/api/v1/helloworld;helloworldb\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2l\n" +
+	"\aGreeter\x12a\n" +
+	"\bSayHello\x12\x1b.helloworld.v1.HelloRequest\x1a\x19.helloworld.v1.HelloReply\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/helloworld/:nameB:Z8github/invokerw/gintos/demo/api/v1/helloworld;helloworldb\x06proto3"
 
 var (
 	file_v1_helloworld_greeter_proto_rawDescOnce sync.Once

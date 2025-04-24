@@ -24,7 +24,7 @@ type IAdminServer interface {
 }
 
 func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
-	r.POST("/admin/v1/get_user_list", _Admin_GetUserList0_HTTP_Handler(srv))
+	r.POST("/api/admin/v1/get_user_list", _Admin_GetUserList0_HTTP_Handler(srv))
 }
 
 func _Admin_GetUserList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {

@@ -16,7 +16,7 @@ service Base {
   // 后台获取已经登录的用户的数据
   rpc GetMe (GetMeRequest) returns (GetMeResponse) {
     option (google.api.http) = {
-      get: "/base/v1/me"
+      get: "/api/base/v1/me"
     };
   }
 }

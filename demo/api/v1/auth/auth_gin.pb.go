@@ -33,10 +33,10 @@ type IAuthServer interface {
 }
 
 func RegisterAuthServer(r gin.IRoutes, srv IAuthServer) {
-	r.POST("/auth/v1/login", _Auth_Login0_HTTP_Handler(srv))
-	r.POST("/auth/v1/logout", _Auth_Logout0_HTTP_Handler(srv))
-	r.POST("/auth/v1/register", _Auth_Register0_HTTP_Handler(srv))
-	r.POST("/auth/v1/refresh_token", _Auth_RefreshToken0_HTTP_Handler(srv))
+	r.POST("/api/auth/v1/login", _Auth_Login0_HTTP_Handler(srv))
+	r.POST("/api/auth/v1/logout", _Auth_Logout0_HTTP_Handler(srv))
+	r.POST("/api/auth/v1/register", _Auth_Register0_HTTP_Handler(srv))
+	r.POST("/api/auth/v1/refresh_token", _Auth_RefreshToken0_HTTP_Handler(srv))
 }
 
 func _Auth_Login0_HTTP_Handler(srv IAuthServer) func(ctx *gin.Context) {

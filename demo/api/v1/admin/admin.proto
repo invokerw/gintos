@@ -17,7 +17,7 @@ service Admin {
 	// 登录
 	rpc GetUserList (GetUserListRequest) returns (GetUserListResponse) {
 		option (google.api.http) = {
-			post: "/admin/v1/get_user_list"
+			post: "/api/admin/v1/get_user_list"
 			body: "*"
 		};
 

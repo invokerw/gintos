@@ -24,7 +24,7 @@ type IGreeterServer interface {
 }
 
 func RegisterGreeterServer(r gin.IRoutes, srv IGreeterServer) {
-	r.GET("/helloworld/:name", _Greeter_SayHello0_HTTP_Handler(srv))
+	r.GET("/api/helloworld/:name", _Greeter_SayHello0_HTTP_Handler(srv))
 }
 
 func _Greeter_SayHello0_HTTP_Handler(srv IGreeterServer) func(ctx *gin.Context) {

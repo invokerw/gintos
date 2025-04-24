@@ -468,12 +468,12 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\x0eWRONG_PASSWORD\x10\x02\x12\n" +
 	"\n" +
 	"\x06FREEZE\x10\x03\x12\v\n" +
-	"\aDELETED\x10\x042\x98\x03\n" +
-	"\x04Auth\x12^\n" +
-	"\x05Login\x12\x19.api.auth.v1.LoginRequest\x1a\x1a.api.auth.v1.LoginResponse\"\x1e\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/auth/v1/login\x12X\n" +
-	"\x06Logout\x12\x1a.api.auth.v1.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/auth/v1/logout\x12^\n" +
-	"\bRegister\x12\x1c.api.auth.v1.RegisterRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/auth/v1/register\x12v\n" +
-	"\fRefreshToken\x12 .api.auth.v1.RefreshTokenRequest\x1a!.api.auth.v1.RefreshTokenResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/auth/v1/refresh_tokenB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
+	"\aDELETED\x10\x042\xa8\x03\n" +
+	"\x04Auth\x12b\n" +
+	"\x05Login\x12\x19.api.auth.v1.LoginRequest\x1a\x1a.api.auth.v1.LoginResponse\"\"\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/v1/login\x12\\\n" +
+	"\x06Logout\x12\x1a.api.auth.v1.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/auth/v1/logout\x12b\n" +
+	"\bRegister\x12\x1c.api.auth.v1.RegisterRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/auth/v1/register\x12z\n" +
+	"\fRefreshToken\x12 .api.auth.v1.RefreshTokenRequest\x1a!.api.auth.v1.RefreshTokenResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/auth/v1/refresh_tokenB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
 
 var (
 	file_v1_auth_auth_proto_rawDescOnce sync.Once

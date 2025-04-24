@@ -6,7 +6,7 @@ info:
     title: ""
     version: 0.0.1
 paths:
-    /admin/v1/get_user_list:
+    /api/admin/v1/get_user_list:
         post:
             tags:
                 - Admin
@@ -27,7 +27,7 @@ paths:
                                 $ref: '#/components/schemas/api.auth.v1.GetUserListResponse'
             security:
                 - {}
-    /auth/v1/login:
+    /api/auth/v1/login:
         post:
             tags:
                 - Auth
@@ -48,7 +48,7 @@ paths:
                                 $ref: '#/components/schemas/api.auth.v1.LoginResponse'
             security:
                 - {}
-    /auth/v1/logout:
+    /api/auth/v1/logout:
         post:
             tags:
                 - Auth
@@ -64,7 +64,7 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /auth/v1/refresh_token:
+    /api/auth/v1/refresh_token:
         post:
             tags:
                 - Auth
@@ -83,7 +83,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.auth.v1.RefreshTokenResponse'
-    /auth/v1/register:
+    /api/auth/v1/register:
         post:
             tags:
                 - Auth
@@ -98,7 +98,7 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /base/v1/me:
+    /api/base/v1/me:
         get:
             tags:
                 - Base
@@ -117,7 +117,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.base.v1.GetMeResponse'
-    /helloworld/:name:
+    /api/helloworld/:name:
         get:
             tags:
                 - Greeter

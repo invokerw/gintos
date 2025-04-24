@@ -123,9 +123,9 @@ const file_v1_base_base_proto_rawDesc = "" +
 	"\fGetMeRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"8\n" +
 	"\rGetMeResponse\x12'\n" +
-	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserR\x04user2[\n" +
-	"\x04Base\x12S\n" +
-	"\x05GetMe\x12\x19.api.base.v1.GetMeRequest\x1a\x1a.api.base.v1.GetMeResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/base/v1/meB.Z,github/invokerw/gintos/demo/api/v1/base;baseb\x06proto3"
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserR\x04user2_\n" +
+	"\x04Base\x12W\n" +
+	"\x05GetMe\x12\x19.api.base.v1.GetMeRequest\x1a\x1a.api.base.v1.GetMeResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/base/v1/meB.Z,github/invokerw/gintos/demo/api/v1/base;baseb\x06proto3"
 
 var (
 	file_v1_base_base_proto_rawDescOnce sync.Once

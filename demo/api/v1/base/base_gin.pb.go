@@ -24,7 +24,7 @@ type IBaseServer interface {
 }
 
 func RegisterBaseServer(r gin.IRoutes, srv IBaseServer) {
-	r.GET("/base/v1/me", _Base_GetMe0_HTTP_Handler(srv))
+	r.GET("/api/base/v1/me", _Base_GetMe0_HTTP_Handler(srv))
 }
 
 func _Base_GetMe0_HTTP_Handler(srv IBaseServer) func(ctx *gin.Context) {
