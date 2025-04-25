@@ -27,6 +27,18 @@ paths:
                                 $ref: '#/components/schemas/api.auth.v1.GetUserListResponse'
             security:
                 - {}
+    /api/auth/v1/get_async_routes:
+        get:
+            tags:
+                - Auth
+            operationId: Auth_GetAsyncRoutes
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.auth.v1.GetAsyncRoutesResponse'
     /api/auth/v1/login:
         post:
             tags:
@@ -137,6 +149,14 @@ paths:
                                 $ref: '#/components/schemas/helloworld.v1.HelloReply'
 components:
     schemas:
+        api.auth.v1.GetAsyncRoutesResponse:
+            type: object
+            properties:
+                routes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.auth.v1.RouteConfig'
+                    description: 异步路由列表
         api.auth.v1.GetUserListRequest:
             type: object
             properties:
@@ -171,8 +191,8 @@ components:
                 - user
                 - access_token
                 - refresh_token
-                - expires_at
-                - refresh_expires_at
+                - expires
+                - refresh_expires
             type: object
             properties:
                 user:
@@ -183,12 +203,12 @@ components:
                 refresh_token:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，
-                expires_at:
+                expires:
                     type: string
-                    description: 令牌过期时间，单位为秒
-                refresh_expires_at:
+                    description: 令牌过期时间，单位为毫秒
+                refresh_expires:
                     type: string
-                    description: 刷新令牌过期时间，单位为秒
+                    description: 刷新令牌过期时间，单位为毫秒
             description: 用户后台登录 - 回应
         api.auth.v1.LogoutRequest:
             type: object
@@ -208,24 +228,27 @@ components:
             description: 用户刷新令牌 - 请求
         api.auth.v1.RefreshTokenResponse:
             required:
+                - user
                 - access_token
                 - refresh_token
-                - expires_at
-                - refresh_expires_at
+                - expires
+                - refresh_expires
             type: object
             properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
                 access_token:
                     type: string
                     description: 访问令牌，必选项。
                 refresh_token:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，
-                expires_at:
+                expires:
                     type: string
-                    description: 令牌过期时间，单位为秒
-                refresh_expires_at:
+                    description: 令牌过期时间，单位为毫秒
+                refresh_expires:
                     type: string
-                    description: 刷新令牌过期时间，单位为秒
+                    description: 刷新令牌过期时间，单位为毫秒
             description: 用户刷新令牌 - 回应
         api.auth.v1.RegisterRequest:
             required:
@@ -240,6 +263,45 @@ components:
                     type: string
                 email:
                     type: string
+        api.auth.v1.RouteConfig:
+            type: object
+            properties:
+                path:
+                    type: string
+                name:
+                    type: string
+                redirect:
+                    type: string
+                meta:
+                    $ref: '#/components/schemas/api.auth.v1.RouteMeta'
+                component:
+                    type: string
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.auth.v1.RouteConfig'
+            description: 定义路由配置表
+        api.auth.v1.RouteMeta:
+            type: object
+            properties:
+                title:
+                    type: string
+                icon:
+                    type: string
+                rank:
+                    type: integer
+                    format: int32
+                showLink:
+                    type: boolean
+                roles:
+                    type: array
+                    items:
+                        type: string
+                auths:
+                    type: array
+                    items:
+                        type: string
+            description: 定义路由元信息
         api.base.v1.GetMeResponse:
             type: object
             properties:

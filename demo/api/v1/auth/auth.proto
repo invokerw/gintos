@@ -48,6 +48,11 @@ service Auth {
 		};
 	}
 
+	rpc GetAsyncRoutes (google.protobuf.Empty) returns (GetAsyncRoutesResponse) {
+		option (google.api.http) = {
+			get: "/api/auth/v1/get_async_routes"
+		};
+	}
 
 }
 
@@ -94,14 +99,14 @@ message LoginResponse {
 		(openapi.v3.property) = {
 			description: "用户信息"
 		}
-	]; // 用户信息，必选项。
+	]; // 用户信息
 	string access_token = 2 [
 		json_name = "access_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "访问令牌，必选项。"
 		}
-	]; // 访问令牌，必选项。
+	]; // 访问令牌
 
 	string refresh_token = 3 [
 		json_name = "refresh_token",
@@ -111,18 +116,18 @@ message LoginResponse {
 		}
 	]; // 更新令牌，用来获取下一次的访问令牌，可选项。
 
-	int64 expires_at = 4 [
-		json_name = "expires_at",
+	int64 expires = 4 [
+		json_name = "expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "令牌过期时间，单位为秒"
+			description: "令牌过期时间，单位为毫秒"
 		}
 	];
-	int64 refresh_expires_at = 5 [
-		json_name = "refresh_expires_at",
+	int64 refresh_expires = 5 [
+		json_name = "refresh_expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "刷新令牌过期时间，单位为秒"
+			description: "刷新令牌过期时间，单位为毫秒"
 		}
 	];
 }
@@ -140,7 +145,14 @@ message RefreshTokenRequest {
 
 // 用户刷新令牌 - 回应
 message RefreshTokenResponse {
-	string access_token = 1 [
+	common.v1.User user = 1 [
+		json_name = "user",
+		(google.api.field_behavior) = REQUIRED,
+		(openapi.v3.property) = {
+			description: "用户信息"
+		}
+	]; // 用户信息，必选项。
+	string access_token = 2 [
 		json_name = "access_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
@@ -148,7 +160,7 @@ message RefreshTokenResponse {
 		}
 	]; // 访问令牌，必选项。
 
-	string refresh_token = 2 [
+	string refresh_token = 3 [
 		json_name = "refresh_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
@@ -156,18 +168,18 @@ message RefreshTokenResponse {
 		}
 	]; // 更新令牌，用来获取下一次的访问令牌，可选项。
 
-	int64 expires_at = 3 [
-		json_name = "expires_at",
+	int64 expires = 4 [
+		json_name = "expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "令牌过期时间，单位为秒"
+			description: "令牌过期时间，单位为毫秒"
 		}
 	];
-	int64 refresh_expires_at = 4 [
-		json_name = "refresh_expires_at",
+	int64 refresh_expires = 5 [
+		json_name = "refresh_expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
-			description: "刷新令牌过期时间，单位为秒"
+			description: "刷新令牌过期时间，单位为毫秒"
 		}
 	];
 }
@@ -183,6 +195,38 @@ enum VerifyPasswordResult {
 	DELETED = 4;// 已删除
 }
 
+
+
+
+message GetAsyncRoutesResponse {
+	repeated RouteConfig routes = 1 [
+		json_name = "routes",
+		(openapi.v3.property) = {
+			description: "异步路由列表"
+		}
+	]; // 异步路由列表
+}
+
+
+// 定义路由元信息
+message RouteMeta {
+	string title = 1; // 菜单名称
+	string icon = 2; // 菜单图标
+	int32 rank = 3; // 菜单排序
+	bool show_link = 4; // 是否在菜单中显示
+	repeated string roles = 5; // 页面级别权限设置
+	repeated string auths = 6; // 按钮级别权限设置
+}
+
+// 定义路由配置表
+message RouteConfig {
+	string path = 1; // 路由路径
+	string name = 2; // 路由名称（必须保持唯一）
+	string redirect = 3; // 重定向路径
+	RouteMeta meta = 4; // 路由元信息
+	string component = 5; // 按需加载需要展示的页面
+	repeated RouteConfig children = 6; // 子路由配置项
+}
 
 
 

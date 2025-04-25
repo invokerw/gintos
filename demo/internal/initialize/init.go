@@ -20,12 +20,13 @@ func DoInit(user biz.UserRepo, l log.Logger) *InitRet {
 	ctx := context.Background()
 	logger := log.NewHelper(log.With(l, "module", "initialize"))
 	var adminName = "admin"
+	var adminPass = "admin123"
 	getUser, _ := user.GetUser(ctx, adminName)
 	if getUser == nil {
 		_, err := user.CreateUser(ctx, &common.User{
 			RoleId:    nil,
 			UserName:  trans.Ptr(adminName),
-			Password:  trans.Ptr(utils.BcryptHash(adminName)),
+			Password:  trans.Ptr(utils.BcryptHash(adminPass)),
 			NickName:  trans.Ptr(adminName),
 			Email:     trans.Ptr(adminName + "@gintos.com"),
 			Status:    trans.Ptr(common.UserStatus_ON),

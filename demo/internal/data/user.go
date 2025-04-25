@@ -87,6 +87,7 @@ func (r *userRepo) CreateUser(ctx context.Context, in *common.User) (*ent.User, 
 		SetNillableAuthority(r.convertToAuthority(in.Authority)).
 		SetNillableRoleID(in.RoleId).
 		SetNillableLastLoginTime(in.LastLoginTime)
+
 	u, err := uc.Save(ctx)
 	if err != nil {
 		return nil, errs.DBErrEntError.Wrap(err)

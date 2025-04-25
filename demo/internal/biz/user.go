@@ -132,7 +132,7 @@ func (uc *UserUsecase) convertToUser(u *ent.User) *common.User {
 		LastLoginTime: u.LastLoginTime,
 		Status:        uc.convertToStatus(u.Status),
 		Authority:     uc.convertToAuthority(u.Authority),
-		Roles:         nil,
+		Roles:         []string{"admin"}, // TODO Roles
 		CreateTime:    trans.Ptr(u.CreateTime.Unix()),
 		UpdateTime:    trans.Ptr(u.UpdateTime.Unix()),
 	}

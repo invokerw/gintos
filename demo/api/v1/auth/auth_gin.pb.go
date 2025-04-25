@@ -17,12 +17,14 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
+const OperationAuthGetAsyncRoutes = "/api.auth.v1.Auth/GetAsyncRoutes"
 const OperationAuthLogin = "/api.auth.v1.Auth/Login"
 const OperationAuthLogout = "/api.auth.v1.Auth/Logout"
 const OperationAuthRefreshToken = "/api.auth.v1.Auth/RefreshToken"
 const OperationAuthRegister = "/api.auth.v1.Auth/Register"
 
 type IAuthServer interface {
+	GetAsyncRoutes(*gin.Context, *emptypb.Empty) (*GetAsyncRoutesResponse, error)
 	// Login 登录
 	Login(*gin.Context, *LoginRequest) (*LoginResponse, error)
 	// Logout 登出
@@ -37,6 +39,7 @@ func RegisterAuthServer(r gin.IRoutes, srv IAuthServer) {
 	r.POST("/api/auth/v1/logout", _Auth_Logout0_HTTP_Handler(srv))
 	r.POST("/api/auth/v1/register", _Auth_Register0_HTTP_Handler(srv))
 	r.POST("/api/auth/v1/refresh_token", _Auth_RefreshToken0_HTTP_Handler(srv))
+	r.GET("/api/auth/v1/get_async_routes", _Auth_GetAsyncRoutes0_HTTP_Handler(srv))
 }
 
 func _Auth_Login0_HTTP_Handler(srv IAuthServer) func(ctx *gin.Context) {
@@ -115,6 +118,23 @@ func _Auth_RefreshToken0_HTTP_Handler(srv IAuthServer) func(ctx *gin.Context) {
 		}
 		// http.SetOperation(ctx, OperationAuthRefreshToken)
 		reply, err := srv.RefreshToken(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Auth_GetAsyncRoutes0_HTTP_Handler(srv IAuthServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in emptypb.Empty
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAuthGetAsyncRoutes)
+		reply, err := srv.GetAsyncRoutes(ctx, &in)
 		if err != nil {
 			resp.FailWithError(ctx, err)
 			return

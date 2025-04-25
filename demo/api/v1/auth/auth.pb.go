@@ -242,14 +242,14 @@ func (x *LoginRequest) GetPassword() string {
 
 // 用户后台登录 - 回应
 type LoginResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	User             *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                   // 用户信息，必选项。
-	AccessToken      string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌，必选项。
-	RefreshToken     string                 `protobuf:"bytes,3,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
-	ExpiresAt        int64                  `protobuf:"varint,4,opt,name=expires_at,proto3" json:"expires_at,omitempty"`
-	RefreshExpiresAt int64                  `protobuf:"varint,5,opt,name=refresh_expires_at,proto3" json:"refresh_expires_at,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	User           *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                   // 用户信息
+	AccessToken    string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌
+	RefreshToken   string                 `protobuf:"bytes,3,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
+	Expires        int64                  `protobuf:"varint,4,opt,name=expires,proto3" json:"expires,omitempty"`
+	RefreshExpires int64                  `protobuf:"varint,5,opt,name=refresh_expires,proto3" json:"refresh_expires,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *LoginResponse) Reset() {
@@ -303,16 +303,16 @@ func (x *LoginResponse) GetRefreshToken() string {
 	return ""
 }
 
-func (x *LoginResponse) GetExpiresAt() int64 {
+func (x *LoginResponse) GetExpires() int64 {
 	if x != nil {
-		return x.ExpiresAt
+		return x.Expires
 	}
 	return 0
 }
 
-func (x *LoginResponse) GetRefreshExpiresAt() int64 {
+func (x *LoginResponse) GetRefreshExpires() int64 {
 	if x != nil {
-		return x.RefreshExpiresAt
+		return x.RefreshExpires
 	}
 	return 0
 }
@@ -364,13 +364,14 @@ func (x *RefreshTokenRequest) GetRefreshToken() string {
 
 // 用户刷新令牌 - 回应
 type RefreshTokenResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken      string                 `protobuf:"bytes,1,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌，必选项。
-	RefreshToken     string                 `protobuf:"bytes,2,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
-	ExpiresAt        int64                  `protobuf:"varint,3,opt,name=expires_at,proto3" json:"expires_at,omitempty"`
-	RefreshExpiresAt int64                  `protobuf:"varint,4,opt,name=refresh_expires_at,proto3" json:"refresh_expires_at,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	User           *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                   // 用户信息，必选项。
+	AccessToken    string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌，必选项。
+	RefreshToken   string                 `protobuf:"bytes,3,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
+	Expires        int64                  `protobuf:"varint,4,opt,name=expires,proto3" json:"expires,omitempty"`
+	RefreshExpires int64                  `protobuf:"varint,5,opt,name=refresh_expires,proto3" json:"refresh_expires,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *RefreshTokenResponse) Reset() {
@@ -403,6 +404,13 @@ func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
 	return file_v1_auth_auth_proto_rawDescGZIP(), []int{5}
 }
 
+func (x *RefreshTokenResponse) GetUser() *common.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 func (x *RefreshTokenResponse) GetAccessToken() string {
 	if x != nil {
 		return x.AccessToken
@@ -417,18 +425,232 @@ func (x *RefreshTokenResponse) GetRefreshToken() string {
 	return ""
 }
 
-func (x *RefreshTokenResponse) GetExpiresAt() int64 {
+func (x *RefreshTokenResponse) GetExpires() int64 {
 	if x != nil {
-		return x.ExpiresAt
+		return x.Expires
 	}
 	return 0
 }
 
-func (x *RefreshTokenResponse) GetRefreshExpiresAt() int64 {
+func (x *RefreshTokenResponse) GetRefreshExpires() int64 {
 	if x != nil {
-		return x.RefreshExpiresAt
+		return x.RefreshExpires
 	}
 	return 0
+}
+
+type GetAsyncRoutesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Routes        []*RouteConfig         `protobuf:"bytes,1,rep,name=routes,proto3" json:"routes,omitempty"` // 异步路由列表
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAsyncRoutesResponse) Reset() {
+	*x = GetAsyncRoutesResponse{}
+	mi := &file_v1_auth_auth_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAsyncRoutesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAsyncRoutesResponse) ProtoMessage() {}
+
+func (x *GetAsyncRoutesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_auth_auth_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAsyncRoutesResponse.ProtoReflect.Descriptor instead.
+func (*GetAsyncRoutesResponse) Descriptor() ([]byte, []int) {
+	return file_v1_auth_auth_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetAsyncRoutesResponse) GetRoutes() []*RouteConfig {
+	if x != nil {
+		return x.Routes
+	}
+	return nil
+}
+
+// 定义路由元信息
+type RouteMeta struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`                        // 菜单名称
+	Icon          string                 `protobuf:"bytes,2,opt,name=icon,proto3" json:"icon,omitempty"`                          // 菜单图标
+	Rank          int32                  `protobuf:"varint,3,opt,name=rank,proto3" json:"rank,omitempty"`                         // 菜单排序
+	ShowLink      bool                   `protobuf:"varint,4,opt,name=show_link,json=showLink,proto3" json:"show_link,omitempty"` // 是否在菜单中显示
+	Roles         []string               `protobuf:"bytes,5,rep,name=roles,proto3" json:"roles,omitempty"`                        // 页面级别权限设置
+	Auths         []string               `protobuf:"bytes,6,rep,name=auths,proto3" json:"auths,omitempty"`                        // 按钮级别权限设置
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RouteMeta) Reset() {
+	*x = RouteMeta{}
+	mi := &file_v1_auth_auth_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RouteMeta) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RouteMeta) ProtoMessage() {}
+
+func (x *RouteMeta) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_auth_auth_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RouteMeta.ProtoReflect.Descriptor instead.
+func (*RouteMeta) Descriptor() ([]byte, []int) {
+	return file_v1_auth_auth_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RouteMeta) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *RouteMeta) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+func (x *RouteMeta) GetRank() int32 {
+	if x != nil {
+		return x.Rank
+	}
+	return 0
+}
+
+func (x *RouteMeta) GetShowLink() bool {
+	if x != nil {
+		return x.ShowLink
+	}
+	return false
+}
+
+func (x *RouteMeta) GetRoles() []string {
+	if x != nil {
+		return x.Roles
+	}
+	return nil
+}
+
+func (x *RouteMeta) GetAuths() []string {
+	if x != nil {
+		return x.Auths
+	}
+	return nil
+}
+
+// 定义路由配置表
+type RouteConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`           // 路由路径
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`           // 路由名称（必须保持唯一）
+	Redirect      string                 `protobuf:"bytes,3,opt,name=redirect,proto3" json:"redirect,omitempty"`   // 重定向路径
+	Meta          *RouteMeta             `protobuf:"bytes,4,opt,name=meta,proto3" json:"meta,omitempty"`           // 路由元信息
+	Component     string                 `protobuf:"bytes,5,opt,name=component,proto3" json:"component,omitempty"` // 按需加载需要展示的页面
+	Children      []*RouteConfig         `protobuf:"bytes,6,rep,name=children,proto3" json:"children,omitempty"`   // 子路由配置项
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RouteConfig) Reset() {
+	*x = RouteConfig{}
+	mi := &file_v1_auth_auth_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RouteConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RouteConfig) ProtoMessage() {}
+
+func (x *RouteConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_auth_auth_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RouteConfig.ProtoReflect.Descriptor instead.
+func (*RouteConfig) Descriptor() ([]byte, []int) {
+	return file_v1_auth_auth_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *RouteConfig) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+func (x *RouteConfig) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *RouteConfig) GetRedirect() string {
+	if x != nil {
+		return x.Redirect
+	}
+	return ""
+}
+
+func (x *RouteConfig) GetMeta() *RouteMeta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *RouteConfig) GetComponent() string {
+	if x != nil {
+		return x.Component
+	}
+	return ""
+}
+
+func (x *RouteConfig) GetChildren() []*RouteConfig {
+	if x != nil {
+		return x.Children
+	}
+	return nil
 }
 
 var File_v1_auth_auth_proto protoreflect.FileDescriptor
@@ -444,36 +666,50 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"R\n" +
 	"\fLoginRequest\x12 \n" +
 	"\busername\x18\x01 \x01(\tB\x04\xe2A\x01\x02R\busername\x12 \n" +
-	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\"\xb3\x03\n" +
+	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\"\xad\x03\n" +
 	"\rLoginResponse\x12?\n" +
 	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12I\n" +
 	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
-	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12K\n" +
-	"\n" +
-	"expires_at\x18\x04 \x01(\x03B+\xe2A\x01\x02\xbaG$\x92\x02!令牌过期时间，单位为秒R\n" +
-	"expires_at\x12a\n" +
-	"\x12refresh_expires_at\x18\x05 \x01(\x03B1\xe2A\x01\x02\xbaG*\x92\x02'刷新令牌过期时间，单位为秒R\x12refresh_expires_at\"z\n" +
+	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12H\n" +
+	"\aexpires\x18\x04 \x01(\x03B.\xe2A\x01\x02\xbaG'\x92\x02$令牌过期时间，单位为毫秒R\aexpires\x12^\n" +
+	"\x0frefresh_expires\x18\x05 \x01(\x03B4\xe2A\x01\x02\xbaG-\x92\x02*刷新令牌过期时间，单位为毫秒R\x0frefresh_expires\"z\n" +
 	"\x13RefreshTokenRequest\x12c\n" +
-	"\rrefresh_token\x18\x01 \x01(\tB=\xe2A\x01\x02\xbaG6\x92\x023更新令牌，用来获取下一次的访问令牌R\rrefresh_token\"\xf9\x02\n" +
-	"\x14RefreshTokenResponse\x12I\n" +
-	"\faccess_token\x18\x01 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
-	"\rrefresh_token\x18\x02 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12K\n" +
-	"\n" +
-	"expires_at\x18\x03 \x01(\x03B+\xe2A\x01\x02\xbaG$\x92\x02!令牌过期时间，单位为秒R\n" +
-	"expires_at\x12a\n" +
-	"\x12refresh_expires_at\x18\x04 \x01(\x03B1\xe2A\x01\x02\xbaG*\x92\x02'刷新令牌过期时间，单位为秒R\x12refresh_expires_at*h\n" +
+	"\rrefresh_token\x18\x01 \x01(\tB=\xe2A\x01\x02\xbaG6\x92\x023更新令牌，用来获取下一次的访问令牌R\rrefresh_token\"\xb4\x03\n" +
+	"\x14RefreshTokenResponse\x12?\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12I\n" +
+	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
+	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12H\n" +
+	"\aexpires\x18\x04 \x01(\x03B.\xe2A\x01\x02\xbaG'\x92\x02$令牌过期时间，单位为毫秒R\aexpires\x12^\n" +
+	"\x0frefresh_expires\x18\x05 \x01(\x03B4\xe2A\x01\x02\xbaG-\x92\x02*刷新令牌过期时间，单位为毫秒R\x0frefresh_expires\"d\n" +
+	"\x16GetAsyncRoutesResponse\x12J\n" +
+	"\x06routes\x18\x01 \x03(\v2\x18.api.auth.v1.RouteConfigB\x18\xbaG\x15\x92\x02\x12异步路由列表R\x06routes\"\x92\x01\n" +
+	"\tRouteMeta\x12\x14\n" +
+	"\x05title\x18\x01 \x01(\tR\x05title\x12\x12\n" +
+	"\x04icon\x18\x02 \x01(\tR\x04icon\x12\x12\n" +
+	"\x04rank\x18\x03 \x01(\x05R\x04rank\x12\x1b\n" +
+	"\tshow_link\x18\x04 \x01(\bR\bshowLink\x12\x14\n" +
+	"\x05roles\x18\x05 \x03(\tR\x05roles\x12\x14\n" +
+	"\x05auths\x18\x06 \x03(\tR\x05auths\"\xd1\x01\n" +
+	"\vRouteConfig\x12\x12\n" +
+	"\x04path\x18\x01 \x01(\tR\x04path\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
+	"\bredirect\x18\x03 \x01(\tR\bredirect\x12*\n" +
+	"\x04meta\x18\x04 \x01(\v2\x16.api.auth.v1.RouteMetaR\x04meta\x12\x1c\n" +
+	"\tcomponent\x18\x05 \x01(\tR\tcomponent\x124\n" +
+	"\bchildren\x18\x06 \x03(\v2\x18.api.auth.v1.RouteConfigR\bchildren*h\n" +
 	"\x14VerifyPasswordResult\x12\v\n" +
 	"\aSUCCESS\x10\x00\x12\x16\n" +
 	"\x12ACCOUNT_NOT_EXISTS\x10\x01\x12\x12\n" +
 	"\x0eWRONG_PASSWORD\x10\x02\x12\n" +
 	"\n" +
 	"\x06FREEZE\x10\x03\x12\v\n" +
-	"\aDELETED\x10\x042\xa8\x03\n" +
+	"\aDELETED\x10\x042\x9e\x04\n" +
 	"\x04Auth\x12b\n" +
 	"\x05Login\x12\x19.api.auth.v1.LoginRequest\x1a\x1a.api.auth.v1.LoginResponse\"\"\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/v1/login\x12\\\n" +
 	"\x06Logout\x12\x1a.api.auth.v1.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/auth/v1/logout\x12b\n" +
 	"\bRegister\x12\x1c.api.auth.v1.RegisterRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/auth/v1/register\x12z\n" +
-	"\fRefreshToken\x12 .api.auth.v1.RefreshTokenRequest\x1a!.api.auth.v1.RefreshTokenResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/auth/v1/refresh_tokenB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
+	"\fRefreshToken\x12 .api.auth.v1.RefreshTokenRequest\x1a!.api.auth.v1.RefreshTokenResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/auth/v1/refresh_token\x12t\n" +
+	"\x0eGetAsyncRoutes\x12\x16.google.protobuf.Empty\x1a#.api.auth.v1.GetAsyncRoutesResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/api/auth/v1/get_async_routesB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
 
 var (
 	file_v1_auth_auth_proto_rawDescOnce sync.Once
@@ -488,33 +724,42 @@ func file_v1_auth_auth_proto_rawDescGZIP() []byte {
 }
 
 var file_v1_auth_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_v1_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_v1_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_v1_auth_auth_proto_goTypes = []any{
-	(VerifyPasswordResult)(0),    // 0: api.auth.v1.VerifyPasswordResult
-	(*RegisterRequest)(nil),      // 1: api.auth.v1.RegisterRequest
-	(*LogoutRequest)(nil),        // 2: api.auth.v1.LogoutRequest
-	(*LoginRequest)(nil),         // 3: api.auth.v1.LoginRequest
-	(*LoginResponse)(nil),        // 4: api.auth.v1.LoginResponse
-	(*RefreshTokenRequest)(nil),  // 5: api.auth.v1.RefreshTokenRequest
-	(*RefreshTokenResponse)(nil), // 6: api.auth.v1.RefreshTokenResponse
-	(*common.User)(nil),          // 7: api.common.v1.User
-	(*emptypb.Empty)(nil),        // 8: google.protobuf.Empty
+	(VerifyPasswordResult)(0),      // 0: api.auth.v1.VerifyPasswordResult
+	(*RegisterRequest)(nil),        // 1: api.auth.v1.RegisterRequest
+	(*LogoutRequest)(nil),          // 2: api.auth.v1.LogoutRequest
+	(*LoginRequest)(nil),           // 3: api.auth.v1.LoginRequest
+	(*LoginResponse)(nil),          // 4: api.auth.v1.LoginResponse
+	(*RefreshTokenRequest)(nil),    // 5: api.auth.v1.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil),   // 6: api.auth.v1.RefreshTokenResponse
+	(*GetAsyncRoutesResponse)(nil), // 7: api.auth.v1.GetAsyncRoutesResponse
+	(*RouteMeta)(nil),              // 8: api.auth.v1.RouteMeta
+	(*RouteConfig)(nil),            // 9: api.auth.v1.RouteConfig
+	(*common.User)(nil),            // 10: api.common.v1.User
+	(*emptypb.Empty)(nil),          // 11: google.protobuf.Empty
 }
 var file_v1_auth_auth_proto_depIdxs = []int32{
-	7, // 0: api.auth.v1.LoginResponse.user:type_name -> api.common.v1.User
-	3, // 1: api.auth.v1.Auth.Login:input_type -> api.auth.v1.LoginRequest
-	2, // 2: api.auth.v1.Auth.Logout:input_type -> api.auth.v1.LogoutRequest
-	1, // 3: api.auth.v1.Auth.Register:input_type -> api.auth.v1.RegisterRequest
-	5, // 4: api.auth.v1.Auth.RefreshToken:input_type -> api.auth.v1.RefreshTokenRequest
-	4, // 5: api.auth.v1.Auth.Login:output_type -> api.auth.v1.LoginResponse
-	8, // 6: api.auth.v1.Auth.Logout:output_type -> google.protobuf.Empty
-	8, // 7: api.auth.v1.Auth.Register:output_type -> google.protobuf.Empty
-	6, // 8: api.auth.v1.Auth.RefreshToken:output_type -> api.auth.v1.RefreshTokenResponse
-	5, // [5:9] is the sub-list for method output_type
-	1, // [1:5] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	10, // 0: api.auth.v1.LoginResponse.user:type_name -> api.common.v1.User
+	10, // 1: api.auth.v1.RefreshTokenResponse.user:type_name -> api.common.v1.User
+	9,  // 2: api.auth.v1.GetAsyncRoutesResponse.routes:type_name -> api.auth.v1.RouteConfig
+	8,  // 3: api.auth.v1.RouteConfig.meta:type_name -> api.auth.v1.RouteMeta
+	9,  // 4: api.auth.v1.RouteConfig.children:type_name -> api.auth.v1.RouteConfig
+	3,  // 5: api.auth.v1.Auth.Login:input_type -> api.auth.v1.LoginRequest
+	2,  // 6: api.auth.v1.Auth.Logout:input_type -> api.auth.v1.LogoutRequest
+	1,  // 7: api.auth.v1.Auth.Register:input_type -> api.auth.v1.RegisterRequest
+	5,  // 8: api.auth.v1.Auth.RefreshToken:input_type -> api.auth.v1.RefreshTokenRequest
+	11, // 9: api.auth.v1.Auth.GetAsyncRoutes:input_type -> google.protobuf.Empty
+	4,  // 10: api.auth.v1.Auth.Login:output_type -> api.auth.v1.LoginResponse
+	11, // 11: api.auth.v1.Auth.Logout:output_type -> google.protobuf.Empty
+	11, // 12: api.auth.v1.Auth.Register:output_type -> google.protobuf.Empty
+	6,  // 13: api.auth.v1.Auth.RefreshToken:output_type -> api.auth.v1.RefreshTokenResponse
+	7,  // 14: api.auth.v1.Auth.GetAsyncRoutes:output_type -> api.auth.v1.GetAsyncRoutesResponse
+	10, // [10:15] is the sub-list for method output_type
+	5,  // [5:10] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_v1_auth_auth_proto_init() }
@@ -528,7 +773,7 @@ func file_v1_auth_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_auth_auth_proto_rawDesc), len(file_v1_auth_auth_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   6,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
