@@ -21,7 +21,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, NewUserRepo)
+var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, NewUserRepo, NewCasbinAdapter)
 
 // Data .
 type Data struct {
@@ -31,7 +31,7 @@ type Data struct {
 
 // NewData .
 func NewData(conf *conf.Data, logger log.Logger) (*Data, func(), error) {
-	log := log.NewHelper(logger)
+	log := log.NewHelper(log.With(logger, "module", "data"))
 	drv, err := sql.Open(
 		conf.Database.Driver,
 		conf.Database.Source,

@@ -8,6 +8,18 @@ import (
 	"github/invokerw/gintos/demo/internal/data/ent"
 )
 
+// The CasbinRuleFunc type is an adapter to allow the use of ordinary
+// function as CasbinRule mutator.
+type CasbinRuleFunc func(context.Context, *ent.CasbinRuleMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CasbinRuleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CasbinRuleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CasbinRuleMutation", m)
+}
+
 // The RoleFunc type is an adapter to allow the use of ordinary
 // function as Role mutator.
 type RoleFunc func(context.Context, *ent.RoleMutation) (ent.Value, error)

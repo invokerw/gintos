@@ -33,7 +33,17 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 	authService := service.NewAuthService(userUsecase, logger)
 	adminService := service.NewAdminService(userUsecase, logger)
 	baseService := service.NewBaseService(userUsecase, logger)
-	engine := router.NewGinHttpServer(server, greeterService, authService, adminService, baseService, logger)
+	adapter, err := data.NewCasbinAdapter(dataData)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	enforcer, err := biz.NewCasbinEnforcer(adapter)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	engine := router.NewGinHttpServer(server, greeterService, authService, adminService, baseService, enforcer, logger)
 	app := newApp(initRet, engine)
 	return app, func() {
 		cleanup()

@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github/invokerw/gintos/demo/internal/data/ent/casbinrule"
 	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
 	"reflect"
@@ -74,8 +75,9 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			role.Table: role.ValidColumn,
-			user.Table: user.ValidColumn,
+			casbinrule.Table: casbinrule.ValidColumn,
+			role.Table:       role.ValidColumn,
+			user.Table:       user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

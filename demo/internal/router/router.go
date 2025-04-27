@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/casbin/casbin/v2"
 	"github/invokerw/gintos/common/middleware"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/auth"
@@ -24,6 +25,7 @@ func NewGinHttpServer(c *conf.Server,
 	a *service.AuthService,
 	adminS *service.AdminService,
 	bs *service.BaseService,
+	enforce *casbin.Enforcer,
 	logger log.Logger) *gin.Engine {
 
 	//engine := gin.Default()
