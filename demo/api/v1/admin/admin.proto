@@ -17,7 +17,7 @@ option go_package = "github/invokerw/gintos/demo/api/v1/admin;admin";
 service Admin {
 	rpc GetUserList (GetUserListRequest) returns (GetUserListResponse) {
 		option (google.api.http) = {
-			post: "/api/admin/v1/get_user_list"
+			post: "/api/v1/admin/get_user_list"
 			body: "*"
 		};
 		option (rbac.comment) = "获取用户列表";

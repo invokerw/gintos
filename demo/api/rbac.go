@@ -10,7 +10,7 @@ func GetApiInfo() []*rbac.ApiInfo {
 	return []*rbac.ApiInfo{
 		{
 			Method: "POST",
-			Path: "/api/admin/v1/get_user_list",
+			Path: "/api/v1/admin/get_user_list",
 			Desc: "获取用户列表",
 			ServiceName: "api.v1.admin.Admin",
 		},

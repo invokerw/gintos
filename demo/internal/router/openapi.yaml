@@ -6,7 +6,7 @@ info:
     title: ""
     version: 0.0.1
 paths:
-    /api/admin/v1/get_user_list:
+    /api/v1/admin/get_user_list:
         post:
             tags:
                 - Admin
@@ -26,7 +26,7 @@ paths:
                                 $ref: '#/components/schemas/api.v1.admin.GetUserListResponse'
             security:
                 - {}
-    /api/auth/v1/get_async_routes:
+    /api/v1/auth/get_async_routes:
         get:
             tags:
                 - Auth
@@ -38,7 +38,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.auth.GetAsyncRoutesResponse'
-    /api/auth/v1/login:
+    /api/v1/auth/login:
         post:
             tags:
                 - Auth
@@ -59,7 +59,7 @@ paths:
                                 $ref: '#/components/schemas/api.v1.auth.LoginResponse'
             security:
                 - {}
-    /api/auth/v1/logout:
+    /api/v1/auth/logout:
         post:
             tags:
                 - Auth
@@ -75,7 +75,7 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /api/auth/v1/refresh_token:
+    /api/v1/auth/refresh_token:
         post:
             tags:
                 - Auth
@@ -94,7 +94,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.auth.RefreshTokenResponse'
-    /api/auth/v1/register:
+    /api/v1/auth/register:
         post:
             tags:
                 - Auth
@@ -109,7 +109,7 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /api/base/v1/me:
+    /api/v1/base/me:
         get:
             tags:
                 - Base
@@ -128,7 +128,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.base.GetMeResponse'
-    /api/helloworld/:name:
+    /api/v1/helloworld/:name:
         get:
             tags:
                 - Greeter

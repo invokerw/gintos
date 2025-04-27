@@ -145,7 +145,7 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\x13GetUserListResponse\x12)\n" +
 	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users2\x9e\x01\n" +
 	"\x05Admin\x12\x94\x01\n" +
-	"\vGetUserList\x12 .api.v1.admin.GetUserListRequest\x1a!.api.v1.admin.GetUserListResponse\"@\xbaG\x02Z\x00\x82}\x12获取用户列表\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/admin/v1/get_user_listB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
+	"\vGetUserList\x12 .api.v1.admin.GetUserListRequest\x1a!.api.v1.admin.GetUserListResponse\"@\xbaG\x02Z\x00\x82}\x12获取用户列表\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_user_listB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
 
 var (
 	file_v1_admin_admin_proto_rawDescOnce sync.Once

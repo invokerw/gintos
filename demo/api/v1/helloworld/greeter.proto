@@ -12,7 +12,7 @@ service Greeter {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {
     option (google.api.http) = {
-      get: "/api/helloworld/:name"
+      get: "/api/v1/helloworld/:name"
     };
   }
 }

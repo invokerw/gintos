@@ -705,11 +705,11 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\x06FREEZE\x10\x03\x12\v\n" +
 	"\aDELETED\x10\x042\x9e\x04\n" +
 	"\x04Auth\x12b\n" +
-	"\x05Login\x12\x19.api.v1.auth.LoginRequest\x1a\x1a.api.v1.auth.LoginResponse\"\"\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/v1/login\x12\\\n" +
-	"\x06Logout\x12\x1a.api.v1.auth.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/auth/v1/logout\x12b\n" +
-	"\bRegister\x12\x1c.api.v1.auth.RegisterRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/auth/v1/register\x12z\n" +
-	"\fRefreshToken\x12 .api.v1.auth.RefreshTokenRequest\x1a!.api.v1.auth.RefreshTokenResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/auth/v1/refresh_token\x12t\n" +
-	"\x0eGetAsyncRoutes\x12\x16.google.protobuf.Empty\x1a#.api.v1.auth.GetAsyncRoutesResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/api/auth/v1/get_async_routesB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
+	"\x05Login\x12\x19.api.v1.auth.LoginRequest\x1a\x1a.api.v1.auth.LoginResponse\"\"\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/v1/auth/login\x12\\\n" +
+	"\x06Logout\x12\x1a.api.v1.auth.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/v1/auth/logout\x12b\n" +
+	"\bRegister\x12\x1c.api.v1.auth.RegisterRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v1/auth/register\x12z\n" +
+	"\fRefreshToken\x12 .api.v1.auth.RefreshTokenRequest\x1a!.api.v1.auth.RefreshTokenResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/auth/refresh_token\x12t\n" +
+	"\x0eGetAsyncRoutes\x12\x16.google.protobuf.Empty\x1a#.api.v1.auth.GetAsyncRoutesResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/api/v1/auth/get_async_routesB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
 
 var (
 	file_v1_auth_auth_proto_rawDescOnce sync.Once
