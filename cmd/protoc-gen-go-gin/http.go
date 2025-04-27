@@ -107,14 +107,7 @@ func hasHTTPRule(services []*protogen.Service) bool {
 	return false
 }
 
-func buildHTTPRule(g *protogen.GeneratedFile, service *protogen.Service, m *protogen.Method, rule *annotations.HttpRule, omitemptyPrefix string) *methodDesc {
-	var (
-		path         string
-		method       string
-		body         string
-		responseBody string
-	)
-
+func getPathAndMethod(service *protogen.Service, m *protogen.Method, rule *annotations.HttpRule, omitemptyPrefix string) (path string, method string) {
 	switch pattern := rule.Pattern.(type) {
 	case *annotations.HttpRule_Get:
 		path = pattern.Get
@@ -141,6 +134,17 @@ func buildHTTPRule(g *protogen.GeneratedFile, service *protogen.Service, m *prot
 	if path == "" {
 		path = fmt.Sprintf("%s/%s/%s", omitemptyPrefix, service.Desc.FullName(), m.Desc.Name())
 	}
+	return
+}
+
+func buildHTTPRule(g *protogen.GeneratedFile, service *protogen.Service, m *protogen.Method, rule *annotations.HttpRule, omitemptyPrefix string) *methodDesc {
+	var (
+		path         string
+		method       string
+		body         string
+		responseBody string
+	)
+	path, method = getPathAndMethod(service, m, rule, omitemptyPrefix)
 	body = rule.Body
 	responseBody = rule.ResponseBody
 	md := buildMethodDesc(g, m, method, path)

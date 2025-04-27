@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.auth.v1;
+package api.v1.admin;
 
 import "google/api/annotations.proto";
 import "openapi/v3/annotations.proto";
@@ -9,18 +9,18 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "v1/common/user.proto";
 import "v1/common/common.proto";
+import "rbac/annotations.proto";
 
 option go_package = "github/invokerw/gintos/demo/api/v1/admin;admin";
 
 
 service Admin {
-	// 登录
 	rpc GetUserList (GetUserListRequest) returns (GetUserListResponse) {
 		option (google.api.http) = {
 			post: "/api/admin/v1/get_user_list"
 			body: "*"
 		};
-
+		option (rbac.comment) = "获取用户列表";
 		option(openapi.v3.operation) = {
 			security: {}
 		};

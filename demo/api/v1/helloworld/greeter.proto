@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-package helloworld.v1;
+package api.v1.helloworld;
 
 import "google/api/annotations.proto";
+import "rbac/annotations.proto";
 
 option go_package = "github/invokerw/gintos/demo/api/v1/helloworld;helloworld";
 

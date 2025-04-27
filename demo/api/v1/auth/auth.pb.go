@@ -657,7 +657,7 @@ var File_v1_auth_auth_proto protoreflect.FileDescriptor
 
 const file_v1_auth_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12v1/auth/auth.proto\x12\vapi.auth.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\"q\n" +
+	"\x12v1/auth/auth.proto\x12\vapi.v1.auth\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\"q\n" +
 	"\x0fRegisterRequest\x12 \n" +
 	"\busername\x18\x01 \x01(\tB\x04\xe2A\x01\x02R\busername\x12 \n" +
 	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\x12\x1a\n" +
@@ -682,7 +682,7 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\aexpires\x18\x04 \x01(\x03B.\xe2A\x01\x02\xbaG'\x92\x02$令牌过期时间，单位为毫秒R\aexpires\x12^\n" +
 	"\x0frefresh_expires\x18\x05 \x01(\x03B4\xe2A\x01\x02\xbaG-\x92\x02*刷新令牌过期时间，单位为毫秒R\x0frefresh_expires\"d\n" +
 	"\x16GetAsyncRoutesResponse\x12J\n" +
-	"\x06routes\x18\x01 \x03(\v2\x18.api.auth.v1.RouteConfigB\x18\xbaG\x15\x92\x02\x12异步路由列表R\x06routes\"\x92\x01\n" +
+	"\x06routes\x18\x01 \x03(\v2\x18.api.v1.auth.RouteConfigB\x18\xbaG\x15\x92\x02\x12异步路由列表R\x06routes\"\x92\x01\n" +
 	"\tRouteMeta\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12\x12\n" +
 	"\x04icon\x18\x02 \x01(\tR\x04icon\x12\x12\n" +
@@ -694,9 +694,9 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
 	"\bredirect\x18\x03 \x01(\tR\bredirect\x12*\n" +
-	"\x04meta\x18\x04 \x01(\v2\x16.api.auth.v1.RouteMetaR\x04meta\x12\x1c\n" +
+	"\x04meta\x18\x04 \x01(\v2\x16.api.v1.auth.RouteMetaR\x04meta\x12\x1c\n" +
 	"\tcomponent\x18\x05 \x01(\tR\tcomponent\x124\n" +
-	"\bchildren\x18\x06 \x03(\v2\x18.api.auth.v1.RouteConfigR\bchildren*h\n" +
+	"\bchildren\x18\x06 \x03(\v2\x18.api.v1.auth.RouteConfigR\bchildren*h\n" +
 	"\x14VerifyPasswordResult\x12\v\n" +
 	"\aSUCCESS\x10\x00\x12\x16\n" +
 	"\x12ACCOUNT_NOT_EXISTS\x10\x01\x12\x12\n" +
@@ -705,11 +705,11 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\x06FREEZE\x10\x03\x12\v\n" +
 	"\aDELETED\x10\x042\x9e\x04\n" +
 	"\x04Auth\x12b\n" +
-	"\x05Login\x12\x19.api.auth.v1.LoginRequest\x1a\x1a.api.auth.v1.LoginResponse\"\"\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/v1/login\x12\\\n" +
-	"\x06Logout\x12\x1a.api.auth.v1.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/auth/v1/logout\x12b\n" +
-	"\bRegister\x12\x1c.api.auth.v1.RegisterRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/auth/v1/register\x12z\n" +
-	"\fRefreshToken\x12 .api.auth.v1.RefreshTokenRequest\x1a!.api.auth.v1.RefreshTokenResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/auth/v1/refresh_token\x12t\n" +
-	"\x0eGetAsyncRoutes\x12\x16.google.protobuf.Empty\x1a#.api.auth.v1.GetAsyncRoutesResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/api/auth/v1/get_async_routesB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
+	"\x05Login\x12\x19.api.v1.auth.LoginRequest\x1a\x1a.api.v1.auth.LoginResponse\"\"\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/v1/login\x12\\\n" +
+	"\x06Logout\x12\x1a.api.v1.auth.LogoutRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/auth/v1/logout\x12b\n" +
+	"\bRegister\x12\x1c.api.v1.auth.RegisterRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/auth/v1/register\x12z\n" +
+	"\fRefreshToken\x12 .api.v1.auth.RefreshTokenRequest\x1a!.api.v1.auth.RefreshTokenResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/auth/v1/refresh_token\x12t\n" +
+	"\x0eGetAsyncRoutes\x12\x16.google.protobuf.Empty\x1a#.api.v1.auth.GetAsyncRoutesResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/api/auth/v1/get_async_routesB.Z,github/invokerw/gintos/demo/api/v1/auth;authb\x06proto3"
 
 var (
 	file_v1_auth_auth_proto_rawDescOnce sync.Once
@@ -726,35 +726,35 @@ func file_v1_auth_auth_proto_rawDescGZIP() []byte {
 var file_v1_auth_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_v1_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_v1_auth_auth_proto_goTypes = []any{
-	(VerifyPasswordResult)(0),      // 0: api.auth.v1.VerifyPasswordResult
-	(*RegisterRequest)(nil),        // 1: api.auth.v1.RegisterRequest
-	(*LogoutRequest)(nil),          // 2: api.auth.v1.LogoutRequest
-	(*LoginRequest)(nil),           // 3: api.auth.v1.LoginRequest
-	(*LoginResponse)(nil),          // 4: api.auth.v1.LoginResponse
-	(*RefreshTokenRequest)(nil),    // 5: api.auth.v1.RefreshTokenRequest
-	(*RefreshTokenResponse)(nil),   // 6: api.auth.v1.RefreshTokenResponse
-	(*GetAsyncRoutesResponse)(nil), // 7: api.auth.v1.GetAsyncRoutesResponse
-	(*RouteMeta)(nil),              // 8: api.auth.v1.RouteMeta
-	(*RouteConfig)(nil),            // 9: api.auth.v1.RouteConfig
+	(VerifyPasswordResult)(0),      // 0: api.v1.auth.VerifyPasswordResult
+	(*RegisterRequest)(nil),        // 1: api.v1.auth.RegisterRequest
+	(*LogoutRequest)(nil),          // 2: api.v1.auth.LogoutRequest
+	(*LoginRequest)(nil),           // 3: api.v1.auth.LoginRequest
+	(*LoginResponse)(nil),          // 4: api.v1.auth.LoginResponse
+	(*RefreshTokenRequest)(nil),    // 5: api.v1.auth.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil),   // 6: api.v1.auth.RefreshTokenResponse
+	(*GetAsyncRoutesResponse)(nil), // 7: api.v1.auth.GetAsyncRoutesResponse
+	(*RouteMeta)(nil),              // 8: api.v1.auth.RouteMeta
+	(*RouteConfig)(nil),            // 9: api.v1.auth.RouteConfig
 	(*common.User)(nil),            // 10: api.common.v1.User
 	(*emptypb.Empty)(nil),          // 11: google.protobuf.Empty
 }
 var file_v1_auth_auth_proto_depIdxs = []int32{
-	10, // 0: api.auth.v1.LoginResponse.user:type_name -> api.common.v1.User
-	10, // 1: api.auth.v1.RefreshTokenResponse.user:type_name -> api.common.v1.User
-	9,  // 2: api.auth.v1.GetAsyncRoutesResponse.routes:type_name -> api.auth.v1.RouteConfig
-	8,  // 3: api.auth.v1.RouteConfig.meta:type_name -> api.auth.v1.RouteMeta
-	9,  // 4: api.auth.v1.RouteConfig.children:type_name -> api.auth.v1.RouteConfig
-	3,  // 5: api.auth.v1.Auth.Login:input_type -> api.auth.v1.LoginRequest
-	2,  // 6: api.auth.v1.Auth.Logout:input_type -> api.auth.v1.LogoutRequest
-	1,  // 7: api.auth.v1.Auth.Register:input_type -> api.auth.v1.RegisterRequest
-	5,  // 8: api.auth.v1.Auth.RefreshToken:input_type -> api.auth.v1.RefreshTokenRequest
-	11, // 9: api.auth.v1.Auth.GetAsyncRoutes:input_type -> google.protobuf.Empty
-	4,  // 10: api.auth.v1.Auth.Login:output_type -> api.auth.v1.LoginResponse
-	11, // 11: api.auth.v1.Auth.Logout:output_type -> google.protobuf.Empty
-	11, // 12: api.auth.v1.Auth.Register:output_type -> google.protobuf.Empty
-	6,  // 13: api.auth.v1.Auth.RefreshToken:output_type -> api.auth.v1.RefreshTokenResponse
-	7,  // 14: api.auth.v1.Auth.GetAsyncRoutes:output_type -> api.auth.v1.GetAsyncRoutesResponse
+	10, // 0: api.v1.auth.LoginResponse.user:type_name -> api.common.v1.User
+	10, // 1: api.v1.auth.RefreshTokenResponse.user:type_name -> api.common.v1.User
+	9,  // 2: api.v1.auth.GetAsyncRoutesResponse.routes:type_name -> api.v1.auth.RouteConfig
+	8,  // 3: api.v1.auth.RouteConfig.meta:type_name -> api.v1.auth.RouteMeta
+	9,  // 4: api.v1.auth.RouteConfig.children:type_name -> api.v1.auth.RouteConfig
+	3,  // 5: api.v1.auth.Auth.Login:input_type -> api.v1.auth.LoginRequest
+	2,  // 6: api.v1.auth.Auth.Logout:input_type -> api.v1.auth.LogoutRequest
+	1,  // 7: api.v1.auth.Auth.Register:input_type -> api.v1.auth.RegisterRequest
+	5,  // 8: api.v1.auth.Auth.RefreshToken:input_type -> api.v1.auth.RefreshTokenRequest
+	11, // 9: api.v1.auth.Auth.GetAsyncRoutes:input_type -> google.protobuf.Empty
+	4,  // 10: api.v1.auth.Auth.Login:output_type -> api.v1.auth.LoginResponse
+	11, // 11: api.v1.auth.Auth.Logout:output_type -> google.protobuf.Empty
+	11, // 12: api.v1.auth.Auth.Register:output_type -> google.protobuf.Empty
+	6,  // 13: api.v1.auth.Auth.RefreshToken:output_type -> api.v1.auth.RefreshTokenResponse
+	7,  // 14: api.v1.auth.Auth.GetAsyncRoutes:output_type -> api.v1.auth.GetAsyncRoutesResponse
 	10, // [10:15] is the sub-list for method output_type
 	5,  // [5:10] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name

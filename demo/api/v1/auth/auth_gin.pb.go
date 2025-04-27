@@ -17,11 +17,11 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
-const OperationAuthGetAsyncRoutes = "/api.auth.v1.Auth/GetAsyncRoutes"
-const OperationAuthLogin = "/api.auth.v1.Auth/Login"
-const OperationAuthLogout = "/api.auth.v1.Auth/Logout"
-const OperationAuthRefreshToken = "/api.auth.v1.Auth/RefreshToken"
-const OperationAuthRegister = "/api.auth.v1.Auth/Register"
+const OperationAuthGetAsyncRoutes = "/api.v1.auth.Auth/GetAsyncRoutes"
+const OperationAuthLogin = "/api.v1.auth.Auth/Login"
+const OperationAuthLogout = "/api.v1.auth.Auth/Logout"
+const OperationAuthRefreshToken = "/api.v1.auth.Auth/RefreshToken"
+const OperationAuthRegister = "/api.v1.auth.Auth/Register"
 
 type IAuthServer interface {
 	GetAsyncRoutes(*gin.Context, *emptypb.Empty) (*GetAsyncRoutesResponse, error)

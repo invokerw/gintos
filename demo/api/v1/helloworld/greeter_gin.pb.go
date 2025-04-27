@@ -16,7 +16,7 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
-const OperationGreeterSayHello = "/helloworld.v1.Greeter/SayHello"
+const OperationGreeterSayHello = "/api.v1.helloworld.Greeter/SayHello"
 
 type IGreeterServer interface {
 	// SayHello Sends a greeting

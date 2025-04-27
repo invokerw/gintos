@@ -16,7 +16,7 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
-const OperationBaseGetMe = "/api.base.v1.Base/GetMe"
+const OperationBaseGetMe = "/api.v1.base.Base/GetMe"
 
 type IBaseServer interface {
 	// GetMe 后台获取已经登录的用户的数据

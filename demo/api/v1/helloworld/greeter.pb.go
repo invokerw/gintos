@@ -7,6 +7,7 @@
 package helloworld
 
 import (
+	_ "github/invokerw/gintos/proto/rbac"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -116,14 +117,14 @@ var File_v1_helloworld_greeter_proto protoreflect.FileDescriptor
 
 const file_v1_helloworld_greeter_proto_rawDesc = "" +
 	"\n" +
-	"\x1bv1/helloworld/greeter.proto\x12\rhelloworld.v1\x1a\x1cgoogle/api/annotations.proto\"\"\n" +
+	"\x1bv1/helloworld/greeter.proto\x12\x11api.v1.helloworld\x1a\x1cgoogle/api/annotations.proto\x1a\x16rbac/annotations.proto\"\"\n" +
 	"\fHelloRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"&\n" +
 	"\n" +
 	"HelloReply\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2l\n" +
-	"\aGreeter\x12a\n" +
-	"\bSayHello\x12\x1b.helloworld.v1.HelloRequest\x1a\x19.helloworld.v1.HelloReply\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/helloworld/:nameB:Z8github/invokerw/gintos/demo/api/v1/helloworld;helloworldb\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2t\n" +
+	"\aGreeter\x12i\n" +
+	"\bSayHello\x12\x1f.api.v1.helloworld.HelloRequest\x1a\x1d.api.v1.helloworld.HelloReply\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/helloworld/:nameB:Z8github/invokerw/gintos/demo/api/v1/helloworld;helloworldb\x06proto3"
 
 var (
 	file_v1_helloworld_greeter_proto_rawDescOnce sync.Once
@@ -139,12 +140,12 @@ func file_v1_helloworld_greeter_proto_rawDescGZIP() []byte {
 
 var file_v1_helloworld_greeter_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_v1_helloworld_greeter_proto_goTypes = []any{
-	(*HelloRequest)(nil), // 0: helloworld.v1.HelloRequest
-	(*HelloReply)(nil),   // 1: helloworld.v1.HelloReply
+	(*HelloRequest)(nil), // 0: api.v1.helloworld.HelloRequest
+	(*HelloReply)(nil),   // 1: api.v1.helloworld.HelloReply
 }
 var file_v1_helloworld_greeter_proto_depIdxs = []int32{
-	0, // 0: helloworld.v1.Greeter.SayHello:input_type -> helloworld.v1.HelloRequest
-	1, // 1: helloworld.v1.Greeter.SayHello:output_type -> helloworld.v1.HelloReply
+	0, // 0: api.v1.helloworld.Greeter.SayHello:input_type -> api.v1.helloworld.HelloRequest
+	1, // 1: api.v1.helloworld.Greeter.SayHello:output_type -> api.v1.helloworld.HelloReply
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

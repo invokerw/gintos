@@ -9,6 +9,7 @@ package admin
 import (
 	_ "github.com/google/gnostic/openapiv3"
 	common "github/invokerw/gintos/demo/api/v1/common"
+	_ "github/invokerw/gintos/proto/rbac"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -134,7 +135,7 @@ var File_v1_admin_admin_proto protoreflect.FileDescriptor
 
 const file_v1_admin_admin_proto_rawDesc = "" +
 	"\n" +
-	"\x14v1/admin/admin.proto\x12\vapi.auth.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\x1a\x16v1/common/common.proto\"\xd0\x01\n" +
+	"\x14v1/admin/admin.proto\x12\fapi.v1.admin\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\x1a\x16v1/common/common.proto\x1a\x16rbac/annotations.proto\"\xd0\x01\n" +
 	"\x12GetUserListRequest\x12?\n" +
 	"\x04page\x18\x01 \x01(\v2\x17.api.common.v1.PageInfoB\x12\xbaG\x0f\x92\x02\f分页信息R\x04page\x120\n" +
 	"\busername\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t登录名H\x00R\busername\x88\x01\x01\x12-\n" +
@@ -142,9 +143,9 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\t_usernameB\v\n" +
 	"\t_nickname\"@\n" +
 	"\x13GetUserListResponse\x12)\n" +
-	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users2\x86\x01\n" +
-	"\x05Admin\x12}\n" +
-	"\vGetUserList\x12\x1f.api.auth.v1.GetUserListRequest\x1a .api.auth.v1.GetUserListResponse\"+\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/admin/v1/get_user_listB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
+	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users2\x9e\x01\n" +
+	"\x05Admin\x12\x94\x01\n" +
+	"\vGetUserList\x12 .api.v1.admin.GetUserListRequest\x1a!.api.v1.admin.GetUserListResponse\"@\xbaG\x02Z\x00\x82}\x12获取用户列表\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/admin/v1/get_user_listB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
 
 var (
 	file_v1_admin_admin_proto_rawDescOnce sync.Once
@@ -160,16 +161,16 @@ func file_v1_admin_admin_proto_rawDescGZIP() []byte {
 
 var file_v1_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_v1_admin_admin_proto_goTypes = []any{
-	(*GetUserListRequest)(nil),  // 0: api.auth.v1.GetUserListRequest
-	(*GetUserListResponse)(nil), // 1: api.auth.v1.GetUserListResponse
+	(*GetUserListRequest)(nil),  // 0: api.v1.admin.GetUserListRequest
+	(*GetUserListResponse)(nil), // 1: api.v1.admin.GetUserListResponse
 	(*common.PageInfo)(nil),     // 2: api.common.v1.PageInfo
 	(*common.User)(nil),         // 3: api.common.v1.User
 }
 var file_v1_admin_admin_proto_depIdxs = []int32{
-	2, // 0: api.auth.v1.GetUserListRequest.page:type_name -> api.common.v1.PageInfo
-	3, // 1: api.auth.v1.GetUserListResponse.users:type_name -> api.common.v1.User
-	0, // 2: api.auth.v1.Admin.GetUserList:input_type -> api.auth.v1.GetUserListRequest
-	1, // 3: api.auth.v1.Admin.GetUserList:output_type -> api.auth.v1.GetUserListResponse
+	2, // 0: api.v1.admin.GetUserListRequest.page:type_name -> api.common.v1.PageInfo
+	3, // 1: api.v1.admin.GetUserListResponse.users:type_name -> api.common.v1.User
+	0, // 2: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
+	1, // 3: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
 	3, // [3:4] is the sub-list for method output_type
 	2, // [2:3] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

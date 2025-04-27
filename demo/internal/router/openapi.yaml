@@ -10,13 +10,12 @@ paths:
         post:
             tags:
                 - Admin
-            description: 登录
             operationId: Admin_GetUserList
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.auth.v1.GetUserListRequest'
+                            $ref: '#/components/schemas/api.v1.admin.GetUserListRequest'
                 required: true
             responses:
                 "200":
@@ -24,7 +23,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.auth.v1.GetUserListResponse'
+                                $ref: '#/components/schemas/api.v1.admin.GetUserListResponse'
             security:
                 - {}
     /api/auth/v1/get_async_routes:
@@ -38,7 +37,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.auth.v1.GetAsyncRoutesResponse'
+                                $ref: '#/components/schemas/api.v1.auth.GetAsyncRoutesResponse'
     /api/auth/v1/login:
         post:
             tags:
@@ -49,7 +48,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.auth.v1.LoginRequest'
+                            $ref: '#/components/schemas/api.v1.auth.LoginRequest'
                 required: true
             responses:
                 "200":
@@ -57,7 +56,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.auth.v1.LoginResponse'
+                                $ref: '#/components/schemas/api.v1.auth.LoginResponse'
             security:
                 - {}
     /api/auth/v1/logout:
@@ -70,7 +69,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.auth.v1.LogoutRequest'
+                            $ref: '#/components/schemas/api.v1.auth.LogoutRequest'
                 required: true
             responses:
                 "200":
@@ -86,7 +85,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.auth.v1.RefreshTokenRequest'
+                            $ref: '#/components/schemas/api.v1.auth.RefreshTokenRequest'
                 required: true
             responses:
                 "200":
@@ -94,7 +93,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.auth.v1.RefreshTokenResponse'
+                                $ref: '#/components/schemas/api.v1.auth.RefreshTokenResponse'
     /api/auth/v1/register:
         post:
             tags:
@@ -104,7 +103,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.auth.v1.RegisterRequest'
+                            $ref: '#/components/schemas/api.v1.auth.RegisterRequest'
                 required: true
             responses:
                 "200":
@@ -128,7 +127,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.base.v1.GetMeResponse'
+                                $ref: '#/components/schemas/api.v1.base.GetMeResponse'
     /api/helloworld/:name:
         get:
             tags:
@@ -146,167 +145,9 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+                                $ref: '#/components/schemas/api.v1.helloworld.HelloReply'
 components:
     schemas:
-        api.auth.v1.GetAsyncRoutesResponse:
-            type: object
-            properties:
-                routes:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.auth.v1.RouteConfig'
-                    description: 异步路由列表
-        api.auth.v1.GetUserListRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/api.common.v1.PageInfo'
-                username:
-                    type: string
-                    description: 登录名
-                nickname:
-                    type: string
-                    description: 昵称
-        api.auth.v1.GetUserListResponse:
-            type: object
-            properties:
-                users:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.common.v1.User'
-        api.auth.v1.LoginRequest:
-            required:
-                - username
-                - password
-            type: object
-            properties:
-                username:
-                    type: string
-                password:
-                    type: string
-            description: 用户后台登录 - 请求
-        api.auth.v1.LoginResponse:
-            required:
-                - user
-                - access_token
-                - refresh_token
-                - expires
-                - refresh_expires
-            type: object
-            properties:
-                user:
-                    $ref: '#/components/schemas/api.common.v1.User'
-                access_token:
-                    type: string
-                    description: 访问令牌，必选项。
-                refresh_token:
-                    type: string
-                    description: 更新令牌，用来获取下一次的访问令牌，
-                expires:
-                    type: string
-                    description: 令牌过期时间，单位为毫秒
-                refresh_expires:
-                    type: string
-                    description: 刷新令牌过期时间，单位为毫秒
-            description: 用户后台登录 - 回应
-        api.auth.v1.LogoutRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: uint32
-            description: 用户后台登出 - 请求
-        api.auth.v1.RefreshTokenRequest:
-            required:
-                - refresh_token
-            type: object
-            properties:
-                refresh_token:
-                    type: string
-                    description: 更新令牌，用来获取下一次的访问令牌
-            description: 用户刷新令牌 - 请求
-        api.auth.v1.RefreshTokenResponse:
-            required:
-                - user
-                - access_token
-                - refresh_token
-                - expires
-                - refresh_expires
-            type: object
-            properties:
-                user:
-                    $ref: '#/components/schemas/api.common.v1.User'
-                access_token:
-                    type: string
-                    description: 访问令牌，必选项。
-                refresh_token:
-                    type: string
-                    description: 更新令牌，用来获取下一次的访问令牌，
-                expires:
-                    type: string
-                    description: 令牌过期时间，单位为毫秒
-                refresh_expires:
-                    type: string
-                    description: 刷新令牌过期时间，单位为毫秒
-            description: 用户刷新令牌 - 回应
-        api.auth.v1.RegisterRequest:
-            required:
-                - username
-                - password
-                - email
-            type: object
-            properties:
-                username:
-                    type: string
-                password:
-                    type: string
-                email:
-                    type: string
-        api.auth.v1.RouteConfig:
-            type: object
-            properties:
-                path:
-                    type: string
-                name:
-                    type: string
-                redirect:
-                    type: string
-                meta:
-                    $ref: '#/components/schemas/api.auth.v1.RouteMeta'
-                component:
-                    type: string
-                children:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.auth.v1.RouteConfig'
-            description: 定义路由配置表
-        api.auth.v1.RouteMeta:
-            type: object
-            properties:
-                title:
-                    type: string
-                icon:
-                    type: string
-                rank:
-                    type: integer
-                    format: int32
-                showLink:
-                    type: boolean
-                roles:
-                    type: array
-                    items:
-                        type: string
-                auths:
-                    type: array
-                    items:
-                        type: string
-            description: 定义路由元信息
-        api.base.v1.GetMeResponse:
-            type: object
-            properties:
-                user:
-                    $ref: '#/components/schemas/api.common.v1.User'
         api.common.v1.PageInfo:
             type: object
             properties:
@@ -386,7 +227,165 @@ components:
                     type: string
                     description: 更新时间
             description: 用户
-        helloworld.v1.HelloReply:
+        api.v1.admin.GetUserListRequest:
+            type: object
+            properties:
+                page:
+                    $ref: '#/components/schemas/api.common.v1.PageInfo'
+                username:
+                    type: string
+                    description: 登录名
+                nickname:
+                    type: string
+                    description: 昵称
+        api.v1.admin.GetUserListResponse:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.User'
+        api.v1.auth.GetAsyncRoutesResponse:
+            type: object
+            properties:
+                routes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.v1.auth.RouteConfig'
+                    description: 异步路由列表
+        api.v1.auth.LoginRequest:
+            required:
+                - username
+                - password
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+            description: 用户后台登录 - 请求
+        api.v1.auth.LoginResponse:
+            required:
+                - user
+                - access_token
+                - refresh_token
+                - expires
+                - refresh_expires
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+                access_token:
+                    type: string
+                    description: 访问令牌，必选项。
+                refresh_token:
+                    type: string
+                    description: 更新令牌，用来获取下一次的访问令牌，
+                expires:
+                    type: string
+                    description: 令牌过期时间，单位为毫秒
+                refresh_expires:
+                    type: string
+                    description: 刷新令牌过期时间，单位为毫秒
+            description: 用户后台登录 - 回应
+        api.v1.auth.LogoutRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+            description: 用户后台登出 - 请求
+        api.v1.auth.RefreshTokenRequest:
+            required:
+                - refresh_token
+            type: object
+            properties:
+                refresh_token:
+                    type: string
+                    description: 更新令牌，用来获取下一次的访问令牌
+            description: 用户刷新令牌 - 请求
+        api.v1.auth.RefreshTokenResponse:
+            required:
+                - user
+                - access_token
+                - refresh_token
+                - expires
+                - refresh_expires
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+                access_token:
+                    type: string
+                    description: 访问令牌，必选项。
+                refresh_token:
+                    type: string
+                    description: 更新令牌，用来获取下一次的访问令牌，
+                expires:
+                    type: string
+                    description: 令牌过期时间，单位为毫秒
+                refresh_expires:
+                    type: string
+                    description: 刷新令牌过期时间，单位为毫秒
+            description: 用户刷新令牌 - 回应
+        api.v1.auth.RegisterRequest:
+            required:
+                - username
+                - password
+                - email
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+                email:
+                    type: string
+        api.v1.auth.RouteConfig:
+            type: object
+            properties:
+                path:
+                    type: string
+                name:
+                    type: string
+                redirect:
+                    type: string
+                meta:
+                    $ref: '#/components/schemas/api.v1.auth.RouteMeta'
+                component:
+                    type: string
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.v1.auth.RouteConfig'
+            description: 定义路由配置表
+        api.v1.auth.RouteMeta:
+            type: object
+            properties:
+                title:
+                    type: string
+                icon:
+                    type: string
+                rank:
+                    type: integer
+                    format: int32
+                showLink:
+                    type: boolean
+                roles:
+                    type: array
+                    items:
+                        type: string
+                auths:
+                    type: array
+                    items:
+                        type: string
+            description: 定义路由元信息
+        api.v1.base.GetMeResponse:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+        api.v1.helloworld.HelloReply:
             type: object
             properties:
                 message:

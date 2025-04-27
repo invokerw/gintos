@@ -16,10 +16,9 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
-const OperationAdminGetUserList = "/api.auth.v1.Admin/GetUserList"
+const OperationAdminGetUserList = "/api.v1.admin.Admin/GetUserList"
 
 type IAdminServer interface {
-	// GetUserList 登录
 	GetUserList(*gin.Context, *GetUserListRequest) (*GetUserListResponse, error)
 }
 

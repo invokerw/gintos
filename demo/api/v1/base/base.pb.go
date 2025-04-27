@@ -119,13 +119,13 @@ var File_v1_base_base_proto protoreflect.FileDescriptor
 
 const file_v1_base_base_proto_rawDesc = "" +
 	"\n" +
-	"\x12v1/base/base.proto\x12\vapi.base.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\"\x1e\n" +
+	"\x12v1/base/base.proto\x12\vapi.v1.base\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\"\x1e\n" +
 	"\fGetMeRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"8\n" +
 	"\rGetMeResponse\x12'\n" +
 	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserR\x04user2_\n" +
 	"\x04Base\x12W\n" +
-	"\x05GetMe\x12\x19.api.base.v1.GetMeRequest\x1a\x1a.api.base.v1.GetMeResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/base/v1/meB.Z,github/invokerw/gintos/demo/api/v1/base;baseb\x06proto3"
+	"\x05GetMe\x12\x19.api.v1.base.GetMeRequest\x1a\x1a.api.v1.base.GetMeResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/base/v1/meB.Z,github/invokerw/gintos/demo/api/v1/base;baseb\x06proto3"
 
 var (
 	file_v1_base_base_proto_rawDescOnce sync.Once
@@ -141,14 +141,14 @@ func file_v1_base_base_proto_rawDescGZIP() []byte {
 
 var file_v1_base_base_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_v1_base_base_proto_goTypes = []any{
-	(*GetMeRequest)(nil),  // 0: api.base.v1.GetMeRequest
-	(*GetMeResponse)(nil), // 1: api.base.v1.GetMeResponse
+	(*GetMeRequest)(nil),  // 0: api.v1.base.GetMeRequest
+	(*GetMeResponse)(nil), // 1: api.v1.base.GetMeResponse
 	(*common.User)(nil),   // 2: api.common.v1.User
 }
 var file_v1_base_base_proto_depIdxs = []int32{
-	2, // 0: api.base.v1.GetMeResponse.user:type_name -> api.common.v1.User
-	0, // 1: api.base.v1.Base.GetMe:input_type -> api.base.v1.GetMeRequest
-	1, // 2: api.base.v1.Base.GetMe:output_type -> api.base.v1.GetMeResponse
+	2, // 0: api.v1.base.GetMeResponse.user:type_name -> api.common.v1.User
+	0, // 1: api.v1.base.Base.GetMe:input_type -> api.v1.base.GetMeRequest
+	1, // 2: api.v1.base.Base.GetMe:output_type -> api.v1.base.GetMeResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

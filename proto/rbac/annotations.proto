@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package rbac;
+
+option go_package = "github/invokerw/gintos/proto/rbac;rbac";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MethodOptions {
+  string comment = 2000; // 有评论才会生成 rbac 信息
+}
