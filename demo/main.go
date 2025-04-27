@@ -63,7 +63,7 @@ func main() {
 	}
 
 	g.Config = &bc
-	g.Log = log.NewHelper(log.With(logger, "from", "global"))
+	g.Log = log.NewHelper(log.With(logger, "module", "global"))
 
 	app, cleanup, err := wireApp(bc.Server, bc.Data, logger)
 	if err != nil {

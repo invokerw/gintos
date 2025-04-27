@@ -20,6 +20,7 @@ type BaseClaims struct {
 	Username    string
 	NickName    string
 	AuthorityId int32
+	Role        string
 }
 
 type CustomClaims struct {

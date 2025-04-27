@@ -1,7 +1,6 @@
 package router
 
 import (
-	"github.com/casbin/casbin/v2"
 	"github/invokerw/gintos/common/middleware"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/auth"
@@ -12,6 +11,8 @@ import (
 	"github/invokerw/gintos/demo/internal/router/mw"
 	"github/invokerw/gintos/demo/internal/service"
 	"github/invokerw/gintos/log"
+
+	"github.com/casbin/casbin/v2"
 
 	"github.com/google/wire"
 
@@ -47,11 +48,11 @@ func NewGinHttpServer(c *conf.Server,
 		auth.RegisterAuthServer(g, a)
 	}
 	{
-		g := engine.Group("/").Use(mw.JWTAuth(), mw.Authorize(common.UserAuthority_SYS_MANAGER))
+		g := engine.Group("/").Use(mw.JWTAuth(), mw.CasbinAuth(common.UserAuthority_SYS_MANAGER, enforce))
 		admin.RegisterAdminServer(g, adminS)
 	}
 	{
-		g := engine.Group("/").Use(mw.JWTAuth(), mw.Authorize(common.UserAuthority_CUSTOMER_USER))
+		g := engine.Group("/").Use(mw.JWTAuth(), mw.CasbinAuth(common.UserAuthority_CUSTOMER_USER, nil))
 		base.RegisterBaseServer(g, bs)
 	}
 	// swagger

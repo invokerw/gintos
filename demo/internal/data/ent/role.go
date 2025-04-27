@@ -3,7 +3,6 @@
 package ent
 
 import (
-	"encoding/json"
 	"fmt"
 	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"strings"
@@ -32,15 +31,13 @@ type Role struct {
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 角色名称
-	Name *string `json:"name,omitempty"`
-	// 角色标识
-	Code *string `json:"code,omitempty"`
+	Name string `json:"name,omitempty"`
+	// 角色描述
+	Desc *string `json:"desc,omitempty"`
 	// 上一层角色ID
 	ParentID *uint64 `json:"parent_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
-	// 分配的菜单列表
-	Menus []uint32 `json:"menus,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the RoleQuery when eager-loading is set.
 	Edges        RoleEdges `json:"edges"`
@@ -83,11 +80,9 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case role.FieldMenus:
-			values[i] = new([]byte)
 		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode:
+		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldDesc:
 			values[i] = new(sql.NullString)
 		case role.FieldCreateTime, role.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
@@ -158,15 +153,14 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				r.Name = new(string)
-				*r.Name = value.String
+				r.Name = value.String
 			}
-		case role.FieldCode:
+		case role.FieldDesc:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field code", values[i])
+				return fmt.Errorf("unexpected type %T for field desc", values[i])
 			} else if value.Valid {
-				r.Code = new(string)
-				*r.Code = value.String
+				r.Desc = new(string)
+				*r.Desc = value.String
 			}
 		case role.FieldParentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -181,14 +175,6 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				r.SortID = new(int32)
 				*r.SortID = int32(value.Int64)
-			}
-		case role.FieldMenus:
-			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field menus", values[i])
-			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &r.Menus); err != nil {
-					return fmt.Errorf("unmarshal field menus: %w", err)
-				}
 			}
 		default:
 			r.selectValues.Set(columns[i], values[i])
@@ -266,13 +252,11 @@ func (r *Role) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := r.Name; v != nil {
-		builder.WriteString("name=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("name=")
+	builder.WriteString(r.Name)
 	builder.WriteString(", ")
-	if v := r.Code; v != nil {
-		builder.WriteString("code=")
+	if v := r.Desc; v != nil {
+		builder.WriteString("desc=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
@@ -285,9 +269,6 @@ func (r *Role) String() string {
 		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
-	builder.WriteString(", ")
-	builder.WriteString("menus=")
-	builder.WriteString(fmt.Sprintf("%v", r.Menus))
 	builder.WriteByte(')')
 	return builder.String()
 }

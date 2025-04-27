@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"time"
@@ -109,24 +110,16 @@ func (rc *RoleCreate) SetName(s string) *RoleCreate {
 	return rc
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableName(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetName(*s)
-	}
+// SetDesc sets the "desc" field.
+func (rc *RoleCreate) SetDesc(s string) *RoleCreate {
+	rc.mutation.SetDesc(s)
 	return rc
 }
 
-// SetCode sets the "code" field.
-func (rc *RoleCreate) SetCode(s string) *RoleCreate {
-	rc.mutation.SetCode(s)
-	return rc
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableCode(s *string) *RoleCreate {
+// SetNillableDesc sets the "desc" field if the given value is not nil.
+func (rc *RoleCreate) SetNillableDesc(s *string) *RoleCreate {
 	if s != nil {
-		rc.SetCode(*s)
+		rc.SetDesc(*s)
 	}
 	return rc
 }
@@ -156,12 +149,6 @@ func (rc *RoleCreate) SetNillableSortID(i *int32) *RoleCreate {
 	if i != nil {
 		rc.SetSortID(*i)
 	}
-	return rc
-}
-
-// SetMenus sets the "menus" field.
-func (rc *RoleCreate) SetMenus(u []uint32) *RoleCreate {
-	rc.mutation.SetMenus(u)
 	return rc
 }
 
@@ -234,9 +221,9 @@ func (rc *RoleCreate) defaults() {
 		v := role.DefaultRemark
 		rc.mutation.SetRemark(v)
 	}
-	if _, ok := rc.mutation.Code(); !ok {
-		v := role.DefaultCode
-		rc.mutation.SetCode(v)
+	if _, ok := rc.mutation.Desc(); !ok {
+		v := role.DefaultDesc
+		rc.mutation.SetDesc(v)
 	}
 	if _, ok := rc.mutation.SortID(); !ok {
 		v := role.DefaultSortID
@@ -251,14 +238,17 @@ func (rc *RoleCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
+	if _, ok := rc.mutation.Name(); !ok {
+		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Role.name"`)}
+	}
 	if v, ok := rc.mutation.Name(); ok {
 		if err := role.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
 		}
 	}
-	if v, ok := rc.mutation.Code(); ok {
-		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
+	if v, ok := rc.mutation.Desc(); ok {
+		if err := role.DescValidator(v); err != nil {
+			return &ValidationError{Name: "desc", err: fmt.Errorf(`ent: validator failed for field "Role.desc": %w`, err)}
 		}
 	}
 	if v, ok := rc.mutation.ID(); ok {
@@ -324,19 +314,15 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := rc.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)
-		_node.Name = &value
+		_node.Name = value
 	}
-	if value, ok := rc.mutation.Code(); ok {
-		_spec.SetField(role.FieldCode, field.TypeString, value)
-		_node.Code = &value
+	if value, ok := rc.mutation.Desc(); ok {
+		_spec.SetField(role.FieldDesc, field.TypeString, value)
+		_node.Desc = &value
 	}
 	if value, ok := rc.mutation.SortID(); ok {
 		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
-	}
-	if value, ok := rc.mutation.Menus(); ok {
-		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
-		_node.Menus = value
 	}
 	if nodes := rc.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

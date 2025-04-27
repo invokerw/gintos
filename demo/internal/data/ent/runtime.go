@@ -59,13 +59,27 @@ func init() {
 	// roleDescName is the schema descriptor for name field.
 	roleDescName := roleFields[0].Descriptor()
 	// role.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	role.NameValidator = roleDescName.Validators[0].(func(string) error)
-	// roleDescCode is the schema descriptor for code field.
-	roleDescCode := roleFields[1].Descriptor()
-	// role.DefaultCode holds the default value on creation for the code field.
-	role.DefaultCode = roleDescCode.Default.(string)
-	// role.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	role.CodeValidator = roleDescCode.Validators[0].(func(string) error)
+	role.NameValidator = func() func(string) error {
+		validators := roleDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// roleDescDesc is the schema descriptor for desc field.
+	roleDescDesc := roleFields[1].Descriptor()
+	// role.DefaultDesc holds the default value on creation for the desc field.
+	role.DefaultDesc = roleDescDesc.Default.(string)
+	// role.DescValidator is a validator for the "desc" field. It is called by the builders before save.
+	role.DescValidator = roleDescDesc.Validators[0].(func(string) error)
 	// roleDescSortID is the schema descriptor for sort_id field.
 	roleDescSortID := roleFields[3].Descriptor()
 	// role.DefaultSortID holds the default value on creation for the sort_id field.

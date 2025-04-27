@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/gin-gonic/gin"
 	"github/invokerw/gintos/demo/api/v1/auth"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/biz"
@@ -9,8 +8,10 @@ import (
 	"github/invokerw/gintos/demo/internal/pkg/trans"
 	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
-	"google.golang.org/protobuf/types/known/emptypb"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 // AuthService is a greeter service.
@@ -44,6 +45,7 @@ func (s *AuthService) Login(ctx *gin.Context, req *auth.LoginRequest) (*auth.Log
 		Username:    user.GetUserName(),
 		NickName:    user.GetNickName(),
 		AuthorityId: int32(user.GetAuthority()),
+		Role:        "admin",
 	}
 	token, claims, err := utils.CreateAccessToken(baseC)
 	if err != nil {
@@ -90,6 +92,7 @@ func (s *AuthService) RefreshToken(ctx *gin.Context, req *auth.RefreshTokenReque
 		Username:    user.GetUserName(),
 		NickName:    user.GetNickName(),
 		AuthorityId: int32(user.GetAuthority()),
+		Role:        "admin",
 	}
 	token, claims, err := utils.CreateAccessToken(baseC)
 	if err != nil {

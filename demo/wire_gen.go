@@ -38,7 +38,7 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 		cleanup()
 		return nil, nil, err
 	}
-	enforcer, err := biz.NewCasbinEnforcer(adapter)
+	enforcer, err := biz.NewCasbinEnforcer(adapter, logger)
 	if err != nil {
 		cleanup()
 		return nil, nil, err

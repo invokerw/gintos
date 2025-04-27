@@ -32,12 +32,12 @@ func (Role) Fields() []ent.Field {
 		field.String("name").
 			Comment("角色名称").
 			Unique().
-			Optional().
-			Nillable().
+			NotEmpty().
+			Immutable().
 			MaxLen(128),
 
-		field.String("code").
-			Comment("角色标识").
+		field.String("desc").
+			Comment("角色描述").
 			Default("").
 			Optional().
 			Nillable().
@@ -53,10 +53,6 @@ func (Role) Fields() []ent.Field {
 			Optional().
 			Nillable().
 			Default(0),
-
-		field.JSON("menus", []uint32{}).
-			Comment("分配的菜单列表").
-			Optional(),
 	}
 }
 

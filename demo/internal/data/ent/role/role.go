@@ -28,14 +28,12 @@ const (
 	FieldRemark = "remark"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
-	// FieldCode holds the string denoting the code field in the database.
-	FieldCode = "code"
+	// FieldDesc holds the string denoting the desc field in the database.
+	FieldDesc = "desc"
 	// FieldParentID holds the string denoting the parent_id field in the database.
 	FieldParentID = "parent_id"
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
-	// FieldMenus holds the string denoting the menus field in the database.
-	FieldMenus = "menus"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -62,10 +60,9 @@ var Columns = []string{
 	FieldUpdateBy,
 	FieldRemark,
 	FieldName,
-	FieldCode,
+	FieldDesc,
 	FieldParentID,
 	FieldSortID,
-	FieldMenus,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -83,10 +80,10 @@ var (
 	DefaultRemark string
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
-	// DefaultCode holds the default value on creation for the "code" field.
-	DefaultCode string
-	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	CodeValidator func(string) error
+	// DefaultDesc holds the default value on creation for the "desc" field.
+	DefaultDesc string
+	// DescValidator is a validator for the "desc" field. It is called by the builders before save.
+	DescValidator func(string) error
 	// DefaultSortID holds the default value on creation for the "sort_id" field.
 	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -162,9 +159,9 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
-// ByCode orders the results by the code field.
-func ByCode(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCode, opts...).ToFunc()
+// ByDesc orders the results by the desc field.
+func ByDesc(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDesc, opts...).ToFunc()
 }
 
 // ByParentID orders the results by the parent_id field.

@@ -35,10 +35,9 @@ var (
 		{Name: "create_by", Type: field.TypeUint64, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint64, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Size: 128, Comment: "角色名称"},
-		{Name: "code", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色标识", Default: ""},
+		{Name: "name", Type: field.TypeString, Unique: true, Size: 128, Comment: "角色名称"},
+		{Name: "desc", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色描述", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
-		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
 		{Name: "parent_id", Type: field.TypeUint64, Nullable: true, Comment: "上一层角色ID"},
 	}
 	// RolesTable holds the schema information for the "roles" table.
@@ -49,7 +48,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "roles_roles_children",
-				Columns:    []*schema.Column{RolesColumns[11]},
+				Columns:    []*schema.Column{RolesColumns[10]},
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

@@ -12,7 +12,6 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 )
 
@@ -143,43 +142,23 @@ func (ru *RoleUpdate) ClearRemark() *RoleUpdate {
 	return ru
 }
 
-// SetName sets the "name" field.
-func (ru *RoleUpdate) SetName(s string) *RoleUpdate {
-	ru.mutation.SetName(s)
+// SetDesc sets the "desc" field.
+func (ru *RoleUpdate) SetDesc(s string) *RoleUpdate {
+	ru.mutation.SetDesc(s)
 	return ru
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableName(s *string) *RoleUpdate {
+// SetNillableDesc sets the "desc" field if the given value is not nil.
+func (ru *RoleUpdate) SetNillableDesc(s *string) *RoleUpdate {
 	if s != nil {
-		ru.SetName(*s)
+		ru.SetDesc(*s)
 	}
 	return ru
 }
 
-// ClearName clears the value of the "name" field.
-func (ru *RoleUpdate) ClearName() *RoleUpdate {
-	ru.mutation.ClearName()
-	return ru
-}
-
-// SetCode sets the "code" field.
-func (ru *RoleUpdate) SetCode(s string) *RoleUpdate {
-	ru.mutation.SetCode(s)
-	return ru
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableCode(s *string) *RoleUpdate {
-	if s != nil {
-		ru.SetCode(*s)
-	}
-	return ru
-}
-
-// ClearCode clears the value of the "code" field.
-func (ru *RoleUpdate) ClearCode() *RoleUpdate {
-	ru.mutation.ClearCode()
+// ClearDesc clears the value of the "desc" field.
+func (ru *RoleUpdate) ClearDesc() *RoleUpdate {
+	ru.mutation.ClearDesc()
 	return ru
 }
 
@@ -227,24 +206,6 @@ func (ru *RoleUpdate) AddSortID(i int32) *RoleUpdate {
 // ClearSortID clears the value of the "sort_id" field.
 func (ru *RoleUpdate) ClearSortID() *RoleUpdate {
 	ru.mutation.ClearSortID()
-	return ru
-}
-
-// SetMenus sets the "menus" field.
-func (ru *RoleUpdate) SetMenus(u []uint32) *RoleUpdate {
-	ru.mutation.SetMenus(u)
-	return ru
-}
-
-// AppendMenus appends u to the "menus" field.
-func (ru *RoleUpdate) AppendMenus(u []uint32) *RoleUpdate {
-	ru.mutation.AppendMenus(u)
-	return ru
-}
-
-// ClearMenus clears the value of the "menus" field.
-func (ru *RoleUpdate) ClearMenus() *RoleUpdate {
-	ru.mutation.ClearMenus()
 	return ru
 }
 
@@ -334,14 +295,9 @@ func (ru *RoleUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
-	if v, ok := ru.mutation.Name(); ok {
-		if err := role.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
-		}
-	}
-	if v, ok := ru.mutation.Code(); ok {
-		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
+	if v, ok := ru.mutation.Desc(); ok {
+		if err := role.DescValidator(v); err != nil {
+			return &ValidationError{Name: "desc", err: fmt.Errorf(`ent: validator failed for field "Role.desc": %w`, err)}
 		}
 	}
 	return nil
@@ -398,17 +354,11 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ru.mutation.RemarkCleared() {
 		_spec.ClearField(role.FieldRemark, field.TypeString)
 	}
-	if value, ok := ru.mutation.Name(); ok {
-		_spec.SetField(role.FieldName, field.TypeString, value)
+	if value, ok := ru.mutation.Desc(); ok {
+		_spec.SetField(role.FieldDesc, field.TypeString, value)
 	}
-	if ru.mutation.NameCleared() {
-		_spec.ClearField(role.FieldName, field.TypeString)
-	}
-	if value, ok := ru.mutation.Code(); ok {
-		_spec.SetField(role.FieldCode, field.TypeString, value)
-	}
-	if ru.mutation.CodeCleared() {
-		_spec.ClearField(role.FieldCode, field.TypeString)
+	if ru.mutation.DescCleared() {
+		_spec.ClearField(role.FieldDesc, field.TypeString)
 	}
 	if value, ok := ru.mutation.SortID(); ok {
 		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
@@ -418,17 +368,6 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ru.mutation.SortIDCleared() {
 		_spec.ClearField(role.FieldSortID, field.TypeInt32)
-	}
-	if value, ok := ru.mutation.Menus(); ok {
-		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
-	}
-	if value, ok := ru.mutation.AppendedMenus(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, role.FieldMenus, value)
-		})
-	}
-	if ru.mutation.MenusCleared() {
-		_spec.ClearField(role.FieldMenus, field.TypeJSON)
 	}
 	if ru.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -638,43 +577,23 @@ func (ruo *RoleUpdateOne) ClearRemark() *RoleUpdateOne {
 	return ruo
 }
 
-// SetName sets the "name" field.
-func (ruo *RoleUpdateOne) SetName(s string) *RoleUpdateOne {
-	ruo.mutation.SetName(s)
+// SetDesc sets the "desc" field.
+func (ruo *RoleUpdateOne) SetDesc(s string) *RoleUpdateOne {
+	ruo.mutation.SetDesc(s)
 	return ruo
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableName(s *string) *RoleUpdateOne {
+// SetNillableDesc sets the "desc" field if the given value is not nil.
+func (ruo *RoleUpdateOne) SetNillableDesc(s *string) *RoleUpdateOne {
 	if s != nil {
-		ruo.SetName(*s)
+		ruo.SetDesc(*s)
 	}
 	return ruo
 }
 
-// ClearName clears the value of the "name" field.
-func (ruo *RoleUpdateOne) ClearName() *RoleUpdateOne {
-	ruo.mutation.ClearName()
-	return ruo
-}
-
-// SetCode sets the "code" field.
-func (ruo *RoleUpdateOne) SetCode(s string) *RoleUpdateOne {
-	ruo.mutation.SetCode(s)
-	return ruo
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableCode(s *string) *RoleUpdateOne {
-	if s != nil {
-		ruo.SetCode(*s)
-	}
-	return ruo
-}
-
-// ClearCode clears the value of the "code" field.
-func (ruo *RoleUpdateOne) ClearCode() *RoleUpdateOne {
-	ruo.mutation.ClearCode()
+// ClearDesc clears the value of the "desc" field.
+func (ruo *RoleUpdateOne) ClearDesc() *RoleUpdateOne {
+	ruo.mutation.ClearDesc()
 	return ruo
 }
 
@@ -722,24 +641,6 @@ func (ruo *RoleUpdateOne) AddSortID(i int32) *RoleUpdateOne {
 // ClearSortID clears the value of the "sort_id" field.
 func (ruo *RoleUpdateOne) ClearSortID() *RoleUpdateOne {
 	ruo.mutation.ClearSortID()
-	return ruo
-}
-
-// SetMenus sets the "menus" field.
-func (ruo *RoleUpdateOne) SetMenus(u []uint32) *RoleUpdateOne {
-	ruo.mutation.SetMenus(u)
-	return ruo
-}
-
-// AppendMenus appends u to the "menus" field.
-func (ruo *RoleUpdateOne) AppendMenus(u []uint32) *RoleUpdateOne {
-	ruo.mutation.AppendMenus(u)
-	return ruo
-}
-
-// ClearMenus clears the value of the "menus" field.
-func (ruo *RoleUpdateOne) ClearMenus() *RoleUpdateOne {
-	ruo.mutation.ClearMenus()
 	return ruo
 }
 
@@ -842,14 +743,9 @@ func (ruo *RoleUpdateOne) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
-	if v, ok := ruo.mutation.Name(); ok {
-		if err := role.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
-		}
-	}
-	if v, ok := ruo.mutation.Code(); ok {
-		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
+	if v, ok := ruo.mutation.Desc(); ok {
+		if err := role.DescValidator(v); err != nil {
+			return &ValidationError{Name: "desc", err: fmt.Errorf(`ent: validator failed for field "Role.desc": %w`, err)}
 		}
 	}
 	return nil
@@ -923,17 +819,11 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if ruo.mutation.RemarkCleared() {
 		_spec.ClearField(role.FieldRemark, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Name(); ok {
-		_spec.SetField(role.FieldName, field.TypeString, value)
+	if value, ok := ruo.mutation.Desc(); ok {
+		_spec.SetField(role.FieldDesc, field.TypeString, value)
 	}
-	if ruo.mutation.NameCleared() {
-		_spec.ClearField(role.FieldName, field.TypeString)
-	}
-	if value, ok := ruo.mutation.Code(); ok {
-		_spec.SetField(role.FieldCode, field.TypeString, value)
-	}
-	if ruo.mutation.CodeCleared() {
-		_spec.ClearField(role.FieldCode, field.TypeString)
+	if ruo.mutation.DescCleared() {
+		_spec.ClearField(role.FieldDesc, field.TypeString)
 	}
 	if value, ok := ruo.mutation.SortID(); ok {
 		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
@@ -943,17 +833,6 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	}
 	if ruo.mutation.SortIDCleared() {
 		_spec.ClearField(role.FieldSortID, field.TypeInt32)
-	}
-	if value, ok := ruo.mutation.Menus(); ok {
-		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
-	}
-	if value, ok := ruo.mutation.AppendedMenus(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, role.FieldMenus, value)
-		})
-	}
-	if ruo.mutation.MenusCleared() {
-		_spec.ClearField(role.FieldMenus, field.TypeJSON)
 	}
 	if ruo.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
