@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github/invokerw/gintos/demo/internal/data/ent/predicate"
+	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
 	"time"
 
@@ -282,33 +283,6 @@ func (uu *UserUpdate) ClearAuthority() *UserUpdate {
 	return uu
 }
 
-// SetRoleID sets the "role_id" field.
-func (uu *UserUpdate) SetRoleID(u uint64) *UserUpdate {
-	uu.mutation.ResetRoleID()
-	uu.mutation.SetRoleID(u)
-	return uu
-}
-
-// SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableRoleID(u *uint64) *UserUpdate {
-	if u != nil {
-		uu.SetRoleID(*u)
-	}
-	return uu
-}
-
-// AddRoleID adds u to the "role_id" field.
-func (uu *UserUpdate) AddRoleID(u int64) *UserUpdate {
-	uu.mutation.AddRoleID(u)
-	return uu
-}
-
-// ClearRoleID clears the value of the "role_id" field.
-func (uu *UserUpdate) ClearRoleID() *UserUpdate {
-	uu.mutation.ClearRoleID()
-	return uu
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (uu *UserUpdate) SetLastLoginTime(i int64) *UserUpdate {
 	uu.mutation.ResetLastLoginTime()
@@ -336,9 +310,34 @@ func (uu *UserUpdate) ClearLastLoginTime() *UserUpdate {
 	return uu
 }
 
+// SetRoleID sets the "role" edge to the Role entity by ID.
+func (uu *UserUpdate) SetRoleID(id uint64) *UserUpdate {
+	uu.mutation.SetRoleID(id)
+	return uu
+}
+
+// SetNillableRoleID sets the "role" edge to the Role entity by ID if the given value is not nil.
+func (uu *UserUpdate) SetNillableRoleID(id *uint64) *UserUpdate {
+	if id != nil {
+		uu = uu.SetRoleID(*id)
+	}
+	return uu
+}
+
+// SetRole sets the "role" edge to the Role entity.
+func (uu *UserUpdate) SetRole(r *Role) *UserUpdate {
+	return uu.SetRoleID(r.ID)
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uu *UserUpdate) Mutation() *UserMutation {
 	return uu.mutation
+}
+
+// ClearRole clears the "role" edge to the Role entity.
+func (uu *UserUpdate) ClearRole() *UserUpdate {
+	uu.mutation.ClearRole()
+	return uu
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -509,15 +508,6 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.AuthorityCleared() {
 		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
 	}
-	if value, ok := uu.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint64, value)
-	}
-	if value, ok := uu.mutation.AddedRoleID(); ok {
-		_spec.AddField(user.FieldRoleID, field.TypeUint64, value)
-	}
-	if uu.mutation.RoleIDCleared() {
-		_spec.ClearField(user.FieldRoleID, field.TypeUint64)
-	}
 	if value, ok := uu.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)
 	}
@@ -526,6 +516,35 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if uu.mutation.LastLoginTimeCleared() {
 		_spec.ClearField(user.FieldLastLoginTime, field.TypeInt64)
+	}
+	if uu.mutation.RoleCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   user.RoleTable,
+			Columns: []string{user.RoleColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uu.mutation.RoleIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   user.RoleTable,
+			Columns: []string{user.RoleColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -801,33 +820,6 @@ func (uuo *UserUpdateOne) ClearAuthority() *UserUpdateOne {
 	return uuo
 }
 
-// SetRoleID sets the "role_id" field.
-func (uuo *UserUpdateOne) SetRoleID(u uint64) *UserUpdateOne {
-	uuo.mutation.ResetRoleID()
-	uuo.mutation.SetRoleID(u)
-	return uuo
-}
-
-// SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableRoleID(u *uint64) *UserUpdateOne {
-	if u != nil {
-		uuo.SetRoleID(*u)
-	}
-	return uuo
-}
-
-// AddRoleID adds u to the "role_id" field.
-func (uuo *UserUpdateOne) AddRoleID(u int64) *UserUpdateOne {
-	uuo.mutation.AddRoleID(u)
-	return uuo
-}
-
-// ClearRoleID clears the value of the "role_id" field.
-func (uuo *UserUpdateOne) ClearRoleID() *UserUpdateOne {
-	uuo.mutation.ClearRoleID()
-	return uuo
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (uuo *UserUpdateOne) SetLastLoginTime(i int64) *UserUpdateOne {
 	uuo.mutation.ResetLastLoginTime()
@@ -855,9 +847,34 @@ func (uuo *UserUpdateOne) ClearLastLoginTime() *UserUpdateOne {
 	return uuo
 }
 
+// SetRoleID sets the "role" edge to the Role entity by ID.
+func (uuo *UserUpdateOne) SetRoleID(id uint64) *UserUpdateOne {
+	uuo.mutation.SetRoleID(id)
+	return uuo
+}
+
+// SetNillableRoleID sets the "role" edge to the Role entity by ID if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableRoleID(id *uint64) *UserUpdateOne {
+	if id != nil {
+		uuo = uuo.SetRoleID(*id)
+	}
+	return uuo
+}
+
+// SetRole sets the "role" edge to the Role entity.
+func (uuo *UserUpdateOne) SetRole(r *Role) *UserUpdateOne {
+	return uuo.SetRoleID(r.ID)
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uuo *UserUpdateOne) Mutation() *UserMutation {
 	return uuo.mutation
+}
+
+// ClearRole clears the "role" edge to the Role entity.
+func (uuo *UserUpdateOne) ClearRole() *UserUpdateOne {
+	uuo.mutation.ClearRole()
+	return uuo
 }
 
 // Where appends a list predicates to the UserUpdate builder.
@@ -1058,15 +1075,6 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.AuthorityCleared() {
 		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
 	}
-	if value, ok := uuo.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint64, value)
-	}
-	if value, ok := uuo.mutation.AddedRoleID(); ok {
-		_spec.AddField(user.FieldRoleID, field.TypeUint64, value)
-	}
-	if uuo.mutation.RoleIDCleared() {
-		_spec.ClearField(user.FieldRoleID, field.TypeUint64)
-	}
 	if value, ok := uuo.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)
 	}
@@ -1075,6 +1083,35 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.LastLoginTimeCleared() {
 		_spec.ClearField(user.FieldLastLoginTime, field.TypeInt64)
+	}
+	if uuo.mutation.RoleCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   user.RoleTable,
+			Columns: []string{user.RoleColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uuo.mutation.RoleIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   user.RoleTable,
+			Columns: []string{user.RoleColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_node = &User{config: uuo.config}
 	_spec.Assign = _node.assignValues

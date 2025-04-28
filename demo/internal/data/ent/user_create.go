@@ -5,6 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
+	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
 	"time"
 
@@ -215,20 +216,6 @@ func (uc *UserCreate) SetNillableAuthority(u *user.Authority) *UserCreate {
 	return uc
 }
 
-// SetRoleID sets the "role_id" field.
-func (uc *UserCreate) SetRoleID(u uint64) *UserCreate {
-	uc.mutation.SetRoleID(u)
-	return uc
-}
-
-// SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uc *UserCreate) SetNillableRoleID(u *uint64) *UserCreate {
-	if u != nil {
-		uc.SetRoleID(*u)
-	}
-	return uc
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (uc *UserCreate) SetLastLoginTime(i int64) *UserCreate {
 	uc.mutation.SetLastLoginTime(i)
@@ -247,6 +234,25 @@ func (uc *UserCreate) SetNillableLastLoginTime(i *int64) *UserCreate {
 func (uc *UserCreate) SetID(u uint64) *UserCreate {
 	uc.mutation.SetID(u)
 	return uc
+}
+
+// SetRoleID sets the "role" edge to the Role entity by ID.
+func (uc *UserCreate) SetRoleID(id uint64) *UserCreate {
+	uc.mutation.SetRoleID(id)
+	return uc
+}
+
+// SetNillableRoleID sets the "role" edge to the Role entity by ID if the given value is not nil.
+func (uc *UserCreate) SetNillableRoleID(id *uint64) *UserCreate {
+	if id != nil {
+		uc = uc.SetRoleID(*id)
+	}
+	return uc
+}
+
+// SetRole sets the "role" edge to the Role entity.
+func (uc *UserCreate) SetRole(r *Role) *UserCreate {
+	return uc.SetRoleID(r.ID)
 }
 
 // Mutation returns the UserMutation object of the builder.
@@ -442,13 +448,26 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldAuthority, field.TypeEnum, value)
 		_node.Authority = &value
 	}
-	if value, ok := uc.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint64, value)
-		_node.RoleID = &value
-	}
 	if value, ok := uc.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)
 		_node.LastLoginTime = &value
+	}
+	if nodes := uc.mutation.RoleIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   user.RoleTable,
+			Columns: []string{user.RoleColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.user_role = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }

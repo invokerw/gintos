@@ -25,7 +25,8 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 		return nil, nil, err
 	}
 	userRepo := data.NewUserRepo(dataData, logger)
-	initRet := initialize.DoInit(userRepo, logger)
+	roleRepo := data.NewRoleRepo(dataData, logger)
+	initRet := initialize.DoInit(userRepo, roleRepo, logger)
 	greeterRepo := data.NewGreeterRepo(dataData, logger)
 	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
 	greeterService := service.NewGreeterService(greeterUsecase, logger)

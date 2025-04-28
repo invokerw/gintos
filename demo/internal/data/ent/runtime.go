@@ -46,16 +46,8 @@ func init() {
 	roleMixin := schema.Role{}.Mixin()
 	roleMixinFields0 := roleMixin[0].Fields()
 	_ = roleMixinFields0
-	roleMixinFields2 := roleMixin[2].Fields()
-	_ = roleMixinFields2
-	roleMixinFields5 := roleMixin[5].Fields()
-	_ = roleMixinFields5
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
-	// roleDescRemark is the schema descriptor for remark field.
-	roleDescRemark := roleMixinFields5[0].Descriptor()
-	// role.DefaultRemark holds the default value on creation for the remark field.
-	role.DefaultRemark = roleDescRemark.Default.(string)
 	// roleDescName is the schema descriptor for name field.
 	roleDescName := roleFields[0].Descriptor()
 	// role.NameValidator is a validator for the "name" field. It is called by the builders before save.

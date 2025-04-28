@@ -6,6 +6,7 @@ import (
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/biz"
 	"github/invokerw/gintos/demo/internal/data/ent"
+	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
 	"github/invokerw/gintos/demo/internal/errs"
 	"github/invokerw/gintos/log"
@@ -62,36 +63,47 @@ func (r *userRepo) CreateUser(ctx context.Context, in *common.User) (*ent.User, 
 	if in == nil || in.UserName == nil || in.Password == nil {
 		return nil, errs.DBErrInvalidParam
 	}
-	// 因为 username 唯一，所以不需要 transaction
-	existingUser, err := r.GetUser(ctx, *in.UserName)
-	if err != nil && !errs.DBErrUserNotFound.Equal(err) {
-		return nil, err
-	}
-	if existingUser != nil {
-		return nil, errs.DBErrUserExist
+	roleName := in.GetRoleName()
+	if roleName == "" {
+		return nil, errs.DBErrInvalidParam
 	}
 	now := time.Now()
-	uc := r.data.db.User.Create().
-		SetUsername(*in.UserName).
-		SetPassword(*in.Password).
-		SetNillableNickName(in.NickName).
-		SetNillableCreateBy(in.CreateBy).
-		SetCreateTime(now).
-		SetUpdateTime(now).
-		SetNillableRemark(in.Remark).
-		SetNillableStatus(r.convertToStatus(in.Status)).
-		SetNillableEmail(in.Email).
-		SetNillableMobile(in.Mobile).
-		SetNillableAvatar(in.Avatar).
-		SetNillableGender(r.convertToGender(in.Gender)).
-		SetNillableAuthority(r.convertToAuthority(in.Authority)).
-		SetNillableRoleID(in.RoleId).
-		SetNillableLastLoginTime(in.LastLoginTime)
+	var u *ent.User
+	var err error
+	err = WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
+		u, err = tx.User.Query().Where(user.Username(in.GetUserName())).Only(ctx)
+		if u != nil {
+			return errs.DBErrUserExist
+		}
+		var roleData *ent.Role
+		roleData, err = tx.Role.Query().Where(role.Name(roleName)).Only(ctx)
+		if err != nil {
+			return err
+		}
+		uc := tx.User.Create().
+			SetUsername(*in.UserName).
+			SetPassword(*in.Password).
+			SetNillableNickName(in.NickName).
+			SetNillableCreateBy(in.CreateBy).
+			SetCreateTime(now).
+			SetUpdateTime(now).
+			SetNillableRemark(in.Remark).
+			SetNillableStatus(r.convertToStatus(in.Status)).
+			SetNillableEmail(in.Email).
+			SetNillableMobile(in.Mobile).
+			SetNillableAvatar(in.Avatar).
+			SetNillableGender(r.convertToGender(in.Gender)).
+			SetNillableAuthority(r.convertToAuthority(in.Authority)).
+			SetRole(roleData).
+			SetNillableLastLoginTime(in.LastLoginTime)
 
-	u, err := uc.Save(ctx)
-	if err != nil {
-		return nil, errs.DBErrEntError.Wrap(err)
-	}
+		u, err = uc.Save(ctx)
+		if err != nil {
+			return errs.DBErrEntError.Wrap(err)
+		}
+		return nil
+	})
+
 	return u, nil
 }
 
@@ -99,28 +111,60 @@ func (r *userRepo) UpdateUser(ctx context.Context, in *common.User) (*ent.User, 
 	if in == nil || in.UserName == nil {
 		return nil, errs.DBErrInvalidParam
 	}
-	u, err := r.GetUser(ctx, *in.UserName)
-	if err != nil {
-		return nil, err
-	}
-	uc := u.Update().
-		SetNillableNickName(in.NickName).
-		SetNillableCreateBy(in.CreateBy).
-		SetNillableRemark(in.Remark).
-		SetNillableStatus(r.convertToStatus(in.Status)).
-		SetNillableEmail(in.Email).
-		SetNillableMobile(in.Mobile).
-		SetNillableAvatar(in.Avatar).
-		SetNillableGender(r.convertToGender(in.Gender)).
-		SetNillableAuthority(r.convertToAuthority(in.Authority)).
-		SetNillableRoleID(in.RoleId).
-		SetNillableLastLoginTime(in.LastLoginTime).
-		SetUpdateTime(time.Now())
-	u, err = uc.Save(ctx)
-	if err != nil {
-		return nil, errs.DBErrEntError.Wrap(err)
-	}
+
+	var u *ent.User
+	var err error
+	err = WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
+		var roleId *uint64
+		roleName := in.GetRoleName()
+		if roleName != "" {
+			roleData, err := tx.Role.Query().Where(role.Name(roleName)).Only(ctx)
+			if err == nil {
+				roleId = &roleData.ID
+			}
+		}
+		u, err = tx.User.Query().Where(user.Username(in.GetUserName())).Only(ctx)
+		if err != nil {
+			return errs.DBErrEntError.Wrap(err)
+		}
+		uc := u.Update().
+			SetNillableNickName(in.NickName).
+			SetNillableCreateBy(in.CreateBy).
+			SetNillableRemark(in.Remark).
+			SetNillableStatus(r.convertToStatus(in.Status)).
+			SetNillableEmail(in.Email).
+			SetNillableMobile(in.Mobile).
+			SetNillableAvatar(in.Avatar).
+			SetNillableGender(r.convertToGender(in.Gender)).
+			SetNillableAuthority(r.convertToAuthority(in.Authority)).
+			SetNillableRoleID(roleId).
+			SetNillableLastLoginTime(in.LastLoginTime).
+			SetUpdateTime(time.Now())
+		u, err = uc.Save(ctx)
+		if err != nil {
+			return errs.DBErrEntError.Wrap(err)
+		}
+		return nil
+	})
+
 	return u, nil
+}
+
+func (r *userRepo) DeleteUser(ctx context.Context, username string) error {
+	var err error
+	err = WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
+		var u *ent.User
+		u, err = tx.User.Query().Where(user.Username(username)).Only(ctx)
+		if err != nil {
+			return errs.DBErrEntError.Wrap(err)
+		}
+		err = tx.User.DeleteOne(u).Exec(ctx)
+		if err != nil {
+			return errs.DBErrEntError.Wrap(err)
+		}
+		return nil
+	})
+	return err
 }
 
 func (r *userRepo) GetUser(ctx context.Context, username string) (*ent.User, error) {
@@ -154,7 +198,7 @@ func (r *userRepo) GetUserList(ctx context.Context, req *admin.GetUserListReques
 }
 
 func (r *userRepo) GetUserByID(ctx context.Context, id uint64) (*ent.User, error) {
-	u, err := r.data.db.User.Query().Where(user.ID(id)).Only(ctx)
+	u, err := r.data.db.User.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, errs.DBErrUserNotFound
@@ -162,16 +206,4 @@ func (r *userRepo) GetUserByID(ctx context.Context, id uint64) (*ent.User, error
 		return nil, errs.DBErrEntError.Wrap(err)
 	}
 	return u, nil
-}
-
-func (r *userRepo) DeleteUser(ctx context.Context, username string) error {
-	u, err := r.GetUser(ctx, username)
-	if err != nil {
-		return err
-	}
-	err = r.data.db.User.DeleteOne(u).Exec(ctx)
-	if err != nil {
-		return errs.DBErrEntError.Wrap(err)
-	}
-	return nil
 }

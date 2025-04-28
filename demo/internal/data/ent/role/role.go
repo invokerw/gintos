@@ -3,8 +3,6 @@
 package role
 
 import (
-	"fmt"
-
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 )
@@ -18,14 +16,10 @@ const (
 	FieldCreateTime = "create_time"
 	// FieldUpdateTime holds the string denoting the update_time field in the database.
 	FieldUpdateTime = "update_time"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
 	FieldUpdateBy = "update_by"
-	// FieldRemark holds the string denoting the remark field in the database.
-	FieldRemark = "remark"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
 	// FieldDesc holds the string denoting the desc field in the database.
@@ -55,10 +49,8 @@ var Columns = []string{
 	FieldID,
 	FieldCreateTime,
 	FieldUpdateTime,
-	FieldStatus,
 	FieldCreateBy,
 	FieldUpdateBy,
-	FieldRemark,
 	FieldName,
 	FieldDesc,
 	FieldParentID,
@@ -76,8 +68,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultRemark holds the default value on creation for the "remark" field.
-	DefaultRemark string
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
 	// DefaultDesc holds the default value on creation for the "desc" field.
@@ -89,32 +79,6 @@ var (
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint64) error
 )
-
-// Status defines the type for the "status" enum field.
-type Status string
-
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
-
-// Status values.
-const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
-)
-
-func (s Status) String() string {
-	return string(s)
-}
-
-// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
-func StatusValidator(s Status) error {
-	switch s {
-	case StatusOFF, StatusON:
-		return nil
-	default:
-		return fmt.Errorf("role: invalid enum value for status field: %q", s)
-	}
-}
 
 // OrderOption defines the ordering options for the Role queries.
 type OrderOption func(*sql.Selector)
@@ -134,11 +98,6 @@ func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdateTime, opts...).ToFunc()
 }
 
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
-}
-
 // ByCreateBy orders the results by the create_by field.
 func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreateBy, opts...).ToFunc()
@@ -147,11 +106,6 @@ func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdateBy orders the results by the update_by field.
 func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
-}
-
-// ByRemark orders the results by the remark field.
-func ByRemark(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRemark, opts...).ToFunc()
 }
 
 // ByName orders the results by the name field.

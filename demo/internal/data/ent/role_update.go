@@ -48,26 +48,6 @@ func (ru *RoleUpdate) ClearUpdateTime() *RoleUpdate {
 	return ru
 }
 
-// SetStatus sets the "status" field.
-func (ru *RoleUpdate) SetStatus(r role.Status) *RoleUpdate {
-	ru.mutation.SetStatus(r)
-	return ru
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableStatus(r *role.Status) *RoleUpdate {
-	if r != nil {
-		ru.SetStatus(*r)
-	}
-	return ru
-}
-
-// ClearStatus clears the value of the "status" field.
-func (ru *RoleUpdate) ClearStatus() *RoleUpdate {
-	ru.mutation.ClearStatus()
-	return ru
-}
-
 // SetCreateBy sets the "create_by" field.
 func (ru *RoleUpdate) SetCreateBy(u uint64) *RoleUpdate {
 	ru.mutation.ResetCreateBy()
@@ -119,26 +99,6 @@ func (ru *RoleUpdate) AddUpdateBy(u int64) *RoleUpdate {
 // ClearUpdateBy clears the value of the "update_by" field.
 func (ru *RoleUpdate) ClearUpdateBy() *RoleUpdate {
 	ru.mutation.ClearUpdateBy()
-	return ru
-}
-
-// SetRemark sets the "remark" field.
-func (ru *RoleUpdate) SetRemark(s string) *RoleUpdate {
-	ru.mutation.SetRemark(s)
-	return ru
-}
-
-// SetNillableRemark sets the "remark" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableRemark(s *string) *RoleUpdate {
-	if s != nil {
-		ru.SetRemark(*s)
-	}
-	return ru
-}
-
-// ClearRemark clears the value of the "remark" field.
-func (ru *RoleUpdate) ClearRemark() *RoleUpdate {
-	ru.mutation.ClearRemark()
 	return ru
 }
 
@@ -290,11 +250,6 @@ func (ru *RoleUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (ru *RoleUpdate) check() error {
-	if v, ok := ru.mutation.Status(); ok {
-		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
-		}
-	}
 	if v, ok := ru.mutation.Desc(); ok {
 		if err := role.DescValidator(v); err != nil {
 			return &ValidationError{Name: "desc", err: fmt.Errorf(`ent: validator failed for field "Role.desc": %w`, err)}
@@ -324,12 +279,6 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ru.mutation.UpdateTimeCleared() {
 		_spec.ClearField(role.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := ru.mutation.Status(); ok {
-		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
-	}
-	if ru.mutation.StatusCleared() {
-		_spec.ClearField(role.FieldStatus, field.TypeEnum)
-	}
 	if value, ok := ru.mutation.CreateBy(); ok {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint64, value)
 	}
@@ -347,12 +296,6 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ru.mutation.UpdateByCleared() {
 		_spec.ClearField(role.FieldUpdateBy, field.TypeUint64)
-	}
-	if value, ok := ru.mutation.Remark(); ok {
-		_spec.SetField(role.FieldRemark, field.TypeString, value)
-	}
-	if ru.mutation.RemarkCleared() {
-		_spec.ClearField(role.FieldRemark, field.TypeString)
 	}
 	if value, ok := ru.mutation.Desc(); ok {
 		_spec.SetField(role.FieldDesc, field.TypeString, value)
@@ -483,26 +426,6 @@ func (ruo *RoleUpdateOne) ClearUpdateTime() *RoleUpdateOne {
 	return ruo
 }
 
-// SetStatus sets the "status" field.
-func (ruo *RoleUpdateOne) SetStatus(r role.Status) *RoleUpdateOne {
-	ruo.mutation.SetStatus(r)
-	return ruo
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableStatus(r *role.Status) *RoleUpdateOne {
-	if r != nil {
-		ruo.SetStatus(*r)
-	}
-	return ruo
-}
-
-// ClearStatus clears the value of the "status" field.
-func (ruo *RoleUpdateOne) ClearStatus() *RoleUpdateOne {
-	ruo.mutation.ClearStatus()
-	return ruo
-}
-
 // SetCreateBy sets the "create_by" field.
 func (ruo *RoleUpdateOne) SetCreateBy(u uint64) *RoleUpdateOne {
 	ruo.mutation.ResetCreateBy()
@@ -554,26 +477,6 @@ func (ruo *RoleUpdateOne) AddUpdateBy(u int64) *RoleUpdateOne {
 // ClearUpdateBy clears the value of the "update_by" field.
 func (ruo *RoleUpdateOne) ClearUpdateBy() *RoleUpdateOne {
 	ruo.mutation.ClearUpdateBy()
-	return ruo
-}
-
-// SetRemark sets the "remark" field.
-func (ruo *RoleUpdateOne) SetRemark(s string) *RoleUpdateOne {
-	ruo.mutation.SetRemark(s)
-	return ruo
-}
-
-// SetNillableRemark sets the "remark" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableRemark(s *string) *RoleUpdateOne {
-	if s != nil {
-		ruo.SetRemark(*s)
-	}
-	return ruo
-}
-
-// ClearRemark clears the value of the "remark" field.
-func (ruo *RoleUpdateOne) ClearRemark() *RoleUpdateOne {
-	ruo.mutation.ClearRemark()
 	return ruo
 }
 
@@ -738,11 +641,6 @@ func (ruo *RoleUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (ruo *RoleUpdateOne) check() error {
-	if v, ok := ruo.mutation.Status(); ok {
-		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
-		}
-	}
 	if v, ok := ruo.mutation.Desc(); ok {
 		if err := role.DescValidator(v); err != nil {
 			return &ValidationError{Name: "desc", err: fmt.Errorf(`ent: validator failed for field "Role.desc": %w`, err)}
@@ -789,12 +687,6 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if ruo.mutation.UpdateTimeCleared() {
 		_spec.ClearField(role.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := ruo.mutation.Status(); ok {
-		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
-	}
-	if ruo.mutation.StatusCleared() {
-		_spec.ClearField(role.FieldStatus, field.TypeEnum)
-	}
 	if value, ok := ruo.mutation.CreateBy(); ok {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint64, value)
 	}
@@ -812,12 +704,6 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	}
 	if ruo.mutation.UpdateByCleared() {
 		_spec.ClearField(role.FieldUpdateBy, field.TypeUint64)
-	}
-	if value, ok := ruo.mutation.Remark(); ok {
-		_spec.SetField(role.FieldRemark, field.TypeString, value)
-	}
-	if ruo.mutation.RemarkCleared() {
-		_spec.ClearField(role.FieldRemark, field.TypeString)
 	}
 	if value, ok := ruo.mutation.Desc(); ok {
 		_spec.SetField(role.FieldDesc, field.TypeString, value)

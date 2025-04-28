@@ -10,7 +10,7 @@ import (
 )
 
 func NewCasbinEnforcer(adapter persist.Adapter, logger log.Logger) (*casbin.Enforcer, error) {
-	m := `
+	mStr := `
 [request_definition]
 r = sub, obj, act
 
@@ -26,11 +26,11 @@ e = some(where (p.eft == allow))
 [matchers]
 m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 `
-	model, err := model.NewModelFromString(m)
+	m, err := model.NewModelFromString(mStr)
 	if err != nil {
 		return nil, err
 	}
 	l := casbin_logger.NewCasbinLogger(log.NewHelper(log.With(logger, "module", "casbin")))
 	l.EnableLog(true)
-	return casbin.NewEnforcer(model, adapter, l)
+	return casbin.NewEnforcer(m, adapter, l)
 }

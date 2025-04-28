@@ -48,20 +48,6 @@ func (rc *RoleCreate) SetNillableUpdateTime(t *time.Time) *RoleCreate {
 	return rc
 }
 
-// SetStatus sets the "status" field.
-func (rc *RoleCreate) SetStatus(r role.Status) *RoleCreate {
-	rc.mutation.SetStatus(r)
-	return rc
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableStatus(r *role.Status) *RoleCreate {
-	if r != nil {
-		rc.SetStatus(*r)
-	}
-	return rc
-}
-
 // SetCreateBy sets the "create_by" field.
 func (rc *RoleCreate) SetCreateBy(u uint64) *RoleCreate {
 	rc.mutation.SetCreateBy(u)
@@ -86,20 +72,6 @@ func (rc *RoleCreate) SetUpdateBy(u uint64) *RoleCreate {
 func (rc *RoleCreate) SetNillableUpdateBy(u *uint64) *RoleCreate {
 	if u != nil {
 		rc.SetUpdateBy(*u)
-	}
-	return rc
-}
-
-// SetRemark sets the "remark" field.
-func (rc *RoleCreate) SetRemark(s string) *RoleCreate {
-	rc.mutation.SetRemark(s)
-	return rc
-}
-
-// SetNillableRemark sets the "remark" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableRemark(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetRemark(*s)
 	}
 	return rc
 }
@@ -213,14 +185,6 @@ func (rc *RoleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (rc *RoleCreate) defaults() {
-	if _, ok := rc.mutation.Status(); !ok {
-		v := role.DefaultStatus
-		rc.mutation.SetStatus(v)
-	}
-	if _, ok := rc.mutation.Remark(); !ok {
-		v := role.DefaultRemark
-		rc.mutation.SetRemark(v)
-	}
 	if _, ok := rc.mutation.Desc(); !ok {
 		v := role.DefaultDesc
 		rc.mutation.SetDesc(v)
@@ -233,11 +197,6 @@ func (rc *RoleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rc *RoleCreate) check() error {
-	if v, ok := rc.mutation.Status(); ok {
-		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
-		}
-	}
 	if _, ok := rc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Role.name"`)}
 	}
@@ -296,10 +255,6 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := rc.mutation.Status(); ok {
-		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := rc.mutation.CreateBy(); ok {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint64, value)
 		_node.CreateBy = &value
@@ -307,10 +262,6 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.UpdateBy(); ok {
 		_spec.SetField(role.FieldUpdateBy, field.TypeUint64, value)
 		_node.UpdateBy = &value
-	}
-	if value, ok := rc.mutation.Remark(); ok {
-		_spec.SetField(role.FieldRemark, field.TypeString, value)
-		_node.Remark = &value
 	}
 	if value, ok := rc.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)

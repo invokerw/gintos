@@ -39,7 +39,7 @@ message User {
     (openapi.v3.property) = {description: "用户ID"}
   ];  // 用户ID
 
-  optional uint64 role_id = 2 [json_name = "roleId", (openapi.v3.property) = {description: "角色ID"}];  // 角色ID
+  optional string role_name = 2 [json_name = "roleName", (openapi.v3.property) = {description: "角色名称"}];  // 角色名称
   optional uint64 create_by = 7 [json_name = "createBy", (openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
   optional uint64 update_by = 8 [json_name = "updateBy", (openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
 
@@ -98,8 +98,25 @@ message User {
   }]; // 权限
 
   repeated string roles = 34 [(openapi.v3.property) = {
-    description: "角色码"
+    description: "角色"
   }]; // 角色码
+
+  optional int64 create_time = 200 [json_name = "createTime", (openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional int64 update_time = 201 [json_name = "updateTime", (openapi.v3.property) = {description: "更新时间"}];// 更新时间
+}
+
+
+// Role
+message Role {
+  optional uint64 id = 1 [
+    json_name = "id",
+    (openapi.v3.property) = {description: "角色ID"}
+  ];  // 角色ID
+
+  optional string name = 2 [json_name = "name", (openapi.v3.property) = {description: "角色名称"}];
+  optional string desc = 3 [json_name = "desc", (openapi.v3.property) = {description: "角色描述"}];
+  optional uint64 parent_id = 4 [json_name = "parentID", (openapi.v3.property) = {description: "父角色ID"}];
+  optional int32 sort_id = 5 [json_name = "sortID", (openapi.v3.property) = {description: "排序ID"}];
 
   optional int64 create_time = 200 [json_name = "createTime", (openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional int64 update_time = 201 [json_name = "updateTime", (openapi.v3.property) = {description: "更新时间"}];// 更新时间

@@ -131,6 +131,102 @@ func (x *GetUserListResponse) GetUsers() []*common.User {
 	return nil
 }
 
+type GetRoleListRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          *common.PageInfo       `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`       // 分页信息
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"` // 登录名
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRoleListRequest) Reset() {
+	*x = GetRoleListRequest{}
+	mi := &file_v1_admin_admin_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRoleListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRoleListRequest) ProtoMessage() {}
+
+func (x *GetRoleListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_admin_admin_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRoleListRequest.ProtoReflect.Descriptor instead.
+func (*GetRoleListRequest) Descriptor() ([]byte, []int) {
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetRoleListRequest) GetPage() *common.PageInfo {
+	if x != nil {
+		return x.Page
+	}
+	return nil
+}
+
+func (x *GetRoleListRequest) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+type GetRoleListResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Users         []*common.User         `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRoleListResponse) Reset() {
+	*x = GetRoleListResponse{}
+	mi := &file_v1_admin_admin_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRoleListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRoleListResponse) ProtoMessage() {}
+
+func (x *GetRoleListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_admin_admin_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRoleListResponse.ProtoReflect.Descriptor instead.
+func (*GetRoleListResponse) Descriptor() ([]byte, []int) {
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetRoleListResponse) GetUsers() []*common.User {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
 var File_v1_admin_admin_proto protoreflect.FileDescriptor
 
 const file_v1_admin_admin_proto_rawDesc = "" +
@@ -143,6 +239,12 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\t_usernameB\v\n" +
 	"\t_nickname\"@\n" +
 	"\x13GetUserListResponse\x12)\n" +
+	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users\"\x88\x01\n" +
+	"\x12GetRoleListRequest\x12?\n" +
+	"\x04page\x18\x01 \x01(\v2\x17.api.common.v1.PageInfoB\x12\xbaG\x0f\x92\x02\f分页信息R\x04page\x12(\n" +
+	"\x04name\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t角色名H\x00R\x04name\x88\x01\x01B\a\n" +
+	"\x05_name\"@\n" +
+	"\x13GetRoleListResponse\x12)\n" +
 	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users2\x9e\x01\n" +
 	"\x05Admin\x12\x94\x01\n" +
 	"\vGetUserList\x12 .api.v1.admin.GetUserListRequest\x1a!.api.v1.admin.GetUserListResponse\"@\xbaG\x02Z\x00\x82}\x12获取用户列表\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_user_listB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
@@ -159,23 +261,27 @@ func file_v1_admin_admin_proto_rawDescGZIP() []byte {
 	return file_v1_admin_admin_proto_rawDescData
 }
 
-var file_v1_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_v1_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_v1_admin_admin_proto_goTypes = []any{
 	(*GetUserListRequest)(nil),  // 0: api.v1.admin.GetUserListRequest
 	(*GetUserListResponse)(nil), // 1: api.v1.admin.GetUserListResponse
-	(*common.PageInfo)(nil),     // 2: api.common.v1.PageInfo
-	(*common.User)(nil),         // 3: api.common.v1.User
+	(*GetRoleListRequest)(nil),  // 2: api.v1.admin.GetRoleListRequest
+	(*GetRoleListResponse)(nil), // 3: api.v1.admin.GetRoleListResponse
+	(*common.PageInfo)(nil),     // 4: api.common.v1.PageInfo
+	(*common.User)(nil),         // 5: api.common.v1.User
 }
 var file_v1_admin_admin_proto_depIdxs = []int32{
-	2, // 0: api.v1.admin.GetUserListRequest.page:type_name -> api.common.v1.PageInfo
-	3, // 1: api.v1.admin.GetUserListResponse.users:type_name -> api.common.v1.User
-	0, // 2: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
-	1, // 3: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 0: api.v1.admin.GetUserListRequest.page:type_name -> api.common.v1.PageInfo
+	5, // 1: api.v1.admin.GetUserListResponse.users:type_name -> api.common.v1.User
+	4, // 2: api.v1.admin.GetRoleListRequest.page:type_name -> api.common.v1.PageInfo
+	5, // 3: api.v1.admin.GetRoleListResponse.users:type_name -> api.common.v1.User
+	0, // 4: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
+	1, // 5: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_v1_admin_admin_proto_init() }
@@ -184,13 +290,14 @@ func file_v1_admin_admin_proto_init() {
 		return
 	}
 	file_v1_admin_admin_proto_msgTypes[0].OneofWrappers = []any{}
+	file_v1_admin_admin_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_admin_admin_proto_rawDesc), len(file_v1_admin_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

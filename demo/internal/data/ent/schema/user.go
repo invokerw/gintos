@@ -1,6 +1,7 @@
 package schema
 
 import (
+	"entgo.io/ent/schema/edge"
 	"github/invokerw/gintos/demo/internal/pkg/mixin"
 
 	"entgo.io/ent"
@@ -92,11 +93,6 @@ func (User) Fields() []ent.Field {
 			).
 			Default("CUSTOMER_USER"),
 
-		field.Uint64("role_id").
-			Comment("角色ID").
-			Optional().
-			Nillable(),
-
 		field.Int64("last_login_time").
 			Comment("最后一次登录的时间").
 			Optional().
@@ -118,12 +114,14 @@ func (User) Mixin() []ent.Mixin {
 
 // Edges of the User.
 func (User) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("role", Role.Type).Unique(),
+	}
 }
 
 // Indexes of the User.
 func (User) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "username").Unique(),
+		index.Fields("id", "username"),
 	}
 }

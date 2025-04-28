@@ -4,6 +4,7 @@ package ent
 
 import (
 	"fmt"
+	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
 	"strings"
 	"time"
@@ -46,11 +47,33 @@ type User struct {
 	Gender *user.Gender `json:"gender,omitempty"`
 	// 授权
 	Authority *user.Authority `json:"authority,omitempty"`
-	// 角色ID
-	RoleID *uint64 `json:"role_id,omitempty"`
 	// 最后一次登录的时间
 	LastLoginTime *int64 `json:"last_login_time,omitempty"`
-	selectValues  sql.SelectValues
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the UserQuery when eager-loading is set.
+	Edges        UserEdges `json:"edges"`
+	user_role    *uint64
+	selectValues sql.SelectValues
+}
+
+// UserEdges holds the relations/edges for other nodes in the graph.
+type UserEdges struct {
+	// Role holds the value of the role edge.
+	Role *Role `json:"role,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [1]bool
+}
+
+// RoleOrErr returns the Role value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e UserEdges) RoleOrErr() (*Role, error) {
+	if e.Role != nil {
+		return e.Role, nil
+	} else if e.loadedTypes[0] {
+		return nil, &NotFoundError{label: role.Label}
+	}
+	return nil, &NotLoadedError{edge: "role"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -58,12 +81,14 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldRoleID, user.FieldLastLoginTime:
+		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldLastLoginTime:
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldEmail, user.FieldMobile, user.FieldAvatar, user.FieldGender, user.FieldAuthority:
 			values[i] = new(sql.NullString)
 		case user.FieldCreateTime, user.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
+		case user.ForeignKeys[0]: // user_role
+			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -183,19 +208,19 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.Authority = new(user.Authority)
 				*u.Authority = user.Authority(value.String)
 			}
-		case user.FieldRoleID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field role_id", values[i])
-			} else if value.Valid {
-				u.RoleID = new(uint64)
-				*u.RoleID = uint64(value.Int64)
-			}
 		case user.FieldLastLoginTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field last_login_time", values[i])
 			} else if value.Valid {
 				u.LastLoginTime = new(int64)
 				*u.LastLoginTime = value.Int64
+			}
+		case user.ForeignKeys[0]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field user_role", value)
+			} else if value.Valid {
+				u.user_role = new(uint64)
+				*u.user_role = uint64(value.Int64)
 			}
 		default:
 			u.selectValues.Set(columns[i], values[i])
@@ -208,6 +233,11 @@ func (u *User) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (u *User) Value(name string) (ent.Value, error) {
 	return u.selectValues.Get(name)
+}
+
+// QueryRole queries the "role" edge of the User entity.
+func (u *User) QueryRole() *RoleQuery {
+	return NewUserClient(u.config).QueryRole(u)
 }
 
 // Update returns a builder for updating this User.
@@ -300,11 +330,6 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	if v := u.Authority; v != nil {
 		builder.WriteString("authority=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := u.RoleID; v != nil {
-		builder.WriteString("role_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

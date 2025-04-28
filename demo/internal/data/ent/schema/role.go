@@ -44,7 +44,7 @@ func (Role) Fields() []ent.Field {
 			MaxLen(128),
 
 		field.Uint64("parent_id").
-			Comment("上一层角色ID").
+			Comment("父角色ID").
 			Nillable().
 			Optional(),
 
@@ -61,10 +61,8 @@ func (Role) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
 		mixin.Time{},
-		mixin.SwitchStatus{},
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
-		mixin.Remark{},
 	}
 }
 

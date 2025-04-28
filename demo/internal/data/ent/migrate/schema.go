@@ -31,14 +31,12 @@ var (
 		{Name: "id", Type: field.TypeUint64, Increment: true, Comment: "id"},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint64, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint64, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "name", Type: field.TypeString, Unique: true, Size: 128, Comment: "角色名称"},
 		{Name: "desc", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色描述", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
-		{Name: "parent_id", Type: field.TypeUint64, Nullable: true, Comment: "上一层角色ID"},
+		{Name: "parent_id", Type: field.TypeUint64, Nullable: true, Comment: "父角色ID"},
 	}
 	// RolesTable holds the schema information for the "roles" table.
 	RolesTable = &schema.Table{
@@ -48,7 +46,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "roles_roles_children",
-				Columns:    []*schema.Column{RolesColumns[10]},
+				Columns:    []*schema.Column{RolesColumns[8]},
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -78,14 +76,22 @@ var (
 		{Name: "avatar", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "头像"},
 		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"UNKNOWN", "MALE", "FEMALE"}},
 		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "SYS_MANAGER", "CUSTOMER_USER", "GUEST_USER", "REFRESH_TOKEN"}, Default: "CUSTOMER_USER"},
-		{Name: "role_id", Type: field.TypeUint64, Nullable: true, Comment: "角色ID"},
 		{Name: "last_login_time", Type: field.TypeInt64, Nullable: true, Comment: "最后一次登录的时间"},
+		{Name: "user_role", Type: field.TypeUint64, Nullable: true},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
 		Name:       "users",
 		Columns:    UsersColumns,
 		PrimaryKey: []*schema.Column{UsersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "users_roles_role",
+				Columns:    []*schema.Column{UsersColumns[16]},
+				RefColumns: []*schema.Column{RolesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
 		Indexes: []*schema.Index{
 			{
 				Name:    "user_id",
@@ -94,7 +100,7 @@ var (
 			},
 			{
 				Name:    "user_id_username",
-				Unique:  true,
+				Unique:  false,
 				Columns: []*schema.Column{UsersColumns[0], UsersColumns[7]},
 			},
 		},
@@ -114,6 +120,7 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
+	UsersTable.ForeignKeys[0].RefTable = RolesTable
 	UsersTable.Annotation = &entsql.Annotation{
 		Table:     "users",
 		Charset:   "utf8mb4",

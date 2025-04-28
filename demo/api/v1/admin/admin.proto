@@ -45,3 +45,19 @@ message GetUserListRequest {
 message GetUserListResponse {
 	repeated common.v1.User users = 1;
 }
+
+
+message GetRoleListRequest {
+	common.v1.PageInfo page = 1 [
+		json_name = "page",
+		(openapi.v3.property) = {description: "分页信息"}
+	]; // 分页信息
+	optional string name = 2 [
+		json_name = "name",
+		(openapi.v3.property) = {description: "角色名"}
+	]; // 登录名
+}
+
+message GetRoleListResponse {
+	repeated common.v1.User users = 1;
+}

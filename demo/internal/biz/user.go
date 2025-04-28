@@ -12,16 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UserRepo is a User repo.
-type UserRepo interface {
-	CreateUser(ctx context.Context, in *common.User) (*ent.User, error)
-	GetUser(ctx context.Context, username string) (*ent.User, error)
-	GetUserByID(ctx context.Context, id uint64) (*ent.User, error)
-	DeleteUser(ctx context.Context, username string) error
-	UpdateUser(ctx context.Context, in *common.User) (*ent.User, error)
-	GetUserList(ctx context.Context, req *admin.GetUserListRequest) ([]*ent.User, error)
-}
-
 type UserUsecase struct {
 	repo UserRepo
 	log  *log.Helper
@@ -117,9 +107,10 @@ func (uc *UserUsecase) convertToAuthority(a *user.Authority) *common.UserAuthori
 }
 
 func (uc *UserUsecase) convertToUser(u *ent.User) *common.User {
+	roleName := u.Edges.Role.Name
 	return &common.User{
 		Id:            trans.Uint64(u.ID),
-		RoleId:        u.RoleID,
+		RoleName:      &roleName,
 		CreateBy:      u.CreateBy,
 		UpdateBy:      u.UpdateBy,
 		UserName:      u.Username,
@@ -133,7 +124,7 @@ func (uc *UserUsecase) convertToUser(u *ent.User) *common.User {
 		LastLoginTime: u.LastLoginTime,
 		Status:        uc.convertToStatus(u.Status),
 		Authority:     uc.convertToAuthority(u.Authority),
-		Roles:         []string{"admin"}, // TODO Roles
+		Roles:         []string{roleName},
 		CreateTime:    trans.Ptr(u.CreateTime.Unix()),
 		UpdateTime:    trans.Ptr(u.UpdateTime.Unix()),
 	}
