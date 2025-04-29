@@ -40,7 +40,7 @@ func JWTAuth() gin.HandlerFunc {
 	}
 }
 
-func CasbinAuth(limit common.UserAuthority, e *casbin.Enforcer) gin.HandlerFunc {
+func CasbinAuth(limit common.UserAuthority, e *casbin.Enforcer, checkList map[string]struct{}) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userClaims := utils.GetUserInfo(c)
 		if userClaims == nil {
@@ -58,16 +58,17 @@ func CasbinAuth(limit common.UserAuthority, e *casbin.Enforcer) gin.HandlerFunc 
 			sub := userClaims.Role
 			obj := c.Request.URL.Path
 			act := c.Request.Method
-
-			ok, err := e.Enforce(sub, obj, act)
-			if err != nil {
-				resp.NoAuth(c, "权限校验失败 "+err.Error())
-				c.Abort()
-			}
-			if !ok {
-				resp.NoAuth(c, "没有权限")
-				c.Abort()
-				return
+			if _, in := checkList[act+"_"+obj]; in {
+				ok, err := e.Enforce(sub, obj, act)
+				if err != nil {
+					resp.NoAuth(c, "权限校验失败 "+err.Error())
+					c.Abort()
+				}
+				if !ok {
+					resp.NoAuth(c, "没有权限")
+					c.Abort()
+					return
+				}
 			}
 		}
 		c.Next()

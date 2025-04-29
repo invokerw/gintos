@@ -2,6 +2,7 @@ package router
 
 import (
 	"github/invokerw/gintos/common/middleware"
+	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/auth"
 	"github/invokerw/gintos/demo/api/v1/base"
@@ -29,6 +30,12 @@ func NewGinHttpServer(c *conf.Server,
 	enforce *casbin.Enforcer,
 	logger log.Logger) *gin.Engine {
 
+	info := api.GetApiInfo()
+	checkList := make(map[string]struct{}, len(info))
+	for _, v := range info {
+		checkList[v.Method+"_"+v.Path] = struct{}{}
+	}
+
 	//engine := gin.Default()
 	engine := gin.New()
 	ginHelper := log.NewHelper(log.With(logger, "module", "router"))
@@ -48,11 +55,11 @@ func NewGinHttpServer(c *conf.Server,
 		auth.RegisterAuthServer(g, a)
 	}
 	{
-		g := engine.Group("/").Use(mw.JWTAuth(), mw.CasbinAuth(common.UserAuthority_SYS_MANAGER, enforce))
+		g := engine.Group("/").Use(mw.JWTAuth(), mw.CasbinAuth(common.UserAuthority_SYS_MANAGER, enforce, checkList))
 		admin.RegisterAdminServer(g, adminS)
 	}
 	{
-		g := engine.Group("/").Use(mw.JWTAuth(), mw.CasbinAuth(common.UserAuthority_CUSTOMER_USER, nil))
+		g := engine.Group("/").Use(mw.JWTAuth(), mw.CasbinAuth(common.UserAuthority_CUSTOMER_USER, nil, checkList))
 		base.RegisterBaseServer(g, bs)
 	}
 	// swagger
