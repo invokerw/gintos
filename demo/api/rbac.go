@@ -14,5 +14,35 @@ func GetApiInfo() []*rbac.ApiInfo {
 			Desc: "获取用户列表",
 			ServiceName: "api.v1.admin.Admin",
 		},
+		{
+			Method: "POST",
+			Path: "/api/v1/admin/update_users",
+			Desc: "更新用户",
+			ServiceName: "api.v1.admin.Admin",
+		},
+		{
+			Method: "POST",
+			Path: "/api/v1/admin/delete_users",
+			Desc: "删除用户",
+			ServiceName: "api.v1.admin.Admin",
+		},
+		{
+			Method: "POST",
+			Path: "/api/v1/admin/get_role_list",
+			Desc: "获取角色列表",
+			ServiceName: "api.v1.admin.Admin",
+		},
+		{
+			Method: "POST",
+			Path: "/api/v1/admin/update_roles",
+			Desc: "更新角色",
+			ServiceName: "api.v1.admin.Admin",
+		},
+		{
+			Method: "POST",
+			Path: "/api/v1/admin/delete_roles",
+			Desc: "删除角色",
+			ServiceName: "api.v1.admin.Admin",
+		},
 	}
 }

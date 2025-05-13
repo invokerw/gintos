@@ -6,6 +6,60 @@ info:
     title: ""
     version: 0.0.1
 paths:
+    /api/v1/admin/delete_roles:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_DeleteRoles
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.DeleteRolesRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - {}
+    /api/v1/admin/delete_users:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_DeleteUsers
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.DeleteUsersRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - {}
+    /api/v1/admin/get_role_list:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_GetRoleList
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.GetRoleListRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.GetRoleListResponse'
+            security:
+                - {}
     /api/v1/admin/get_user_list:
         post:
             tags:
@@ -24,6 +78,46 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.admin.GetUserListResponse'
+            security:
+                - {}
+    /api/v1/admin/update_roles:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_UpdateRoles
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.UpdateRolesRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.UpdateRolesResponse'
+            security:
+                - {}
+    /api/v1/admin/update_users:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_UpdateUsers
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.UpdateUsersRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.UpdateUsersResponse'
             security:
                 - {}
     /api/v1/auth/get_async_routes:
@@ -159,6 +253,32 @@ components:
                     type: integer
                     description: 数量
                     format: int32
+        api.common.v1.Role:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 角色ID
+                name:
+                    type: string
+                    description: 角色名称
+                desc:
+                    type: string
+                    description: 角色描述
+                parentID:
+                    type: string
+                    description: 父角色ID
+                sortID:
+                    type: integer
+                    description: 排序ID
+                    format: int32
+                createTime:
+                    type: string
+                    description: 创建时间
+                updateTime:
+                    type: string
+                    description: 更新时间
+            description: Role
         api.common.v1.User:
             type: object
             properties:
@@ -227,6 +347,37 @@ components:
                     type: string
                     description: 更新时间
             description: 用户
+        api.v1.admin.DeleteRolesRequest:
+            type: object
+            properties:
+                names:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色名字
+        api.v1.admin.DeleteUsersRequest:
+            type: object
+            properties:
+                names:
+                    type: array
+                    items:
+                        type: string
+                    description: 用户名
+        api.v1.admin.GetRoleListRequest:
+            type: object
+            properties:
+                page:
+                    $ref: '#/components/schemas/api.common.v1.PageInfo'
+                name:
+                    type: string
+                    description: 角色名
+        api.v1.admin.GetRoleListResponse:
+            type: object
+            properties:
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.Role'
         api.v1.admin.GetUserListRequest:
             type: object
             properties:
@@ -239,6 +390,36 @@ components:
                     type: string
                     description: 昵称
         api.v1.admin.GetUserListResponse:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.User'
+        api.v1.admin.UpdateRolesRequest:
+            type: object
+            properties:
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.Role'
+                    description: 角色信息
+        api.v1.admin.UpdateRolesResponse:
+            type: object
+            properties:
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.Role'
+        api.v1.admin.UpdateUsersRequest:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.User'
+                    description: 用户信息
+        api.v1.admin.UpdateUsersResponse:
             type: object
             properties:
                 users:

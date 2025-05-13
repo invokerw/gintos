@@ -57,6 +57,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{RolesColumns[0]},
 			},
+			{
+				Name:    "role_id_name",
+				Unique:  false,
+				Columns: []*schema.Column{RolesColumns[0], RolesColumns[5]},
+			},
 		},
 	}
 	// UsersColumns holds the columns for the "users" table.

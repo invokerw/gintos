@@ -45,20 +45,20 @@ func (uc *UserUsecase) GetUserByID(ctx *gin.Context, id uint64) (*common.User, e
 	return uc.convertToUser(u), nil
 }
 
-func (uc *UserUsecase) DeleteUser(ctx *gin.Context, username string) error {
-	err := uc.repo.DeleteUser(ctx, username)
+func (uc *UserUsecase) DeleteUsers(ctx *gin.Context, names []string) error {
+	err := uc.repo.DeleteUsers(ctx, names)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (uc *UserUsecase) UpdateUser(ctx context.Context, user *common.User) (*common.User, error) {
-	u, err := uc.repo.UpdateUser(ctx, user)
+func (uc *UserUsecase) UpdateUsers(ctx context.Context, users []*common.User) ([]*common.User, error) {
+	us, err := uc.repo.UpdateUsers(ctx, users)
 	if err != nil {
 		return nil, err
 	}
-	return uc.convertToUser(u), nil
+	return uc.convertToUsers(us), nil
 }
 
 func (uc *UserUsecase) GetUserList(ctx *gin.Context, req *admin.GetUserListRequest) ([]*common.User, error) {
@@ -104,6 +104,14 @@ func (uc *UserUsecase) convertToAuthority(a *user.Authority) *common.UserAuthori
 		return nil
 	}
 	return trans.Ptr(common.UserAuthority(find))
+}
+
+func (uc *UserUsecase) convertToUsers(us []*ent.User) []*common.User {
+	ret := make([]*common.User, 0, len(us))
+	for _, u := range us {
+		ret = append(ret, uc.convertToUser(u))
+	}
+	return ret
 }
 
 func (uc *UserUsecase) convertToUser(u *ent.User) *common.User {

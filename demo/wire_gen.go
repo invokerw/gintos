@@ -32,8 +32,7 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 	greeterService := service.NewGreeterService(greeterUsecase, logger)
 	userUsecase := biz.NewUserUsecase(userRepo, logger)
 	authService := service.NewAuthService(userUsecase, logger)
-	adminService := service.NewAdminService(userUsecase, logger)
-	baseService := service.NewBaseService(userUsecase, logger)
+	roleUsecase := biz.NewRoleUsecase(roleRepo, logger)
 	adapter, err := data.NewCasbinAdapter(dataData)
 	if err != nil {
 		cleanup()
@@ -44,6 +43,8 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 		cleanup()
 		return nil, nil, err
 	}
+	adminService := service.NewAdminService(userUsecase, roleUsecase, enforcer, logger)
+	baseService := service.NewBaseService(userUsecase, logger)
 	engine := router.NewGinHttpServer(server, greeterService, authService, adminService, baseService, enforcer, logger)
 	app := newApp(initRet, engine)
 	return app, func() {

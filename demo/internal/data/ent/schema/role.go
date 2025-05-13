@@ -1,6 +1,7 @@
 package schema
 
 import (
+	"entgo.io/ent/schema/index"
 	"github/invokerw/gintos/demo/internal/pkg/mixin"
 
 	"entgo.io/ent"
@@ -72,5 +73,12 @@ func (Role) Edges() []ent.Edge {
 		edge.
 			To("children", Role.Type).
 			From("parent").Unique().Field("parent_id"),
+	}
+}
+
+// Indexes of the User.
+func (Role) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("id", "name"),
 	}
 }

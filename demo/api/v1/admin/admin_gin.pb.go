@@ -9,6 +9,7 @@ package admin
 import (
 	gin "github.com/gin-gonic/gin"
 	resp "github/invokerw/gintos/common/resp"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -16,14 +17,29 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
+const OperationAdminDeleteRoles = "/api.v1.admin.Admin/DeleteRoles"
+const OperationAdminDeleteUsers = "/api.v1.admin.Admin/DeleteUsers"
+const OperationAdminGetRoleList = "/api.v1.admin.Admin/GetRoleList"
 const OperationAdminGetUserList = "/api.v1.admin.Admin/GetUserList"
+const OperationAdminUpdateRoles = "/api.v1.admin.Admin/UpdateRoles"
+const OperationAdminUpdateUsers = "/api.v1.admin.Admin/UpdateUsers"
 
 type IAdminServer interface {
+	DeleteRoles(*gin.Context, *DeleteRolesRequest) (*emptypb.Empty, error)
+	DeleteUsers(*gin.Context, *DeleteUsersRequest) (*emptypb.Empty, error)
+	GetRoleList(*gin.Context, *GetRoleListRequest) (*GetRoleListResponse, error)
 	GetUserList(*gin.Context, *GetUserListRequest) (*GetUserListResponse, error)
+	UpdateRoles(*gin.Context, *UpdateRolesRequest) (*UpdateRolesResponse, error)
+	UpdateUsers(*gin.Context, *UpdateUsersRequest) (*UpdateUsersResponse, error)
 }
 
 func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
 	r.POST("/api/v1/admin/get_user_list", _Admin_GetUserList0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/update_users", _Admin_UpdateUsers0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/delete_users", _Admin_DeleteUsers0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/get_role_list", _Admin_GetRoleList0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/update_roles", _Admin_UpdateRoles0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/delete_roles", _Admin_DeleteRoles0_HTTP_Handler(srv))
 }
 
 func _Admin_GetUserList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
@@ -39,6 +55,111 @@ func _Admin_GetUserList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
 		}
 		// http.SetOperation(ctx, OperationAdminGetUserList)
 		reply, err := srv.GetUserList(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_UpdateUsers0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in UpdateUsersRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminUpdateUsers)
+		reply, err := srv.UpdateUsers(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_DeleteUsers0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in DeleteUsersRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminDeleteUsers)
+		reply, err := srv.DeleteUsers(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_GetRoleList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in GetRoleListRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminGetRoleList)
+		reply, err := srv.GetRoleList(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_UpdateRoles0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in UpdateRolesRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminUpdateRoles)
+		reply, err := srv.UpdateRoles(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_DeleteRoles0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in DeleteRolesRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminDeleteRoles)
+		reply, err := srv.DeleteRoles(ctx, &in)
 		if err != nil {
 			resp.FailWithError(ctx, err)
 			return

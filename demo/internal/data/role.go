@@ -51,49 +51,64 @@ func (r *roleRepo) CreateRole(ctx context.Context, in *common.Role) (*ent.Role, 
 		}
 		return nil
 	})
+	if err != nil {
+		return nil, errs.DBErrEntError.Wrap(err)
+	}
 	return u, nil
 }
 
-func (r *roleRepo) UpdateRole(ctx context.Context, in *common.Role) (*ent.Role, error) {
-	if in == nil || in.Name == nil {
-		return nil, errs.DBErrInvalidParam
-	}
-	var u *ent.Role
-	var err error
-	err = WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
-		u, err = tx.Role.Query().Where(role.Name(in.GetName())).Only(ctx)
-		if err != nil {
-			return err
+func (r *roleRepo) UpdateRoles(ctx context.Context, roles []*common.Role) ([]*ent.Role, error) {
+	for _, in := range roles {
+		if in == nil || in.Name == nil {
+			return nil, errs.DBErrInvalidParam
 		}
-		uc := u.Update().
-			SetNillableDesc(in.Desc).
-			SetNillableParentID(in.ParentId).
-			SetNillableSortID(in.SortId).
-			SetUpdateTime(time.Now())
-		u, err = uc.Save(ctx)
-		if err != nil {
-			return errs.DBErrEntError.Wrap(err)
+	}
+	ret := make([]*ent.Role, 0, len(roles))
+	err := WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
+		for _, in := range roles {
+			u, err := tx.Role.Query().Where(role.Name(in.GetName())).Only(ctx)
+			if err != nil {
+				return err
+			}
+			uc := u.Update().
+				SetNillableDesc(in.Desc).
+				SetNillableParentID(in.ParentId).
+				SetNillableSortID(in.SortId).
+				SetUpdateTime(time.Now())
+			u, err = uc.Save(ctx)
+			if err != nil {
+				return errs.DBErrEntError.Wrap(err)
+			}
+			ret = append(ret, u)
 		}
 		return nil
 	})
 
-	return u, nil
+	if err != nil {
+		return nil, errs.DBErrEntError.Wrap(err)
+	}
+	return ret, nil
 }
 
-func (r *roleRepo) DeleteRole(ctx context.Context, name string) error {
+func (r *roleRepo) DeleteRoles(ctx context.Context, names []string) error {
 	var err error
 	err = WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
 		var u *ent.Role
-		u, err = tx.Role.Query().Where(role.Name(name)).Only(ctx)
-		if err != nil {
-			return errs.DBErrEntError.Wrap(err)
-		}
-		err = tx.Role.DeleteOne(u).Exec(ctx)
-		if err != nil {
-			return errs.DBErrEntError.Wrap(err)
+		for _, name := range names {
+			u, err = tx.Role.Query().Where(role.Name(name)).Only(ctx)
+			if err != nil {
+				return errs.DBErrEntError.Wrap(err)
+			}
+			err = tx.Role.DeleteOne(u).Exec(ctx)
+			if err != nil {
+				return errs.DBErrEntError.Wrap(err)
+			}
 		}
 		return nil
 	})
+	if err != nil {
+		return errs.DBErrEntError.Wrap(err)
+	}
 	return err
 }
 
