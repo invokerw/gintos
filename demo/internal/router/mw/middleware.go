@@ -3,6 +3,7 @@ package mw
 import (
 	"errors"
 	"github/invokerw/gintos/common/resp"
+	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/g"
 	"github/invokerw/gintos/demo/internal/pkg/utils"
@@ -40,7 +41,7 @@ func JWTAuth() gin.HandlerFunc {
 	}
 }
 
-func CasbinAuth(limit common.UserAuthority, e *casbin.Enforcer, checkList map[string]struct{}) gin.HandlerFunc {
+func CasbinAuth(limit common.UserAuthority, e *casbin.Enforcer) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userClaims := utils.GetUserInfo(c)
 		if userClaims == nil {
@@ -58,7 +59,7 @@ func CasbinAuth(limit common.UserAuthority, e *casbin.Enforcer, checkList map[st
 			sub := userClaims.Role
 			obj := c.Request.URL.Path
 			act := c.Request.Method
-			if _, in := checkList[act+"_"+obj]; in {
+			if _, in := api.GetApiInfo(obj, act); in {
 				ok, err := e.Enforce(sub, obj, act)
 				if err != nil {
 					resp.NoAuth(c, "权限校验失败 "+err.Error())

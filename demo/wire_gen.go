@@ -26,13 +26,6 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 	}
 	userRepo := data.NewUserRepo(dataData, logger)
 	roleRepo := data.NewRoleRepo(dataData, logger)
-	initRet := initialize.DoInit(userRepo, roleRepo, logger)
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
-	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
-	greeterService := service.NewGreeterService(greeterUsecase, logger)
-	userUsecase := biz.NewUserUsecase(userRepo, logger)
-	authService := service.NewAuthService(userUsecase, logger)
-	roleUsecase := biz.NewRoleUsecase(roleRepo, logger)
 	adapter, err := data.NewCasbinAdapter(dataData)
 	if err != nil {
 		cleanup()
@@ -43,6 +36,13 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 		cleanup()
 		return nil, nil, err
 	}
+	initRet := initialize.DoInit(userRepo, roleRepo, enforcer, logger)
+	greeterRepo := data.NewGreeterRepo(dataData, logger)
+	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
+	greeterService := service.NewGreeterService(greeterUsecase, logger)
+	userUsecase := biz.NewUserUsecase(userRepo, logger)
+	authService := service.NewAuthService(userUsecase, logger)
+	roleUsecase := biz.NewRoleUsecase(roleRepo, logger)
 	adminService := service.NewAdminService(userUsecase, roleUsecase, enforcer, logger)
 	baseService := service.NewBaseService(userUsecase, logger)
 	engine := router.NewGinHttpServer(server, greeterService, authService, adminService, baseService, enforcer, logger)

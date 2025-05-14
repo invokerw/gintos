@@ -20,18 +20,46 @@ import (
 	"github/invokerw/gintos/proto/rbac"
 )
 
-func GetApiInfo() []*rbac.ApiInfo {
+var (
+	ApiInfo []*rbac.ApiInfo
+	ApiTypeMap map[string][]*rbac.ApiInfo
+	ApiMap  map[string]*rbac.ApiInfo // key: name
+	ApiPathMethodToApiInfo map[string]*rbac.ApiInfo // key: path-method
+)
+
+func init() {
+	ApiInfo = getApiInfoList()
+	ApiTypeMap = make(map[string][]*rbac.ApiInfo)
+	ApiMap = make(map[string]*rbac.ApiInfo, len(ApiInfo))
+	ApiPathMethodToApiInfo = make(map[string]*rbac.ApiInfo, len(ApiInfo))
+	for _, v := range ApiInfo {
+		ApiMap[v.Name] = v
+		ApiPathMethodToApiInfo[v.Path+"-"+v.Method] = v
+		if _, ok := ApiTypeMap[v.Type]; !ok {
+			ApiTypeMap[v.Type] = make([]*rbac.ApiInfo, 0)
+		}
+		ApiTypeMap[v.Type] = append(ApiTypeMap[v.Type], v)
+	}
+}
+
+func GetApiInfo(path, method string) (*rbac.ApiInfo, bool) {
+	info, ok := ApiPathMethodToApiInfo[path+"-"+method]
+	return info, ok
+}
+
+func getApiInfoList() []*rbac.ApiInfo {
 	return []*rbac.ApiInfo{
 		{{- range .ApiInfo }}
 		{
 			Method: "{{.Method}}",
 			Path: "{{.Path}}",
-			Desc: "{{.Desc}}",
-			ServiceName: "{{.ServiceName}}",
+			Name: "{{.Name}}",
+			Type: "{{.Type}}",
 		},
 		{{- end }}
 	}
 }
+
 `
 
 func rbacGenerate(gen *protogen.Plugin, savePath, packageName string, omitempty bool, omitemptyPrefix string) error {
@@ -41,14 +69,20 @@ func rbacGenerate(gen *protogen.Plugin, savePath, packageName string, omitempty 
 	saveFilePath := filepath.Join(savePath, "rbac.go")
 	var apiInfoList []*rbac.ApiInfo
 	apiMap := make(map[string]*rbac.ApiInfo)
+	apiNameMap := make(map[string]*rbac.ApiInfo)
 	addApiInfo := func(info *rbac.ApiInfo) {
 		apiMapKey := fmt.Sprintf("%s-%s", info.Method, info.Path)
 		if oldInfo, ok := apiMap[apiMapKey]; ok {
 			fmt.Printf("WARNING !!!! jump duplicate api info: %v, new %v\n", oldInfo, info)
 			return
 		}
+		if oldInfo, ok := apiNameMap[info.Name]; ok {
+			fmt.Printf("WARNING !!!! jump duplicate api info: %v, new %v\n", oldInfo, info)
+			return
+		}
 		apiInfoList = append(apiInfoList, info)
 		apiMap[apiMapKey] = info
+		apiNameMap[info.Name] = info
 	}
 	for _, f := range gen.Files {
 		if !f.Generate {
@@ -63,33 +97,37 @@ func rbacGenerate(gen *protogen.Plugin, savePath, packageName string, omitempty 
 				if !ok || comment == "" {
 					continue
 				}
+				typ, ok := proto.GetExtension(method.Desc.Options(), rbac.E_Type).(string)
+				if !ok || typ == "" {
+					typ = "common"
+				}
 				rule, ok := proto.GetExtension(method.Desc.Options(), annotations.E_Http).(*annotations.HttpRule)
 				if rule != nil && ok {
 					for _, bind := range rule.AdditionalBindings {
 						path, m := getPathAndMethod(service, method, bind, omitemptyPrefix)
 						api := &rbac.ApiInfo{
-							Method:      m,
-							Path:        path,
-							Desc:        comment,
-							ServiceName: string(service.Desc.FullName()),
+							Method: m,
+							Path:   path,
+							Name:   comment,
+							Type:   typ,
 						}
 						addApiInfo(api)
 					}
 					path, m := getPathAndMethod(service, method, rule, omitemptyPrefix)
 					api := &rbac.ApiInfo{
-						Method:      m,
-						Path:        path,
-						Desc:        comment,
-						ServiceName: string(service.Desc.FullName()),
+						Method: m,
+						Path:   path,
+						Name:   comment,
+						Type:   typ,
 					}
 					addApiInfo(api)
 				} else if !omitempty {
 					path := fmt.Sprintf("%s/%s/%s", omitemptyPrefix, service.Desc.FullName(), method.Desc.Name())
 					api := &rbac.ApiInfo{
-						Method:      http.MethodPost,
-						Path:        path,
-						Desc:        comment,
-						ServiceName: string(service.Desc.FullName()),
+						Method: http.MethodPost,
+						Path:   path,
+						Name:   comment,
+						Type:   typ,
 					}
 					addApiInfo(api)
 				}

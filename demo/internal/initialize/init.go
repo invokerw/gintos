@@ -2,7 +2,9 @@ package initialize
 
 import (
 	"context"
+	"github.com/casbin/casbin/v2"
 	"github.com/google/wire"
+	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/biz"
 	"github/invokerw/gintos/demo/internal/pkg/trans"
@@ -16,11 +18,10 @@ type InitRet struct {
 	Err error
 }
 
-func DoInit(user biz.UserRepo, role biz.RoleRepo, l log.Logger) *InitRet {
+func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l log.Logger) *InitRet {
 	ctx := context.Background()
 	logger := log.NewHelper(log.With(l, "module", "initialize"))
-
-	createRoleAndUser := func(roleName string, sortId int32, uName, pass string, uAuth common.UserAuthority) error {
+	createRole := func(roleName string, sortId int32, rules [][]string) error {
 		if getRole, _ := role.GetRole(ctx, roleName); getRole == nil {
 			_, err := role.CreateRole(ctx, &common.Role{
 				Name:     &roleName,
@@ -32,8 +33,16 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, l log.Logger) *InitRet {
 				logger.Errorf("create %v role failed: %v", roleName, err)
 				return err
 			}
+			if rules != nil {
+				if _, err = enforce.AddPolicies(rules); err != nil {
+					logger.Errorf("add policies failed: %s: %v", roleName, err)
+					return err
+				}
+			}
 		}
-
+		return nil
+	}
+	createUser := func(roleName string, uName, pass string, uAuth common.UserAuthority) error {
 		if getUser, _ := user.GetUser(ctx, uName); getUser == nil {
 			_, err := user.CreateUser(ctx, &common.User{
 				RoleName:  &roleName,
@@ -57,21 +66,49 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, l log.Logger) *InitRet {
 		var roleName = "admin"
 		var name = "admin"
 		var pass = "admin123"
-		err := createRoleAndUser(roleName, 1, name, pass, common.UserAuthority_SYS_ADMIN)
-		if err != nil {
+		if err := createRole(roleName, 1, nil); err != nil {
+			return &InitRet{
+				Err: err,
+			}
+		}
+		if err := createUser(roleName, name, pass, common.UserAuthority_SYS_ADMIN); err != nil {
 			return &InitRet{
 				Err: err,
 			}
 		}
 	}
 
-	// create common role and user
 	{
-		var roleName = "normal"
+		var roleName = "manager"
 		var name = "invoker"
 		var pass = "invoker123"
-		err := createRoleAndUser(roleName, 100, name, pass, common.UserAuthority_CUSTOMER_USER)
-		if err != nil {
+		info := api.ApiTypeMap["user"]
+		rules := make([][]string, 0, len(info))
+		for _, v := range info {
+			rules = append(rules, []string{roleName, v.Path, v.Method})
+		}
+		if err := createRole(roleName, 100, rules); err != nil {
+			return &InitRet{
+				Err: err,
+			}
+		}
+		if err := createUser(roleName, name, pass, common.UserAuthority_SYS_MANAGER); err != nil {
+			return &InitRet{
+				Err: err,
+			}
+		}
+	}
+
+	{
+		var roleName = "normal"
+		var name = "user"
+		var pass = "user123"
+		if err := createRole(roleName, 100, nil); err != nil {
+			return &InitRet{
+				Err: err,
+			}
+		}
+		if err := createUser(roleName, name, pass, common.UserAuthority_CUSTOMER_USER); err != nil {
 			return &InitRet{
 				Err: err,
 			}

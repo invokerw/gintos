@@ -77,6 +77,126 @@ func (x *PageInfo) GetPageSize() int32 {
 	return 0
 }
 
+type ApiInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`     // api 名称
+	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`     // api 路径
+	Method        string                 `protobuf:"bytes,3,opt,name=method,proto3" json:"method,omitempty"` // 请求方法
+	Type          string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`     // 请求类型
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ApiInfo) Reset() {
+	*x = ApiInfo{}
+	mi := &file_v1_common_common_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApiInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApiInfo) ProtoMessage() {}
+
+func (x *ApiInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_common_common_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApiInfo.ProtoReflect.Descriptor instead.
+func (*ApiInfo) Descriptor() ([]byte, []int) {
+	return file_v1_common_common_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ApiInfo) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ApiInfo) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+func (x *ApiInfo) GetMethod() string {
+	if x != nil {
+		return x.Method
+	}
+	return ""
+}
+
+func (x *ApiInfo) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+type ApiTypeInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`                      // 分类
+	ApiInfo       []*ApiInfo             `protobuf:"bytes,2,rep,name=api_info,json=apiInfo,proto3" json:"api_info,omitempty"` // API信息
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ApiTypeInfo) Reset() {
+	*x = ApiTypeInfo{}
+	mi := &file_v1_common_common_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApiTypeInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApiTypeInfo) ProtoMessage() {}
+
+func (x *ApiTypeInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_common_common_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApiTypeInfo.ProtoReflect.Descriptor instead.
+func (*ApiTypeInfo) Descriptor() ([]byte, []int) {
+	return file_v1_common_common_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ApiTypeInfo) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ApiTypeInfo) GetApiInfo() []*ApiInfo {
+	if x != nil {
+		return x.ApiInfo
+	}
+	return nil
+}
+
 var File_v1_common_common_proto protoreflect.FileDescriptor
 
 const file_v1_common_common_proto_rawDesc = "" +
@@ -84,7 +204,17 @@ const file_v1_common_common_proto_rawDesc = "" +
 	"\x16v1/common/common.proto\x12\rapi.common.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"[\n" +
 	"\bPageInfo\x12$\n" +
 	"\x06offset\x18\x01 \x01(\x05B\f\xbaG\t\x92\x02\x06偏移R\x06offset\x12)\n" +
-	"\tpage_size\x18\x02 \x01(\x05B\f\xbaG\t\x92\x02\x06数量R\bpageSizeB2Z0github/invokerw/gintos/demo/api/v1/common;commonb\x06proto3"
+	"\tpage_size\x18\x02 \x01(\x05B\f\xbaG\t\x92\x02\x06数量R\bpageSize\"\xa3\x01\n" +
+	"\aApiInfo\x12$\n" +
+	"\x04name\x18\x01 \x01(\tB\x10\xbaG\r\x92\x02\n" +
+	"api 名称R\x04name\x12$\n" +
+	"\x04path\x18\x02 \x01(\tB\x10\xbaG\r\x92\x02\n" +
+	"api 路径R\x04path\x12*\n" +
+	"\x06method\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f请求方法R\x06method\x12 \n" +
+	"\x04type\x18\x04 \x01(\tB\f\xbaG\t\x92\x02\x06分类R\x04type\"s\n" +
+	"\vApiTypeInfo\x12 \n" +
+	"\x04type\x18\x01 \x01(\tB\f\xbaG\t\x92\x02\x06分类R\x04type\x12B\n" +
+	"\bapi_info\x18\x02 \x03(\v2\x16.api.common.v1.ApiInfoB\x0f\xbaG\f\x92\x02\tAPI信息R\aapiInfoB2Z0github/invokerw/gintos/demo/api/v1/common;commonb\x06proto3"
 
 var (
 	file_v1_common_common_proto_rawDescOnce sync.Once
@@ -98,16 +228,19 @@ func file_v1_common_common_proto_rawDescGZIP() []byte {
 	return file_v1_common_common_proto_rawDescData
 }
 
-var file_v1_common_common_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_v1_common_common_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_v1_common_common_proto_goTypes = []any{
-	(*PageInfo)(nil), // 0: api.common.v1.PageInfo
+	(*PageInfo)(nil),    // 0: api.common.v1.PageInfo
+	(*ApiInfo)(nil),     // 1: api.common.v1.ApiInfo
+	(*ApiTypeInfo)(nil), // 2: api.common.v1.ApiTypeInfo
 }
 var file_v1_common_common_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: api.common.v1.ApiTypeInfo.api_info:type_name -> api.common.v1.ApiInfo
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_v1_common_common_proto_init() }
@@ -121,7 +254,7 @@ func file_v1_common_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_common_common_proto_rawDesc), len(file_v1_common_common_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

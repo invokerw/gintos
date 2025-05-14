@@ -3,10 +3,14 @@ package service
 import (
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
+	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/admin"
+	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/biz"
 	"github/invokerw/gintos/log"
+	"github/invokerw/gintos/proto/rbac"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"strings"
 )
 
 type AdminService struct {
@@ -84,4 +88,69 @@ func (s *AdminService) UpdateUsers(context *gin.Context, request *admin.UpdateUs
 		return nil, err
 	}
 	return &admin.UpdateUsersResponse{Users: rs}, nil
+}
+
+func (s *AdminService) GetApiInfoList(context *gin.Context, empty *emptypb.Empty) (*admin.GetApiInfoListResponse, error) {
+	ret := &admin.GetApiInfoListResponse{
+		ApiTypeMap: make(map[string]*common.ApiTypeInfo),
+	}
+	for _, v := range api.ApiInfo {
+		if ret.ApiTypeMap[v.Type] == nil {
+			ret.ApiTypeMap[v.Type] = &common.ApiTypeInfo{
+				Type: v.Type,
+			}
+		}
+		ret.ApiTypeMap[v.Type].ApiInfo = append(ret.ApiTypeMap[v.Type].ApiInfo, s.convertApiInfo(v))
+	}
+	return ret, nil
+}
+
+func (s *AdminService) RoleGetPolicy(context *gin.Context, request *admin.RoleGetPolicyRequest) (*admin.RoleGetPolicyResponse, error) {
+	p, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleName)
+	if err != nil {
+		return nil, err
+	}
+	ret := &admin.RoleGetPolicyResponse{}
+	for _, v := range p {
+		k := strings.Join(v, "-")
+		if apiInfo, ok := api.ApiPathMethodToApiInfo[k]; ok {
+			ret.ApiInfo = append(ret.ApiInfo, s.convertApiInfo(apiInfo))
+		}
+	}
+	return ret, nil
+}
+
+func (s *AdminService) RoleUpdatePolicy(context *gin.Context, request *admin.RoleUpdatePolicyRequest) (*emptypb.Empty, error) {
+	p, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleName)
+	if err != nil {
+		return nil, err
+	}
+	rules := make([][]string, 0, len(p))
+	for _, v := range p {
+		rules = append(rules, []string{request.RoleName, v[0], v[1]})
+	}
+	_, err = s.casbinEnforcer.RemovePolicies(rules)
+	if err != nil {
+		return nil, err
+	}
+	rules = nil
+	for _, v := range request.ApiName {
+		if apiInfo, ok := api.ApiMap[v]; ok {
+			rules = append(rules, []string{request.RoleName, apiInfo.Path, apiInfo.Method})
+		}
+
+	}
+	_, err = s.casbinEnforcer.AddPolicies(rules)
+	if err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
+}
+
+func (s *AdminService) convertApiInfo(i *rbac.ApiInfo) *common.ApiInfo {
+	return &common.ApiInfo{
+		Name:   i.Name,
+		Path:   i.Path,
+		Method: i.Method,
+	}
 }

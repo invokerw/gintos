@@ -40,6 +40,20 @@ paths:
                     content: {}
             security:
                 - {}
+    /api/v1/admin/get_api_info:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_GetApiInfoList
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.GetApiInfoListResponse'
+            security:
+                - {}
     /api/v1/admin/get_role_list:
         post:
             tags:
@@ -78,6 +92,42 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.admin.GetUserListResponse'
+            security:
+                - {}
+    /api/v1/admin/role_add_policy:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_RoleUpdatePolicy
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.RoleUpdatePolicyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - {}
+    /api/v1/admin/role_get_policy/:role_name:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_RoleGetPolicy
+            parameters:
+                - name: roleName
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.RoleGetPolicyResponse'
             security:
                 - {}
     /api/v1/admin/update_roles:
@@ -242,6 +292,32 @@ paths:
                                 $ref: '#/components/schemas/api.v1.helloworld.HelloReply'
 components:
     schemas:
+        api.common.v1.ApiInfo:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: api 名称
+                path:
+                    type: string
+                    description: api 路径
+                method:
+                    type: string
+                    description: 请求方法
+                type:
+                    type: string
+                    description: 分类
+        api.common.v1.ApiTypeInfo:
+            type: object
+            properties:
+                type:
+                    type: string
+                    description: 分类
+                apiInfo:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.ApiInfo'
+                    description: API信息
         api.common.v1.PageInfo:
             type: object
             properties:
@@ -363,6 +439,14 @@ components:
                     items:
                         type: string
                     description: 用户名
+        api.v1.admin.GetApiInfoListResponse:
+            type: object
+            properties:
+                apiTypeMap:
+                    type: object
+                    additionalProperties:
+                        $ref: '#/components/schemas/api.common.v1.ApiTypeInfo'
+                    description: 分类API数据
         api.v1.admin.GetRoleListRequest:
             type: object
             properties:
@@ -396,6 +480,28 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/api.common.v1.User'
+        api.v1.admin.RoleGetPolicyResponse:
+            type: object
+            properties:
+                roleName:
+                    type: string
+                    description: 角色名字
+                apiInfo:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.common.v1.ApiInfo'
+                    description: API信息
+        api.v1.admin.RoleUpdatePolicyRequest:
+            type: object
+            properties:
+                roleName:
+                    type: string
+                    description: 角色名字
+                apiName:
+                    type: array
+                    items:
+                        type: string
+                    description: api 名称
         api.v1.admin.UpdateRolesRequest:
             type: object
             properties:

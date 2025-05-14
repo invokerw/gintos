@@ -30,12 +30,22 @@ var file_rbac_annotations_proto_extTypes = []protoimpl.ExtensionInfo{
 		Tag:           "bytes,2000,opt,name=comment",
 		Filename:      "rbac/annotations.proto",
 	},
+	{
+		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
+		ExtensionType: (*string)(nil),
+		Field:         2001,
+		Name:          "rbac.type",
+		Tag:           "bytes,2001,opt,name=type",
+		Filename:      "rbac/annotations.proto",
+	},
 }
 
 // Extension fields to descriptorpb.MethodOptions.
 var (
 	// optional string comment = 2000;
 	E_Comment = &file_rbac_annotations_proto_extTypes[0] // 有评论才会生成 rbac 信息
+	// optional string type = 2001;
+	E_Type = &file_rbac_annotations_proto_extTypes[1] // 分类
 )
 
 var File_rbac_annotations_proto protoreflect.FileDescriptor
@@ -43,17 +53,19 @@ var File_rbac_annotations_proto protoreflect.FileDescriptor
 const file_rbac_annotations_proto_rawDesc = "" +
 	"\n" +
 	"\x16rbac/annotations.proto\x12\x04rbac\x1a google/protobuf/descriptor.proto:9\n" +
-	"\acomment\x12\x1e.google.protobuf.MethodOptions\x18\xd0\x0f \x01(\tR\acommentB(Z&github/invokerw/gintos/proto/rbac;rbacb\x06proto3"
+	"\acomment\x12\x1e.google.protobuf.MethodOptions\x18\xd0\x0f \x01(\tR\acomment:3\n" +
+	"\x04type\x12\x1e.google.protobuf.MethodOptions\x18\xd1\x0f \x01(\tR\x04typeB(Z&github/invokerw/gintos/proto/rbac;rbacb\x06proto3"
 
 var file_rbac_annotations_proto_goTypes = []any{
 	(*descriptorpb.MethodOptions)(nil), // 0: google.protobuf.MethodOptions
 }
 var file_rbac_annotations_proto_depIdxs = []int32{
 	0, // 0: rbac.comment:extendee -> google.protobuf.MethodOptions
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	0, // [0:1] is the sub-list for extension extendee
+	0, // 1: rbac.type:extendee -> google.protobuf.MethodOptions
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	0, // [0:2] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
 }
 
@@ -69,7 +81,7 @@ func file_rbac_annotations_proto_init() {
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_rbac_annotations_proto_rawDesc), len(file_rbac_annotations_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   0,
-			NumExtensions: 1,
+			NumExtensions: 2,
 			NumServices:   0,
 		},
 		GoTypes:           file_rbac_annotations_proto_goTypes,

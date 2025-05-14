@@ -19,16 +19,22 @@ var _ = new(resp.Response)
 
 const OperationAdminDeleteRoles = "/api.v1.admin.Admin/DeleteRoles"
 const OperationAdminDeleteUsers = "/api.v1.admin.Admin/DeleteUsers"
+const OperationAdminGetApiInfoList = "/api.v1.admin.Admin/GetApiInfoList"
 const OperationAdminGetRoleList = "/api.v1.admin.Admin/GetRoleList"
 const OperationAdminGetUserList = "/api.v1.admin.Admin/GetUserList"
+const OperationAdminRoleGetPolicy = "/api.v1.admin.Admin/RoleGetPolicy"
+const OperationAdminRoleUpdatePolicy = "/api.v1.admin.Admin/RoleUpdatePolicy"
 const OperationAdminUpdateRoles = "/api.v1.admin.Admin/UpdateRoles"
 const OperationAdminUpdateUsers = "/api.v1.admin.Admin/UpdateUsers"
 
 type IAdminServer interface {
 	DeleteRoles(*gin.Context, *DeleteRolesRequest) (*emptypb.Empty, error)
 	DeleteUsers(*gin.Context, *DeleteUsersRequest) (*emptypb.Empty, error)
+	GetApiInfoList(*gin.Context, *emptypb.Empty) (*GetApiInfoListResponse, error)
 	GetRoleList(*gin.Context, *GetRoleListRequest) (*GetRoleListResponse, error)
 	GetUserList(*gin.Context, *GetUserListRequest) (*GetUserListResponse, error)
+	RoleGetPolicy(*gin.Context, *RoleGetPolicyRequest) (*RoleGetPolicyResponse, error)
+	RoleUpdatePolicy(*gin.Context, *RoleUpdatePolicyRequest) (*emptypb.Empty, error)
 	UpdateRoles(*gin.Context, *UpdateRolesRequest) (*UpdateRolesResponse, error)
 	UpdateUsers(*gin.Context, *UpdateUsersRequest) (*UpdateUsersResponse, error)
 }
@@ -40,6 +46,9 @@ func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
 	r.POST("/api/v1/admin/get_role_list", _Admin_GetRoleList0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/update_roles", _Admin_UpdateRoles0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/delete_roles", _Admin_DeleteRoles0_HTTP_Handler(srv))
+	r.GET("/api/v1/admin/get_api_info", _Admin_GetApiInfoList0_HTTP_Handler(srv))
+	r.GET("/api/v1/admin/role_get_policy/:role_name", _Admin_RoleGetPolicy0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/role_add_policy", _Admin_RoleUpdatePolicy0_HTTP_Handler(srv))
 }
 
 func _Admin_GetUserList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
@@ -160,6 +169,65 @@ func _Admin_DeleteRoles0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
 		}
 		// http.SetOperation(ctx, OperationAdminDeleteRoles)
 		reply, err := srv.DeleteRoles(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_GetApiInfoList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in emptypb.Empty
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminGetApiInfoList)
+		reply, err := srv.GetApiInfoList(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_RoleGetPolicy0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in RoleGetPolicyRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.ShouldBindUri(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminRoleGetPolicy)
+		reply, err := srv.RoleGetPolicy(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_RoleUpdatePolicy0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in RoleUpdatePolicyRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminRoleUpdatePolicy)
+		reply, err := srv.RoleUpdatePolicy(ctx, &in)
 		if err != nil {
 			resp.FailWithError(ctx, err)
 			return

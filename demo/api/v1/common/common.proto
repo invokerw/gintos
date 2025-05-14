@@ -19,3 +19,29 @@ message PageInfo {
     (openapi.v3.property) = {description: "数量"}
   ]; // 每页数量
 }
+
+message ApiInfo {
+  string name = 1 [
+    (openapi.v3.property) = {description: "api 名称"}
+  ]; // api 名称
+  string path = 2 [
+    (openapi.v3.property) = {description: "api 路径"}
+  ]; // api 路径
+  string method = 3 [
+    (openapi.v3.property) = {description: "请求方法"}
+  ]; // 请求方法
+  string type = 4 [
+    (openapi.v3.property) = {description: "分类"}
+  ]; // 请求类型
+}
+
+message ApiTypeInfo {
+  string type = 1 [
+    json_name = "type",
+    (openapi.v3.property) = {description: "分类"}
+  ]; // 分类
+  repeated common.v1.ApiInfo api_info = 2 [
+    json_name = "apiInfo",
+    (openapi.v3.property) = {description: "API信息"}
+  ]; // API信息
+}

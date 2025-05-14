@@ -180,7 +180,7 @@ func (r *userRepo) DeleteUsers(ctx context.Context, names []string) error {
 }
 
 func (r *userRepo) GetUser(ctx context.Context, username string) (*ent.User, error) {
-	u, err := r.data.db.User.Query().Where(user.Username(username)).Only(ctx)
+	u, err := r.data.db.User.Query().Where(user.Username(username)).WithRole().Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, errs.DBErrUserNotFound
@@ -194,7 +194,7 @@ func (r *userRepo) GetUserList(ctx context.Context, req *admin.GetUserListReques
 	if req == nil {
 		return nil, errs.DBErrInvalidParam
 	}
-	q := r.data.db.User.Query().Offset(int(req.Page.Offset)).Limit(int(req.Page.PageSize))
+	q := r.data.db.User.Query().Offset(int(req.Page.Offset)).Limit(int(req.Page.PageSize)).WithRole()
 	if req.Username != nil && *req.Username != "" {
 		q.Where(user.UsernameContains(*req.Username))
 	}
@@ -210,7 +210,7 @@ func (r *userRepo) GetUserList(ctx context.Context, req *admin.GetUserListReques
 }
 
 func (r *userRepo) GetUserByID(ctx context.Context, id uint64) (*ent.User, error) {
-	u, err := r.data.db.User.Get(ctx, id)
+	u, err := r.data.db.User.Query().Where(user.ID(id)).WithRole().Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, errs.DBErrUserNotFound

@@ -15,12 +15,14 @@ option go_package = "github/invokerw/gintos/demo/api/v1/admin;admin";
 
 
 service Admin {
+
 	rpc GetUserList (GetUserListRequest) returns (GetUserListResponse) {
 		option (google.api.http) = {
 			post: "/api/v1/admin/get_user_list"
 			body: "*"
 		};
 		option (rbac.comment) = "获取用户列表";
+		option (rbac.type) = "user";
 		option(openapi.v3.operation) = {
 			security: {}
 		};
@@ -32,6 +34,7 @@ service Admin {
 			body: "*"
 		};
 		option (rbac.comment) = "更新用户";
+		option (rbac.type) = "user";
 		option(openapi.v3.operation) = {
 			security: {}
 		};
@@ -43,6 +46,7 @@ service Admin {
 			body: "*"
 		};
 		option (rbac.comment) = "删除用户";
+		option (rbac.type) = "user";
 		option(openapi.v3.operation) = {
 			security: {}
 		};
@@ -54,6 +58,7 @@ service Admin {
 			body: "*"
 		};
 		option (rbac.comment) = "获取角色列表";
+		option (rbac.type) = "role";
 		option(openapi.v3.operation) = {
 			security: {}
 		};
@@ -65,6 +70,7 @@ service Admin {
 			body: "*"
 		};
 		option (rbac.comment) = "更新角色";
+		option (rbac.type) = "role";
 		option(openapi.v3.operation) = {
 			security: {}
 		};
@@ -76,10 +82,46 @@ service Admin {
 			body: "*"
 		};
 		option (rbac.comment) = "删除角色";
+		option (rbac.type) = "role";
 		option(openapi.v3.operation) = {
 			security: {}
 		};
 	}
+
+	rpc GetApiInfoList (google.protobuf.Empty) returns (GetApiInfoListResponse) {
+		option (google.api.http) = {
+			get: "/api/v1/admin/get_api_info"
+		};
+		option (rbac.comment) = "获取API信息列表";
+		option (rbac.type) = "rbac";
+		option(openapi.v3.operation) = {
+			security: {}
+		};
+	}
+
+	rpc RoleGetPolicy (RoleGetPolicyRequest) returns (RoleGetPolicyResponse) {
+		option (google.api.http) = {
+			get: "/api/v1/admin/role_get_policy/:role_name"
+		};
+		option (rbac.comment) = "获取角色权限";
+		option (rbac.type) = "rbac";
+		option(openapi.v3.operation) = {
+			security: {}
+		};
+	}
+
+	rpc RoleUpdatePolicy (RoleUpdatePolicyRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/api/v1/admin/role_add_policy"
+			body: "*"
+		};
+		option (rbac.comment) = "角色更新权限";
+		option (rbac.type) = "rbac";
+		option(openapi.v3.operation) = {
+			security: {}
+		};
+	}
+
 }
 
 message GetUserListRequest {
@@ -150,5 +192,41 @@ message DeleteRolesRequest {
 	repeated string names = 1 [
 		json_name = "names",
 		(openapi.v3.property) = {description: "角色名字"}
-	]; // 角色ID
+	];
+}
+
+message GetApiInfoListResponse {
+	map<string, common.v1.ApiTypeInfo> api_type_map = 2 [
+		json_name = "apiTypeMap",
+		(openapi.v3.property) = {description: "分类API数据"}
+	]; // API信息
+}
+
+message RoleGetPolicyRequest {
+	string role_name = 1 [
+		json_name = "roleName",
+		(openapi.v3.property) = {description: "角色名字"}
+	]; // 角色名字
+}
+
+message RoleGetPolicyResponse {
+	string role_name = 1 [
+		json_name = "roleName",
+		(openapi.v3.property) = {description: "角色名字"}
+	]; // 角色名字
+	repeated common.v1.ApiInfo api_info = 2 [
+		json_name = "apiInfo",
+		(openapi.v3.property) = {description: "API信息"}
+	]; // API信息
+}
+
+message RoleUpdatePolicyRequest {
+	string role_name = 1 [
+		json_name = "roleName",
+		(openapi.v3.property) = {description: "角色名字"}
+	]; // 角色名字
+	repeated string api_name = 2 [
+		json_name = "apiName",
+		(openapi.v3.property) = {description: "api 名称"}
+	]; // 权限名字
 }

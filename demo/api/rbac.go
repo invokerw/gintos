@@ -6,43 +6,89 @@ import (
 	"github/invokerw/gintos/proto/rbac"
 )
 
-func GetApiInfo() []*rbac.ApiInfo {
+var (
+	ApiInfo []*rbac.ApiInfo
+	ApiTypeMap map[string][]*rbac.ApiInfo
+	ApiMap  map[string]*rbac.ApiInfo // key: name
+	ApiPathMethodToApiInfo map[string]*rbac.ApiInfo // key: path-method
+)
+
+func init() {
+	ApiInfo = getApiInfoList()
+	ApiTypeMap = make(map[string][]*rbac.ApiInfo)
+	ApiMap = make(map[string]*rbac.ApiInfo, len(ApiInfo))
+	ApiPathMethodToApiInfo = make(map[string]*rbac.ApiInfo, len(ApiInfo))
+	for _, v := range ApiInfo {
+		ApiMap[v.Name] = v
+		ApiPathMethodToApiInfo[v.Path+"-"+v.Method] = v
+		if _, ok := ApiTypeMap[v.Type]; !ok {
+			ApiTypeMap[v.Type] = make([]*rbac.ApiInfo, 0)
+		}
+		ApiTypeMap[v.Type] = append(ApiTypeMap[v.Type], v)
+	}
+}
+
+func GetApiInfo(path, method string) (*rbac.ApiInfo, bool) {
+	info, ok := ApiPathMethodToApiInfo[path+"-"+method]
+	return info, ok
+}
+
+func getApiInfoList() []*rbac.ApiInfo {
 	return []*rbac.ApiInfo{
 		{
 			Method: "POST",
 			Path: "/api/v1/admin/get_user_list",
-			Desc: "获取用户列表",
-			ServiceName: "api.v1.admin.Admin",
+			Name: "获取用户列表",
+			Type: "user",
 		},
 		{
 			Method: "POST",
 			Path: "/api/v1/admin/update_users",
-			Desc: "更新用户",
-			ServiceName: "api.v1.admin.Admin",
+			Name: "更新用户",
+			Type: "user",
 		},
 		{
 			Method: "POST",
 			Path: "/api/v1/admin/delete_users",
-			Desc: "删除用户",
-			ServiceName: "api.v1.admin.Admin",
+			Name: "删除用户",
+			Type: "user",
 		},
 		{
 			Method: "POST",
 			Path: "/api/v1/admin/get_role_list",
-			Desc: "获取角色列表",
-			ServiceName: "api.v1.admin.Admin",
+			Name: "获取角色列表",
+			Type: "role",
 		},
 		{
 			Method: "POST",
 			Path: "/api/v1/admin/update_roles",
-			Desc: "更新角色",
-			ServiceName: "api.v1.admin.Admin",
+			Name: "更新角色",
+			Type: "role",
 		},
 		{
 			Method: "POST",
 			Path: "/api/v1/admin/delete_roles",
-			Desc: "删除角色",
-			ServiceName: "api.v1.admin.Admin",
+			Name: "删除角色",
+			Type: "role",
+		},
+		{
+			Method: "GET",
+			Path: "/api/v1/admin/get_api_info",
+			Name: "获取API信息列表",
+			Type: "rbac",
+		},
+		{
+			Method: "GET",
+			Path: "/api/v1/admin/role_get_policy/:role_name",
+			Name: "获取角色权限",
+			Type: "rbac",
+		},
+		{
+			Method: "POST",
+			Path: "/api/v1/admin/role_add_policy",
+			Name: "角色更新权限",
+			Type: "rbac",
 		},
 	}
 }
+

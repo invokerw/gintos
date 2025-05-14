@@ -8,4 +8,5 @@ import "google/protobuf/descriptor.proto";
 
 extend google.protobuf.MethodOptions {
   string comment = 2000; // 有评论才会生成 rbac 信息
+  string type = 2001; // 分类
 }
