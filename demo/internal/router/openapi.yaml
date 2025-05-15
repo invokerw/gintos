@@ -396,22 +396,22 @@ components:
                 id:
                     type: string
                     description: 用户ID
-                roleName:
+                role_name:
                     type: string
                     description: 角色名称
-                createBy:
+                create_by:
                     type: string
                     description: 创建者ID
-                updateBy:
+                update_by:
                     type: string
                     description: 更新者ID
-                username:
+                user_name:
                     type: string
                     description: 登录名
                 password:
                     type: string
                     description: 密码
-                nickname:
+                nick_name:
                     type: string
                     description: 昵称
                 avatar:
@@ -430,7 +430,7 @@ components:
                 remark:
                     type: string
                     description: 备注名
-                lastLoginTime:
+                last_login_time:
                     type: string
                     description: 最后登录时间
                 status:
@@ -451,10 +451,10 @@ components:
                     items:
                         type: string
                     description: 角色
-                createTime:
+                create_time:
                     type: string
                     description: 创建时间
-                updateTime:
+                update_time:
                     type: string
                     description: 更新时间
             description: 用户

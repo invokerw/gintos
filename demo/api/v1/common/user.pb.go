@@ -179,23 +179,23 @@ func (UserStatus) EnumDescriptor() ([]byte, []int) {
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            *uint64                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                 // 用户ID
-	RoleName      *string                `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3,oneof" json:"role_name,omitempty"`                      // 角色名称
-	CreateBy      *uint64                `protobuf:"varint,7,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                     // 创建者ID
-	UpdateBy      *uint64                `protobuf:"varint,8,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                     // 更新者ID
-	UserName      *string                `protobuf:"bytes,10,opt,name=user_name,json=username,proto3,oneof" json:"user_name,omitempty"`                     // 登录名
+	RoleName      *string                `protobuf:"bytes,2,opt,name=role_name,proto3,oneof" json:"role_name,omitempty"`                                    // 角色名称
+	CreateBy      *uint64                `protobuf:"varint,7,opt,name=create_by,proto3,oneof" json:"create_by,omitempty"`                                   // 创建者ID
+	UpdateBy      *uint64                `protobuf:"varint,8,opt,name=update_by,proto3,oneof" json:"update_by,omitempty"`                                   // 更新者ID
+	UserName      *string                `protobuf:"bytes,10,opt,name=user_name,proto3,oneof" json:"user_name,omitempty"`                                   // 登录名
 	Password      *string                `protobuf:"bytes,11,opt,name=password,proto3,oneof" json:"password,omitempty"`                                     // 密码
-	NickName      *string                `protobuf:"bytes,12,opt,name=nick_name,json=nickname,proto3,oneof" json:"nick_name,omitempty"`                     // 昵称
+	NickName      *string                `protobuf:"bytes,12,opt,name=nick_name,proto3,oneof" json:"nick_name,omitempty"`                                   // 昵称
 	Avatar        *string                `protobuf:"bytes,13,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`                                         // 头像
 	Email         *string                `protobuf:"bytes,14,opt,name=email,proto3,oneof" json:"email,omitempty"`                                           // 邮箱
 	Mobile        *string                `protobuf:"bytes,15,opt,name=mobile,proto3,oneof" json:"mobile,omitempty"`                                         // 手机号
 	Gender        *UserGender            `protobuf:"varint,17,opt,name=gender,proto3,enum=api.common.v1.UserGender,oneof" json:"gender,omitempty"`          // 性别
 	Remark        *string                `protobuf:"bytes,21,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                         // 备注名
-	LastLoginTime *int64                 `protobuf:"varint,30,opt,name=last_login_time,json=lastLoginTime,proto3,oneof" json:"last_login_time,omitempty"`   // 最后登录时间
+	LastLoginTime *int64                 `protobuf:"varint,30,opt,name=last_login_time,proto3,oneof" json:"last_login_time,omitempty"`                      // 最后登录时间
 	Status        *UserStatus            `protobuf:"varint,32,opt,name=status,proto3,enum=api.common.v1.UserStatus,oneof" json:"status,omitempty"`          // 用户状态
 	Authority     *UserAuthority         `protobuf:"varint,33,opt,name=authority,proto3,enum=api.common.v1.UserAuthority,oneof" json:"authority,omitempty"` // 权限
 	Roles         []string               `protobuf:"bytes,34,rep,name=roles,proto3" json:"roles,omitempty"`                                                 // 角色码
-	CreateTime    *int64                 `protobuf:"varint,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`             // 创建时间
-	UpdateTime    *int64                 `protobuf:"varint,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`             // 更新时间
+	CreateTime    *int64                 `protobuf:"varint,200,opt,name=create_time,proto3,oneof" json:"create_time,omitempty"`                             // 创建时间
+	UpdateTime    *int64                 `protobuf:"varint,201,opt,name=update_time,proto3,oneof" json:"update_time,omitempty"`                             // 更新时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -453,30 +453,28 @@ var File_v1_common_user_proto protoreflect.FileDescriptor
 
 const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
-	"\x14v1/common/user.proto\x12\rapi.common.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd4\t\n" +
+	"\x14v1/common/user.proto\x12\rapi.common.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdd\t\n" +
 	"\x04User\x12#\n" +
-	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x124\n" +
-	"\trole_name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\broleName\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18\a \x01(\x04B\x11\xbaG\x0e\x92\x02\v创建者IDH\x02R\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18\b \x01(\x04B\x11\xbaG\x0e\x92\x02\v更新者IDH\x03R\bupdateBy\x88\x01\x01\x121\n" +
+	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x125\n" +
+	"\trole_name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\trole_name\x88\x01\x01\x124\n" +
+	"\tcreate_by\x18\a \x01(\x04B\x11\xbaG\x0e\x92\x02\v创建者IDH\x02R\tcreate_by\x88\x01\x01\x124\n" +
+	"\tupdate_by\x18\b \x01(\x04B\x11\xbaG\x0e\x92\x02\v更新者IDH\x03R\tupdate_by\x88\x01\x01\x122\n" +
 	"\tuser_name\x18\n" +
-	" \x01(\tB\x0f\xbaG\f\x92\x02\t登录名H\x04R\busername\x88\x01\x01\x12-\n" +
-	"\bpassword\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06密码H\x05R\bpassword\x88\x01\x01\x12.\n" +
-	"\tnick_name\x18\f \x01(\tB\f\xbaG\t\x92\x02\x06昵称H\x06R\bnickname\x88\x01\x01\x12)\n" +
+	" \x01(\tB\x0f\xbaG\f\x92\x02\t登录名H\x04R\tuser_name\x88\x01\x01\x12-\n" +
+	"\bpassword\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06密码H\x05R\bpassword\x88\x01\x01\x12/\n" +
+	"\tnick_name\x18\f \x01(\tB\f\xbaG\t\x92\x02\x06昵称H\x06R\tnick_name\x88\x01\x01\x12)\n" +
 	"\x06avatar\x18\r \x01(\tB\f\xbaG\t\x92\x02\x06头像H\aR\x06avatar\x88\x01\x01\x12'\n" +
 	"\x05email\x18\x0e \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\bR\x05email\x88\x01\x01\x12,\n" +
 	"\x06mobile\x18\x0f \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\tR\x06mobile\x88\x01\x01\x12D\n" +
 	"\x06gender\x18\x11 \x01(\x0e2\x19.api.common.v1.UserGenderB\f\xbaG\t\x92\x02\x06性别H\n" +
 	"R\x06gender\x88\x01\x01\x12,\n" +
-	"\x06remark\x18\x15 \x01(\tB\x0f\xbaG\f\x92\x02\t备注名H\vR\x06remark\x88\x01\x01\x12E\n" +
-	"\x0flast_login_time\x18\x1e \x01(\x03B\x18\xbaG\x15\x92\x02\x12最后登录时间H\fR\rlastLoginTime\x88\x01\x01\x12`\n" +
+	"\x06remark\x18\x15 \x01(\tB\x0f\xbaG\f\x92\x02\t备注名H\vR\x06remark\x88\x01\x01\x12G\n" +
+	"\x0flast_login_time\x18\x1e \x01(\x03B\x18\xbaG\x15\x92\x02\x12最后登录时间H\fR\x0flast_login_time\x88\x01\x01\x12`\n" +
 	"\x06status\x18  \x01(\x0e2\x19.api.common.v1.UserStatusB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f用户状态H\rR\x06status\x88\x01\x01\x12_\n" +
 	"\tauthority\x18! \x01(\x0e2\x1c.api.common.v1.UserAuthorityB\x1e\xbaG\x1b\x8a\x02\x0f\x1a\rCUSTOMER_USER\x92\x02\x06权限H\x0eR\tauthority\x88\x01\x01\x12\"\n" +
-	"\x05roles\x18\" \x03(\tB\f\xbaG\t\x92\x02\x06角色R\x05roles\x129\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f创建时间H\x0fR\n" +
-	"createTime\x88\x01\x01\x129\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f更新时间H\x10R\n" +
-	"updateTime\x88\x01\x01B\x05\n" +
+	"\x05roles\x18\" \x03(\tB\f\xbaG\t\x92\x02\x06角色R\x05roles\x12:\n" +
+	"\vcreate_time\x18\xc8\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f创建时间H\x0fR\vcreate_time\x88\x01\x01\x12:\n" +
+	"\vupdate_time\x18\xc9\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f更新时间H\x10R\vupdate_time\x88\x01\x01B\x05\n" +
 	"\x03_idB\f\n" +
 	"\n" +
 	"_role_nameB\f\n" +
