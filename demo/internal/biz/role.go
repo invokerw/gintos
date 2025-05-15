@@ -72,6 +72,14 @@ func (uc *RoleUsecase) GetRoleList(ctx *gin.Context, req *admin.GetRoleListReque
 	return userList, nil
 }
 
+func (uc *RoleUsecase) GetRoleCount(ctx context.Context) (int, error) {
+	count, err := uc.repo.Count(ctx)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
 func (uc *RoleUsecase) convertToRoles(u []*ent.Role) []*common.Role {
 	ret := make([]*common.Role, 0, len(u))
 	for _, role := range u {

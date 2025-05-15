@@ -728,15 +728,16 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\x17RoleUpdatePolicyRequest\x12/\n" +
 	"\trole_name\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名字R\broleName\x12+\n" +
 	"\bapi_name\x18\x02 \x03(\tB\x10\xbaG\r\x92\x02\n" +
-	"api 名称R\aapiName2\xef\n" +
-	"\n" +
+	"api 名称R\aapiName2\x81\r\n" +
 	"\x05Admin\x12\x9b\x01\n" +
 	"\vGetUserList\x12 .api.v1.admin.GetUserListRequest\x1a!.api.v1.admin.GetUserListResponse\"G\xbaG\x02Z\x00\x82}\x12获取用户列表\x8a}\x04user\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_user_list\x12\x94\x01\n" +
 	"\vUpdateUsers\x12 .api.v1.admin.UpdateUsersRequest\x1a!.api.v1.admin.UpdateUsersResponse\"@\xbaG\x02Z\x00\x82}\f更新用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_users\x12\x89\x01\n" +
-	"\vDeleteUsers\x12 .api.v1.admin.DeleteUsersRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_users\x12\x9b\x01\n" +
+	"\vDeleteUsers\x12 .api.v1.admin.DeleteUsersRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_users\x12\x86\x01\n" +
+	"\fGetUserCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"E\xbaG\x02Z\x00\x82}\x12获取用户数量\x8a}\x04user\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_user_count\x12\x9b\x01\n" +
 	"\vGetRoleList\x12 .api.v1.admin.GetRoleListRequest\x1a!.api.v1.admin.GetRoleListResponse\"G\xbaG\x02Z\x00\x82}\x12获取角色列表\x8a}\x04role\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_role_list\x12\x94\x01\n" +
 	"\vUpdateRoles\x12 .api.v1.admin.UpdateRolesRequest\x1a!.api.v1.admin.UpdateRolesResponse\"@\xbaG\x02Z\x00\x82}\f更新角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_roles\x12\x89\x01\n" +
-	"\vDeleteRoles\x12 .api.v1.admin.DeleteRolesRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_roles\x12\x96\x01\n" +
+	"\vDeleteRoles\x12 .api.v1.admin.DeleteRolesRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_roles\x12\x86\x01\n" +
+	"\fGetRoleCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"E\xbaG\x02Z\x00\x82}\x12获取角色数量\x8a}\x04role\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_role_count\x12\x96\x01\n" +
 	"\x0eGetApiInfoList\x12\x16.google.protobuf.Empty\x1a$.api.v1.admin.GetApiInfoListResponse\"F\xbaG\x02Z\x00\x82}\x15获取API信息列表\x8a}\x04rbac\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/get_api_info\x12\xab\x01\n" +
 	"\rRoleGetPolicy\x12\".api.v1.admin.RoleGetPolicyRequest\x1a#.api.v1.admin.RoleGetPolicyResponse\"Q\xbaG\x02Z\x00\x82}\x12获取角色权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02*\x12(/api/v1/admin/role_get_policy/:role_name\x12\x9c\x01\n" +
 	"\x10RoleUpdatePolicy\x12%.api.v1.admin.RoleUpdatePolicyRequest\x1a\x16.google.protobuf.Empty\"I\xbaG\x02Z\x00\x82}\x12角色更新权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/v1/admin/role_add_policyB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
@@ -776,6 +777,7 @@ var file_v1_admin_admin_proto_goTypes = []any{
 	(*common.ApiInfo)(nil),          // 18: api.common.v1.ApiInfo
 	(*common.ApiTypeInfo)(nil),      // 19: api.common.v1.ApiTypeInfo
 	(*emptypb.Empty)(nil),           // 20: google.protobuf.Empty
+	(*common.IntValue)(nil),         // 21: api.common.v1.IntValue
 }
 var file_v1_admin_admin_proto_depIdxs = []int32{
 	15, // 0: api.v1.admin.GetUserListRequest.page:type_name -> api.common.v1.PageInfo
@@ -792,23 +794,27 @@ var file_v1_admin_admin_proto_depIdxs = []int32{
 	0,  // 11: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
 	2,  // 12: api.v1.admin.Admin.UpdateUsers:input_type -> api.v1.admin.UpdateUsersRequest
 	4,  // 13: api.v1.admin.Admin.DeleteUsers:input_type -> api.v1.admin.DeleteUsersRequest
-	5,  // 14: api.v1.admin.Admin.GetRoleList:input_type -> api.v1.admin.GetRoleListRequest
-	7,  // 15: api.v1.admin.Admin.UpdateRoles:input_type -> api.v1.admin.UpdateRolesRequest
-	9,  // 16: api.v1.admin.Admin.DeleteRoles:input_type -> api.v1.admin.DeleteRolesRequest
-	20, // 17: api.v1.admin.Admin.GetApiInfoList:input_type -> google.protobuf.Empty
-	11, // 18: api.v1.admin.Admin.RoleGetPolicy:input_type -> api.v1.admin.RoleGetPolicyRequest
-	13, // 19: api.v1.admin.Admin.RoleUpdatePolicy:input_type -> api.v1.admin.RoleUpdatePolicyRequest
-	1,  // 20: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
-	3,  // 21: api.v1.admin.Admin.UpdateUsers:output_type -> api.v1.admin.UpdateUsersResponse
-	20, // 22: api.v1.admin.Admin.DeleteUsers:output_type -> google.protobuf.Empty
-	6,  // 23: api.v1.admin.Admin.GetRoleList:output_type -> api.v1.admin.GetRoleListResponse
-	8,  // 24: api.v1.admin.Admin.UpdateRoles:output_type -> api.v1.admin.UpdateRolesResponse
-	20, // 25: api.v1.admin.Admin.DeleteRoles:output_type -> google.protobuf.Empty
-	10, // 26: api.v1.admin.Admin.GetApiInfoList:output_type -> api.v1.admin.GetApiInfoListResponse
-	12, // 27: api.v1.admin.Admin.RoleGetPolicy:output_type -> api.v1.admin.RoleGetPolicyResponse
-	20, // 28: api.v1.admin.Admin.RoleUpdatePolicy:output_type -> google.protobuf.Empty
-	20, // [20:29] is the sub-list for method output_type
-	11, // [11:20] is the sub-list for method input_type
+	20, // 14: api.v1.admin.Admin.GetUserCount:input_type -> google.protobuf.Empty
+	5,  // 15: api.v1.admin.Admin.GetRoleList:input_type -> api.v1.admin.GetRoleListRequest
+	7,  // 16: api.v1.admin.Admin.UpdateRoles:input_type -> api.v1.admin.UpdateRolesRequest
+	9,  // 17: api.v1.admin.Admin.DeleteRoles:input_type -> api.v1.admin.DeleteRolesRequest
+	20, // 18: api.v1.admin.Admin.GetRoleCount:input_type -> google.protobuf.Empty
+	20, // 19: api.v1.admin.Admin.GetApiInfoList:input_type -> google.protobuf.Empty
+	11, // 20: api.v1.admin.Admin.RoleGetPolicy:input_type -> api.v1.admin.RoleGetPolicyRequest
+	13, // 21: api.v1.admin.Admin.RoleUpdatePolicy:input_type -> api.v1.admin.RoleUpdatePolicyRequest
+	1,  // 22: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
+	3,  // 23: api.v1.admin.Admin.UpdateUsers:output_type -> api.v1.admin.UpdateUsersResponse
+	20, // 24: api.v1.admin.Admin.DeleteUsers:output_type -> google.protobuf.Empty
+	21, // 25: api.v1.admin.Admin.GetUserCount:output_type -> api.common.v1.IntValue
+	6,  // 26: api.v1.admin.Admin.GetRoleList:output_type -> api.v1.admin.GetRoleListResponse
+	8,  // 27: api.v1.admin.Admin.UpdateRoles:output_type -> api.v1.admin.UpdateRolesResponse
+	20, // 28: api.v1.admin.Admin.DeleteRoles:output_type -> google.protobuf.Empty
+	21, // 29: api.v1.admin.Admin.GetRoleCount:output_type -> api.common.v1.IntValue
+	10, // 30: api.v1.admin.Admin.GetApiInfoList:output_type -> api.v1.admin.GetApiInfoListResponse
+	12, // 31: api.v1.admin.Admin.RoleGetPolicy:output_type -> api.v1.admin.RoleGetPolicyResponse
+	20, // 32: api.v1.admin.Admin.RoleUpdatePolicy:output_type -> google.protobuf.Empty
+	22, // [22:33] is the sub-list for method output_type
+	11, // [11:22] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
 	11, // [11:11] is the sub-list for extension extendee
 	0,  // [0:11] is the sub-list for field type_name

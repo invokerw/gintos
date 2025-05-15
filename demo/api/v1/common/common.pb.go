@@ -197,6 +197,50 @@ func (x *ApiTypeInfo) GetApiInfo() []*ApiInfo {
 	return nil
 }
 
+type IntValue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          int32                  `protobuf:"varint,1,opt,name=data,proto3" json:"data,omitempty"` // 数据
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IntValue) Reset() {
+	*x = IntValue{}
+	mi := &file_v1_common_common_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IntValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IntValue) ProtoMessage() {}
+
+func (x *IntValue) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_common_common_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IntValue.ProtoReflect.Descriptor instead.
+func (*IntValue) Descriptor() ([]byte, []int) {
+	return file_v1_common_common_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *IntValue) GetData() int32 {
+	if x != nil {
+		return x.Data
+	}
+	return 0
+}
+
 var File_v1_common_common_proto protoreflect.FileDescriptor
 
 const file_v1_common_common_proto_rawDesc = "" +
@@ -214,7 +258,9 @@ const file_v1_common_common_proto_rawDesc = "" +
 	"\x04type\x18\x04 \x01(\tB\f\xbaG\t\x92\x02\x06分类R\x04type\"s\n" +
 	"\vApiTypeInfo\x12 \n" +
 	"\x04type\x18\x01 \x01(\tB\f\xbaG\t\x92\x02\x06分类R\x04type\x12B\n" +
-	"\bapi_info\x18\x02 \x03(\v2\x16.api.common.v1.ApiInfoB\x0f\xbaG\f\x92\x02\tAPI信息R\aapiInfoB2Z0github/invokerw/gintos/demo/api/v1/common;commonb\x06proto3"
+	"\bapi_info\x18\x02 \x03(\v2\x16.api.common.v1.ApiInfoB\x0f\xbaG\f\x92\x02\tAPI信息R\aapiInfo\",\n" +
+	"\bIntValue\x12 \n" +
+	"\x04data\x18\x01 \x01(\x05B\f\xbaG\t\x92\x02\x06数据R\x04dataB2Z0github/invokerw/gintos/demo/api/v1/common;commonb\x06proto3"
 
 var (
 	file_v1_common_common_proto_rawDescOnce sync.Once
@@ -228,11 +274,12 @@ func file_v1_common_common_proto_rawDescGZIP() []byte {
 	return file_v1_common_common_proto_rawDescData
 }
 
-var file_v1_common_common_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_v1_common_common_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_v1_common_common_proto_goTypes = []any{
 	(*PageInfo)(nil),    // 0: api.common.v1.PageInfo
 	(*ApiInfo)(nil),     // 1: api.common.v1.ApiInfo
 	(*ApiTypeInfo)(nil), // 2: api.common.v1.ApiTypeInfo
+	(*IntValue)(nil),    // 3: api.common.v1.IntValue
 }
 var file_v1_common_common_proto_depIdxs = []int32{
 	1, // 0: api.common.v1.ApiTypeInfo.api_info:type_name -> api.common.v1.ApiInfo
@@ -254,7 +301,7 @@ func file_v1_common_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_common_common_proto_rawDesc), len(file_v1_common_common_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

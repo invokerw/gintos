@@ -31,7 +31,7 @@ func NewAuthService(uc *biz.UserUsecase, logger log.Logger) *AuthService {
 }
 
 func (s *AuthService) Login(ctx *gin.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
-	user, err := s.uc.GetUser(ctx, req.Username)
+	user, err := s.uc.GetUser(ctx, req.Username, true)
 	if err != nil {
 		return nil, errs.ErrUserNotFound.Wrap(err)
 	}
@@ -83,7 +83,7 @@ func (s *AuthService) RefreshToken(ctx *gin.Context, req *auth.RefreshTokenReque
 	if rClaims.RegisteredClaims.ExpiresAt.Before(time.Now()) {
 		return nil, errs.ErrTokenExpired
 	}
-	user, err := s.uc.GetUserByID(ctx, rClaims.BaseClaims.ID)
+	user, err := s.uc.GetUserByID(ctx, rClaims.BaseClaims.ID, true)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ func (s *AuthService) Register(ctx *gin.Context, req *auth.RegisterRequest) (*em
 		UserName: &req.Username,
 		Password: trans.Ptr(utils.BcryptHash(req.Password)),
 		Email:    &req.Email,
-	})
+	}, true)
 	if err != nil {
 		return nil, err
 	}

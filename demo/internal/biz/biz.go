@@ -33,6 +33,7 @@ type UserRepo interface {
 	DeleteUsers(ctx context.Context, names []string) error
 	UpdateUsers(ctx context.Context, users []*common.User) ([]*ent.User, error)
 	GetUserList(ctx context.Context, req *admin.GetUserListRequest) ([]*ent.User, error)
+	Count(ctx context.Context) (int, error)
 }
 type RoleRepo interface {
 	CreateRole(ctx context.Context, in *common.Role) (*ent.Role, error)
@@ -41,4 +42,5 @@ type RoleRepo interface {
 	DeleteRoles(ctx context.Context, names []string) error
 	UpdateRoles(ctx context.Context, roles []*common.Role) ([]*ent.Role, error)
 	GetRoleList(ctx context.Context, req *admin.GetRoleListRequest) ([]*ent.Role, error)
+	Count(ctx context.Context) (int, error)
 }

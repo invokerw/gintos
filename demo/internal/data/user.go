@@ -219,3 +219,11 @@ func (r *userRepo) GetUserByID(ctx context.Context, id uint64) (*ent.User, error
 	}
 	return u, nil
 }
+
+func (r *userRepo) Count(ctx context.Context) (int, error) {
+	count, err := r.data.db.User.Query().Count(ctx)
+	if err != nil {
+		return 0, errs.DBErrEntError.Wrap(err)
+	}
+	return count, nil
+}

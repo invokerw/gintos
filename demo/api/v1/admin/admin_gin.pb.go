@@ -9,6 +9,7 @@ package admin
 import (
 	gin "github.com/gin-gonic/gin"
 	resp "github/invokerw/gintos/common/resp"
+	common "github/invokerw/gintos/demo/api/v1/common"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -20,7 +21,9 @@ var _ = new(resp.Response)
 const OperationAdminDeleteRoles = "/api.v1.admin.Admin/DeleteRoles"
 const OperationAdminDeleteUsers = "/api.v1.admin.Admin/DeleteUsers"
 const OperationAdminGetApiInfoList = "/api.v1.admin.Admin/GetApiInfoList"
+const OperationAdminGetRoleCount = "/api.v1.admin.Admin/GetRoleCount"
 const OperationAdminGetRoleList = "/api.v1.admin.Admin/GetRoleList"
+const OperationAdminGetUserCount = "/api.v1.admin.Admin/GetUserCount"
 const OperationAdminGetUserList = "/api.v1.admin.Admin/GetUserList"
 const OperationAdminRoleGetPolicy = "/api.v1.admin.Admin/RoleGetPolicy"
 const OperationAdminRoleUpdatePolicy = "/api.v1.admin.Admin/RoleUpdatePolicy"
@@ -31,7 +34,9 @@ type IAdminServer interface {
 	DeleteRoles(*gin.Context, *DeleteRolesRequest) (*emptypb.Empty, error)
 	DeleteUsers(*gin.Context, *DeleteUsersRequest) (*emptypb.Empty, error)
 	GetApiInfoList(*gin.Context, *emptypb.Empty) (*GetApiInfoListResponse, error)
+	GetRoleCount(*gin.Context, *emptypb.Empty) (*common.IntValue, error)
 	GetRoleList(*gin.Context, *GetRoleListRequest) (*GetRoleListResponse, error)
+	GetUserCount(*gin.Context, *emptypb.Empty) (*common.IntValue, error)
 	GetUserList(*gin.Context, *GetUserListRequest) (*GetUserListResponse, error)
 	RoleGetPolicy(*gin.Context, *RoleGetPolicyRequest) (*RoleGetPolicyResponse, error)
 	RoleUpdatePolicy(*gin.Context, *RoleUpdatePolicyRequest) (*emptypb.Empty, error)
@@ -43,9 +48,11 @@ func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
 	r.POST("/api/v1/admin/get_user_list", _Admin_GetUserList0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/update_users", _Admin_UpdateUsers0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/delete_users", _Admin_DeleteUsers0_HTTP_Handler(srv))
+	r.GET("/api/v1/admin/get_user_count", _Admin_GetUserCount0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/get_role_list", _Admin_GetRoleList0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/update_roles", _Admin_UpdateRoles0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/delete_roles", _Admin_DeleteRoles0_HTTP_Handler(srv))
+	r.GET("/api/v1/admin/get_role_count", _Admin_GetRoleCount0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/get_api_info", _Admin_GetApiInfoList0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/role_get_policy/:role_name", _Admin_RoleGetPolicy0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/role_add_policy", _Admin_RoleUpdatePolicy0_HTTP_Handler(srv))
@@ -114,6 +121,23 @@ func _Admin_DeleteUsers0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
 	}
 }
 
+func _Admin_GetUserCount0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in emptypb.Empty
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminGetUserCount)
+		reply, err := srv.GetUserCount(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
 func _Admin_GetRoleList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		var in GetRoleListRequest
@@ -169,6 +193,23 @@ func _Admin_DeleteRoles0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
 		}
 		// http.SetOperation(ctx, OperationAdminDeleteRoles)
 		reply, err := srv.DeleteRoles(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_GetRoleCount0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in emptypb.Empty
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminGetRoleCount)
+		reply, err := srv.GetRoleCount(ctx, &in)
 		if err != nil {
 			resp.FailWithError(ctx, err)
 			return

@@ -37,7 +37,7 @@ func NewAdminService(
 }
 
 func (s *AdminService) GetUserList(ctx *gin.Context, req *admin.GetUserListRequest) (*admin.GetUserListResponse, error) {
-	users, err := s.userUc.GetUserList(ctx, req)
+	users, err := s.userUc.GetUserList(ctx, req, true)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (s *AdminService) UpdateRoles(context *gin.Context, request *admin.UpdateRo
 }
 
 func (s *AdminService) UpdateUsers(context *gin.Context, request *admin.UpdateUsersRequest) (*admin.UpdateUsersResponse, error) {
-	rs, err := s.userUc.UpdateUsers(context, request.Users)
+	rs, err := s.userUc.UpdateUsers(context, request.Users, true)
 	if err != nil {
 		return nil, err
 	}
@@ -145,6 +145,22 @@ func (s *AdminService) RoleUpdatePolicy(context *gin.Context, request *admin.Rol
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil
+}
+
+func (s *AdminService) GetRoleCount(context *gin.Context, empty *emptypb.Empty) (*common.IntValue, error) {
+	count, err := s.roleUc.GetRoleCount(context)
+	if err != nil {
+		return nil, err
+	}
+	return &common.IntValue{Data: int32(count)}, nil
+}
+
+func (s *AdminService) GetUserCount(context *gin.Context, empty *emptypb.Empty) (*common.IntValue, error) {
+	count, err := s.userUc.GetUserCount(context)
+	if err != nil {
+		return nil, err
+	}
+	return &common.IntValue{Data: int32(count)}, nil
 }
 
 func (s *AdminService) convertApiInfo(i *rbac.ApiInfo) *common.ApiInfo {

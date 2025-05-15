@@ -52,6 +52,17 @@ service Admin {
 		};
 	}
 
+	rpc GetUserCount (google.protobuf.Empty) returns (common.v1.IntValue) {
+		option (google.api.http) = {
+			get: "/api/v1/admin/get_user_count"
+		};
+		option (rbac.comment) = "获取用户数量";
+		option (rbac.type) = "user";
+		option(openapi.v3.operation) = {
+			security: {}
+		};
+	}
+
 	rpc GetRoleList (GetRoleListRequest) returns (GetRoleListResponse) {
 		option (google.api.http) = {
 			post: "/api/v1/admin/get_role_list"
@@ -82,6 +93,17 @@ service Admin {
 			body: "*"
 		};
 		option (rbac.comment) = "删除角色";
+		option (rbac.type) = "role";
+		option(openapi.v3.operation) = {
+			security: {}
+		};
+	}
+
+	rpc GetRoleCount (google.protobuf.Empty) returns (common.v1.IntValue) {
+		option (google.api.http) = {
+			get: "/api/v1/admin/get_role_count"
+		};
+		option (rbac.comment) = "获取角色数量";
 		option (rbac.type) = "role";
 		option(openapi.v3.operation) = {
 			security: {}

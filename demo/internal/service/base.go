@@ -25,7 +25,7 @@ func (s *BaseService) GetMe(ctx *gin.Context, req *base.GetMeRequest) (*base.Get
 	if info == nil {
 		return nil, errs.ErrUserNotFound
 	}
-	user, err := s.uc.GetUserByID(ctx, info.BaseClaims.ID)
+	user, err := s.uc.GetUserByID(ctx, info.BaseClaims.ID, true)
 	if err != nil {
 		return nil, err
 	}

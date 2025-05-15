@@ -54,6 +54,12 @@ func getApiInfoList() []*rbac.ApiInfo {
 			Type: "user",
 		},
 		{
+			Method: "GET",
+			Path: "/api/v1/admin/get_user_count",
+			Name: "获取用户数量",
+			Type: "user",
+		},
+		{
 			Method: "POST",
 			Path: "/api/v1/admin/get_role_list",
 			Name: "获取角色列表",
@@ -69,6 +75,12 @@ func getApiInfoList() []*rbac.ApiInfo {
 			Method: "POST",
 			Path: "/api/v1/admin/delete_roles",
 			Name: "删除角色",
+			Type: "role",
+		},
+		{
+			Method: "GET",
+			Path: "/api/v1/admin/get_role_count",
+			Name: "获取角色数量",
 			Type: "role",
 		},
 		{

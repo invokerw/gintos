@@ -149,3 +149,11 @@ func (r *roleRepo) GetRoleByID(ctx context.Context, id uint64) (*ent.Role, error
 	}
 	return u, nil
 }
+
+func (r *roleRepo) Count(ctx context.Context) (int, error) {
+	count, err := r.data.db.Role.Query().Count(ctx)
+	if err != nil {
+		return 0, errs.DBErrEntError.Wrap(err)
+	}
+	return count, nil
+}

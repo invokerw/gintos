@@ -54,6 +54,20 @@ paths:
                                 $ref: '#/components/schemas/api.v1.admin.GetApiInfoListResponse'
             security:
                 - {}
+    /api/v1/admin/get_role_count:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_GetRoleCount
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.common.v1.IntValue'
+            security:
+                - {}
     /api/v1/admin/get_role_list:
         post:
             tags:
@@ -72,6 +86,20 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.admin.GetRoleListResponse'
+            security:
+                - {}
+    /api/v1/admin/get_user_count:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_GetUserCount
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.common.v1.IntValue'
             security:
                 - {}
     /api/v1/admin/get_user_list:
@@ -318,6 +346,13 @@ components:
                     items:
                         $ref: '#/components/schemas/api.common.v1.ApiInfo'
                     description: API信息
+        api.common.v1.IntValue:
+            type: object
+            properties:
+                data:
+                    type: integer
+                    description: 数据
+                    format: int32
         api.common.v1.PageInfo:
             type: object
             properties:
