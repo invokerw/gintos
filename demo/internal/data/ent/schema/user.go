@@ -57,7 +57,7 @@ func (User) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.String("mobile").
+		field.String("phone").
 			Comment("手机号码").
 			Default("").
 			MaxLen(255).

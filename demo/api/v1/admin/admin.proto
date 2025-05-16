@@ -155,10 +155,18 @@ message GetUserListRequest {
 		json_name = "username",
 		(openapi.v3.property) = {description: "登录名"}
 	]; // 登录名
-	optional string nickname = 3 [
-		json_name = "nickname",
-		(openapi.v3.property) = {description: "昵称"}
-	]; // 昵称
+	optional string phone = 3 [
+		json_name = "phone",
+		(openapi.v3.property) = {description: "手机号"}
+	]; // 手机号
+	optional common.v1.UserStatus status = 4 [
+		json_name = "status",
+		(openapi.v3.property) = {description: "状态"}
+	];
+	optional string email = 5 [
+		json_name = "email",
+		(openapi.v3.property) = {description: "邮箱"}
+	];
 }
 
 message GetUserListResponse {

@@ -187,7 +187,7 @@ type User struct {
 	NickName      *string                `protobuf:"bytes,12,opt,name=nick_name,proto3,oneof" json:"nick_name,omitempty"`                                   // 昵称
 	Avatar        *string                `protobuf:"bytes,13,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`                                         // 头像
 	Email         *string                `protobuf:"bytes,14,opt,name=email,proto3,oneof" json:"email,omitempty"`                                           // 邮箱
-	Mobile        *string                `protobuf:"bytes,15,opt,name=mobile,proto3,oneof" json:"mobile,omitempty"`                                         // 手机号
+	Phone         *string                `protobuf:"bytes,15,opt,name=phone,proto3,oneof" json:"phone,omitempty"`                                           // 手机号
 	Gender        *UserGender            `protobuf:"varint,17,opt,name=gender,proto3,enum=api.common.v1.UserGender,oneof" json:"gender,omitempty"`          // 性别
 	Remark        *string                `protobuf:"bytes,21,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                         // 备注名
 	LastLoginTime *int64                 `protobuf:"varint,30,opt,name=last_login_time,proto3,oneof" json:"last_login_time,omitempty"`                      // 最后登录时间
@@ -293,9 +293,9 @@ func (x *User) GetEmail() string {
 	return ""
 }
 
-func (x *User) GetMobile() string {
-	if x != nil && x.Mobile != nil {
-		return *x.Mobile
+func (x *User) GetPhone() string {
+	if x != nil && x.Phone != nil {
+		return *x.Phone
 	}
 	return ""
 }
@@ -453,7 +453,7 @@ var File_v1_common_user_proto protoreflect.FileDescriptor
 
 const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
-	"\x14v1/common/user.proto\x12\rapi.common.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdd\t\n" +
+	"\x14v1/common/user.proto\x12\rapi.common.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xda\t\n" +
 	"\x04User\x12#\n" +
 	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x125\n" +
 	"\trole_name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\trole_name\x88\x01\x01\x124\n" +
@@ -464,8 +464,8 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\bpassword\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06密码H\x05R\bpassword\x88\x01\x01\x12/\n" +
 	"\tnick_name\x18\f \x01(\tB\f\xbaG\t\x92\x02\x06昵称H\x06R\tnick_name\x88\x01\x01\x12)\n" +
 	"\x06avatar\x18\r \x01(\tB\f\xbaG\t\x92\x02\x06头像H\aR\x06avatar\x88\x01\x01\x12'\n" +
-	"\x05email\x18\x0e \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\bR\x05email\x88\x01\x01\x12,\n" +
-	"\x06mobile\x18\x0f \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\tR\x06mobile\x88\x01\x01\x12D\n" +
+	"\x05email\x18\x0e \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\bR\x05email\x88\x01\x01\x12*\n" +
+	"\x05phone\x18\x0f \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\tR\x05phone\x88\x01\x01\x12D\n" +
 	"\x06gender\x18\x11 \x01(\x0e2\x19.api.common.v1.UserGenderB\f\xbaG\t\x92\x02\x06性别H\n" +
 	"R\x06gender\x88\x01\x01\x12,\n" +
 	"\x06remark\x18\x15 \x01(\tB\x0f\xbaG\f\x92\x02\t备注名H\vR\x06remark\x88\x01\x01\x12G\n" +
@@ -488,8 +488,8 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
 	"_nick_nameB\t\n" +
 	"\a_avatarB\b\n" +
-	"\x06_emailB\t\n" +
-	"\a_mobileB\t\n" +
+	"\x06_emailB\b\n" +
+	"\x06_phoneB\t\n" +
 	"\a_genderB\t\n" +
 	"\a_remarkB\x12\n" +
 	"\x10_last_login_timeB\t\n" +

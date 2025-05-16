@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"context"
+	"fmt"
 	"github.com/casbin/casbin/v2"
 	"github.com/google/wire"
 	"github/invokerw/gintos/demo/api"
@@ -10,6 +11,7 @@ import (
 	"github/invokerw/gintos/demo/internal/pkg/trans"
 	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
+	"math/rand"
 )
 
 var ProviderSet = wire.NewSet(DoInit)
@@ -44,12 +46,16 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l lo
 	}
 	createUser := func(roleName string, uName, pass string, uAuth common.UserAuthority) error {
 		if getUser, _ := user.GetUser(ctx, uName); getUser == nil {
+			// 0-2 rand
+			r := rand.Int31n(3)
 			_, err := user.CreateUser(ctx, &common.User{
 				RoleName:  &roleName,
 				UserName:  trans.Ptr(uName),
 				Password:  trans.Ptr(utils.BcryptHash(pass)),
 				NickName:  trans.Ptr(uName),
 				Email:     trans.Ptr(uName + "@gintos.com"),
+				Gender:    trans.Ptr(common.UserGender(r)),
+				Phone:     trans.Ptr(fmt.Sprintf("1380001000%d", r)),
 				Status:    trans.Ptr(common.UserStatus_ON),
 				Authority: trans.Ptr(uAuth),
 			})

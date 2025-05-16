@@ -123,12 +123,12 @@ func init() {
 	userDescEmail := userFields[3].Descriptor()
 	// user.EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	user.EmailValidator = userDescEmail.Validators[0].(func(string) error)
-	// userDescMobile is the schema descriptor for mobile field.
-	userDescMobile := userFields[4].Descriptor()
-	// user.DefaultMobile holds the default value on creation for the mobile field.
-	user.DefaultMobile = userDescMobile.Default.(string)
-	// user.MobileValidator is a validator for the "mobile" field. It is called by the builders before save.
-	user.MobileValidator = userDescMobile.Validators[0].(func(string) error)
+	// userDescPhone is the schema descriptor for phone field.
+	userDescPhone := userFields[4].Descriptor()
+	// user.DefaultPhone holds the default value on creation for the phone field.
+	user.DefaultPhone = userDescPhone.Default.(string)
+	// user.PhoneValidator is a validator for the "phone" field. It is called by the builders before save.
+	user.PhoneValidator = userDescPhone.Validators[0].(func(string) error)
 	// userDescAvatar is the schema descriptor for avatar field.
 	userDescAvatar := userFields[5].Descriptor()
 	// user.AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.

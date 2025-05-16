@@ -40,7 +40,7 @@ type User struct {
 	// 电子邮箱
 	Email *string `json:"email,omitempty"`
 	// 手机号码
-	Mobile *string `json:"mobile,omitempty"`
+	Phone *string `json:"phone,omitempty"`
 	// 头像
 	Avatar *string `json:"avatar,omitempty"`
 	// 性别
@@ -83,7 +83,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldLastLoginTime:
 			values[i] = new(sql.NullInt64)
-		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldEmail, user.FieldMobile, user.FieldAvatar, user.FieldGender, user.FieldAuthority:
+		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldEmail, user.FieldPhone, user.FieldAvatar, user.FieldGender, user.FieldAuthority:
 			values[i] = new(sql.NullString)
 		case user.FieldCreateTime, user.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
@@ -180,12 +180,12 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.Email = new(string)
 				*u.Email = value.String
 			}
-		case user.FieldMobile:
+		case user.FieldPhone:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field mobile", values[i])
+				return fmt.Errorf("unexpected type %T for field phone", values[i])
 			} else if value.Valid {
-				u.Mobile = new(string)
-				*u.Mobile = value.String
+				u.Phone = new(string)
+				*u.Phone = value.String
 			}
 		case user.FieldAvatar:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -313,8 +313,8 @@ func (u *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.Mobile; v != nil {
-		builder.WriteString("mobile=")
+	if v := u.Phone; v != nil {
+		builder.WriteString("phone=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")

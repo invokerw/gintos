@@ -34,8 +34,8 @@ const (
 	FieldNickName = "nick_name"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
-	// FieldMobile holds the string denoting the mobile field in the database.
-	FieldMobile = "mobile"
+	// FieldPhone holds the string denoting the phone field in the database.
+	FieldPhone = "phone"
 	// FieldAvatar holds the string denoting the avatar field in the database.
 	FieldAvatar = "avatar"
 	// FieldGender holds the string denoting the gender field in the database.
@@ -70,7 +70,7 @@ var Columns = []string{
 	FieldPassword,
 	FieldNickName,
 	FieldEmail,
-	FieldMobile,
+	FieldPhone,
 	FieldAvatar,
 	FieldGender,
 	FieldAuthority,
@@ -109,10 +109,10 @@ var (
 	NickNameValidator func(string) error
 	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	EmailValidator func(string) error
-	// DefaultMobile holds the default value on creation for the "mobile" field.
-	DefaultMobile string
-	// MobileValidator is a validator for the "mobile" field. It is called by the builders before save.
-	MobileValidator func(string) error
+	// DefaultPhone holds the default value on creation for the "phone" field.
+	DefaultPhone string
+	// PhoneValidator is a validator for the "phone" field. It is called by the builders before save.
+	PhoneValidator func(string) error
 	// AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.
 	AvatarValidator func(string) error
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -256,9 +256,9 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmail, opts...).ToFunc()
 }
 
-// ByMobile orders the results by the mobile field.
-func ByMobile(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldMobile, opts...).ToFunc()
+// ByPhone orders the results by the phone field.
+func ByPhone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPhone, opts...).ToFunc()
 }
 
 // ByAvatar orders the results by the avatar field.

@@ -77,7 +77,7 @@ var (
 		{Name: "password", Type: field.TypeString, Nullable: true, Size: 255, Comment: "登录密码"},
 		{Name: "nick_name", Type: field.TypeString, Nullable: true, Size: 255, Comment: "昵称"},
 		{Name: "email", Type: field.TypeString, Nullable: true, Size: 320, Comment: "电子邮箱"},
-		{Name: "mobile", Type: field.TypeString, Nullable: true, Size: 255, Comment: "手机号码", Default: ""},
+		{Name: "phone", Type: field.TypeString, Nullable: true, Size: 255, Comment: "手机号码", Default: ""},
 		{Name: "avatar", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "头像"},
 		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"UNKNOWN", "MALE", "FEMALE"}},
 		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "SYS_MANAGER", "CUSTOMER_USER", "GUEST_USER", "REFRESH_TOKEN"}, Default: "CUSTOMER_USER"},

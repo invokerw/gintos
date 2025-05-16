@@ -138,7 +138,7 @@ func (uc *UserUsecase) convertToUser(u *ent.User, ignorePassword bool) *common.U
 		Password:      pass,
 		Avatar:        u.Avatar,
 		Email:         u.Email,
-		Mobile:        u.Mobile,
+		Phone:         u.Phone,
 		Gender:        uc.convertToGender(u.Gender),
 		Remark:        u.Remark,
 		LastLoginTime: u.LastLoginTime,

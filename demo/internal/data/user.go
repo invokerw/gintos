@@ -90,7 +90,7 @@ func (r *userRepo) CreateUser(ctx context.Context, in *common.User) (*ent.User, 
 			SetNillableRemark(in.Remark).
 			SetNillableStatus(r.convertToStatus(in.Status)).
 			SetNillableEmail(in.Email).
-			SetNillableMobile(in.Mobile).
+			SetNillablePhone(in.Phone).
 			SetNillableAvatar(in.Avatar).
 			SetNillableGender(r.convertToGender(in.Gender)).
 			SetNillableAuthority(r.convertToAuthority(in.Authority)).
@@ -135,7 +135,7 @@ func (r *userRepo) UpdateUsers(ctx context.Context, ins []*common.User) ([]*ent.
 				SetNillableRemark(in.Remark).
 				SetNillableStatus(r.convertToStatus(in.Status)).
 				SetNillableEmail(in.Email).
-				SetNillableMobile(in.Mobile).
+				SetNillablePhone(in.Phone).
 				SetNillableAvatar(in.Avatar).
 				SetNillableGender(r.convertToGender(in.Gender)).
 				SetNillableAuthority(r.convertToAuthority(in.Authority)).
@@ -198,8 +198,17 @@ func (r *userRepo) GetUserList(ctx context.Context, req *admin.GetUserListReques
 	if req.Username != nil && *req.Username != "" {
 		q.Where(user.UsernameContains(*req.Username))
 	}
-	if req.Nickname != nil && *req.Nickname != "" {
-		q.Where(user.NickNameContains(*req.Nickname))
+	if req.Phone != nil && *req.Phone != "" {
+		q.Where(user.PhoneContains(*req.Phone))
+	}
+	if req.Email != nil && *req.Email != "" {
+		q.Where(user.EmailContains(*req.Email))
+	}
+	if req.Status != nil {
+		s := user.Status(*req.Status)
+		if err := user.StatusValidator(s); err == nil {
+			q.Where(user.StatusEQ(s))
+		}
 	}
 
 	users, err := q.All(ctx)

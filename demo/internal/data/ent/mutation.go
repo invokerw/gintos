@@ -1789,7 +1789,7 @@ type UserMutation struct {
 	password           *string
 	nick_name          *string
 	email              *string
-	mobile             *string
+	phone              *string
 	avatar             *string
 	gender             *user.Gender
 	authority          *user.Authority
@@ -2439,53 +2439,53 @@ func (m *UserMutation) ResetEmail() {
 	delete(m.clearedFields, user.FieldEmail)
 }
 
-// SetMobile sets the "mobile" field.
-func (m *UserMutation) SetMobile(s string) {
-	m.mobile = &s
+// SetPhone sets the "phone" field.
+func (m *UserMutation) SetPhone(s string) {
+	m.phone = &s
 }
 
-// Mobile returns the value of the "mobile" field in the mutation.
-func (m *UserMutation) Mobile() (r string, exists bool) {
-	v := m.mobile
+// Phone returns the value of the "phone" field in the mutation.
+func (m *UserMutation) Phone() (r string, exists bool) {
+	v := m.phone
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldMobile returns the old "mobile" field's value of the User entity.
+// OldPhone returns the old "phone" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldMobile(ctx context.Context) (v *string, err error) {
+func (m *UserMutation) OldPhone(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldMobile is only allowed on UpdateOne operations")
+		return v, errors.New("OldPhone is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldMobile requires an ID field in the mutation")
+		return v, errors.New("OldPhone requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldMobile: %w", err)
+		return v, fmt.Errorf("querying old value for OldPhone: %w", err)
 	}
-	return oldValue.Mobile, nil
+	return oldValue.Phone, nil
 }
 
-// ClearMobile clears the value of the "mobile" field.
-func (m *UserMutation) ClearMobile() {
-	m.mobile = nil
-	m.clearedFields[user.FieldMobile] = struct{}{}
+// ClearPhone clears the value of the "phone" field.
+func (m *UserMutation) ClearPhone() {
+	m.phone = nil
+	m.clearedFields[user.FieldPhone] = struct{}{}
 }
 
-// MobileCleared returns if the "mobile" field was cleared in this mutation.
-func (m *UserMutation) MobileCleared() bool {
-	_, ok := m.clearedFields[user.FieldMobile]
+// PhoneCleared returns if the "phone" field was cleared in this mutation.
+func (m *UserMutation) PhoneCleared() bool {
+	_, ok := m.clearedFields[user.FieldPhone]
 	return ok
 }
 
-// ResetMobile resets all changes to the "mobile" field.
-func (m *UserMutation) ResetMobile() {
-	m.mobile = nil
-	delete(m.clearedFields, user.FieldMobile)
+// ResetPhone resets all changes to the "phone" field.
+func (m *UserMutation) ResetPhone() {
+	m.phone = nil
+	delete(m.clearedFields, user.FieldPhone)
 }
 
 // SetAvatar sets the "avatar" field.
@@ -2809,8 +2809,8 @@ func (m *UserMutation) Fields() []string {
 	if m.email != nil {
 		fields = append(fields, user.FieldEmail)
 	}
-	if m.mobile != nil {
-		fields = append(fields, user.FieldMobile)
+	if m.phone != nil {
+		fields = append(fields, user.FieldPhone)
 	}
 	if m.avatar != nil {
 		fields = append(fields, user.FieldAvatar)
@@ -2852,8 +2852,8 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.NickName()
 	case user.FieldEmail:
 		return m.Email()
-	case user.FieldMobile:
-		return m.Mobile()
+	case user.FieldPhone:
+		return m.Phone()
 	case user.FieldAvatar:
 		return m.Avatar()
 	case user.FieldGender:
@@ -2891,8 +2891,8 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldNickName(ctx)
 	case user.FieldEmail:
 		return m.OldEmail(ctx)
-	case user.FieldMobile:
-		return m.OldMobile(ctx)
+	case user.FieldPhone:
+		return m.OldPhone(ctx)
 	case user.FieldAvatar:
 		return m.OldAvatar(ctx)
 	case user.FieldGender:
@@ -2980,12 +2980,12 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetEmail(v)
 		return nil
-	case user.FieldMobile:
+	case user.FieldPhone:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetMobile(v)
+		m.SetPhone(v)
 		return nil
 	case user.FieldAvatar:
 		v, ok := value.(string)
@@ -3114,8 +3114,8 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldEmail) {
 		fields = append(fields, user.FieldEmail)
 	}
-	if m.FieldCleared(user.FieldMobile) {
-		fields = append(fields, user.FieldMobile)
+	if m.FieldCleared(user.FieldPhone) {
+		fields = append(fields, user.FieldPhone)
 	}
 	if m.FieldCleared(user.FieldAvatar) {
 		fields = append(fields, user.FieldAvatar)
@@ -3173,8 +3173,8 @@ func (m *UserMutation) ClearField(name string) error {
 	case user.FieldEmail:
 		m.ClearEmail()
 		return nil
-	case user.FieldMobile:
-		m.ClearMobile()
+	case user.FieldPhone:
+		m.ClearPhone()
 		return nil
 	case user.FieldAvatar:
 		m.ClearAvatar()
@@ -3226,8 +3226,8 @@ func (m *UserMutation) ResetField(name string) error {
 	case user.FieldEmail:
 		m.ResetEmail()
 		return nil
-	case user.FieldMobile:
-		m.ResetMobile()
+	case user.FieldPhone:
+		m.ResetPhone()
 		return nil
 	case user.FieldAvatar:
 		m.ResetAvatar()

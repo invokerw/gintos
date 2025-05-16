@@ -420,7 +420,7 @@ components:
                 email:
                     type: string
                     description: 邮箱
-                mobile:
+                phone:
                     type: string
                     description: 手机号
                 gender:
@@ -505,9 +505,16 @@ components:
                 username:
                     type: string
                     description: 登录名
-                nickname:
+                phone:
                     type: string
-                    description: 昵称
+                    description: 手机号
+                status:
+                    type: integer
+                    description: 状态
+                    format: enum
+                email:
+                    type: string
+                    description: 邮箱
         api.v1.admin.GetUserListResponse:
             type: object
             properties:

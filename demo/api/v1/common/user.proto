@@ -66,8 +66,8 @@ message User {
     (openapi.v3.property) = {description: "邮箱"}
   ]; // 邮箱
 
-  optional string mobile = 15 [
-    json_name = "mobile",
+  optional string phone = 15 [
+    json_name = "phone",
     (openapi.v3.property) = {description: "手机号"}
   ]; // 手机号
 
