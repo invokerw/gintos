@@ -7,10 +7,13 @@ import (
 	"github/invokerw/gintos/demo/api/v1/base"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/api/v1/helloworld"
+	"github/invokerw/gintos/demo/assets"
 	"github/invokerw/gintos/demo/internal/conf"
 	"github/invokerw/gintos/demo/internal/router/mw"
 	"github/invokerw/gintos/demo/internal/service"
 	"github/invokerw/gintos/log"
+	"io/fs"
+	"net/http"
 
 	"github.com/casbin/casbin/v2"
 
@@ -38,6 +41,8 @@ func NewGinHttpServer(c *conf.Server,
 		g.GET("/", func(c *gin.Context) {
 			c.String(200, "Hello World")
 		})
+		st, _ := fs.Sub(assets.Frontend, "frontend/dist")
+		g.StaticFS("/admin", http.FS(st))
 	}
 	{
 		g := engine.Group("/")
