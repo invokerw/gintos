@@ -37,18 +37,15 @@ message ApiInfo {
 
 message ApiTypeInfo {
   string type = 1 [
-    json_name = "type",
     (openapi.v3.property) = {description: "分类"}
   ]; // 分类
   repeated common.v1.ApiInfo api_info = 2 [
-    json_name = "apiInfo",
     (openapi.v3.property) = {description: "API信息"}
   ]; // API信息
 }
 
 message IntValue {
   int32 data = 1 [
-    json_name = "data",
     (openapi.v3.property) = {description: "数据"}
   ]; // 数据
 }

@@ -37,6 +37,12 @@ func getApiInfoList() []*rbac.ApiInfo {
 	return []*rbac.ApiInfo{
 		{
 			Method: "POST",
+			Path: "/api/v1/admin/create_user",
+			Name: "创建用户",
+			Type: "user",
+		},
+		{
+			Method: "POST",
 			Path: "/api/v1/admin/get_user_list",
 			Name: "获取用户列表",
 			Type: "user",

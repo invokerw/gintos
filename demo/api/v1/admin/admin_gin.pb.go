@@ -18,6 +18,7 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
+const OperationAdminCreateUser = "/api.v1.admin.Admin/CreateUser"
 const OperationAdminDeleteRoles = "/api.v1.admin.Admin/DeleteRoles"
 const OperationAdminDeleteUsers = "/api.v1.admin.Admin/DeleteUsers"
 const OperationAdminGetApiInfoList = "/api.v1.admin.Admin/GetApiInfoList"
@@ -31,6 +32,7 @@ const OperationAdminUpdateRoles = "/api.v1.admin.Admin/UpdateRoles"
 const OperationAdminUpdateUsers = "/api.v1.admin.Admin/UpdateUsers"
 
 type IAdminServer interface {
+	CreateUser(*gin.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	DeleteRoles(*gin.Context, *DeleteRolesRequest) (*emptypb.Empty, error)
 	DeleteUsers(*gin.Context, *DeleteUsersRequest) (*emptypb.Empty, error)
 	GetApiInfoList(*gin.Context, *emptypb.Empty) (*GetApiInfoListResponse, error)
@@ -45,6 +47,7 @@ type IAdminServer interface {
 }
 
 func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
+	r.POST("/api/v1/admin/create_user", _Admin_CreateUser0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/get_user_list", _Admin_GetUserList0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/update_users", _Admin_UpdateUsers0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/delete_users", _Admin_DeleteUsers0_HTTP_Handler(srv))
@@ -56,6 +59,27 @@ func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
 	r.GET("/api/v1/admin/get_api_info", _Admin_GetApiInfoList0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/role_get_policy/:role_name", _Admin_RoleGetPolicy0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/role_add_policy", _Admin_RoleUpdatePolicy0_HTTP_Handler(srv))
+}
+
+func _Admin_CreateUser0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in CreateUserRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminCreateUser)
+		reply, err := srv.CreateUser(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
 }
 
 func _Admin_GetUserList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {

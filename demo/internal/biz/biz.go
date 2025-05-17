@@ -27,7 +27,7 @@ type GreeterRepo interface {
 
 // UserRepo is a User repo.
 type UserRepo interface {
-	CreateUser(ctx context.Context, in *common.User) (*ent.User, error)
+	CreateUsers(ctx context.Context, users []*common.User) (*ent.User, error)
 	GetUser(ctx context.Context, username string) (*ent.User, error)
 	GetUserByID(ctx context.Context, id uint64) (*ent.User, error)
 	DeleteUsers(ctx context.Context, names []string) error

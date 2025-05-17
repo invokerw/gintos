@@ -48,16 +48,18 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l lo
 		if getUser, _ := user.GetUser(ctx, uName); getUser == nil {
 			// 0-2 rand
 			r := rand.Int31n(3)
-			_, err := user.CreateUser(ctx, &common.User{
-				RoleName:  &roleName,
-				UserName:  trans.Ptr(uName),
-				Password:  trans.Ptr(utils.BcryptHash(pass)),
-				NickName:  trans.Ptr(uName),
-				Email:     trans.Ptr(uName + "@gintos.com"),
-				Gender:    trans.Ptr(common.UserGender(r)),
-				Phone:     trans.Ptr(fmt.Sprintf("1380001000%d", r)),
-				Status:    trans.Ptr(common.UserStatus_ON),
-				Authority: trans.Ptr(uAuth),
+			_, err := user.CreateUsers(ctx, []*common.User{
+				{
+					RoleName:  &roleName,
+					Username:  trans.Ptr(uName),
+					Password:  trans.Ptr(utils.BcryptHash(pass)),
+					Nickname:  trans.Ptr(uName),
+					Email:     trans.Ptr(uName + "@gintos.com"),
+					Gender:    trans.Ptr(common.UserGender(r)),
+					Phone:     trans.Ptr(fmt.Sprintf("1380001000%d", r)),
+					Status:    trans.Ptr(common.UserStatus_ON),
+					Authority: trans.Ptr(uAuth),
+				},
 			})
 			if err != nil {
 				logger.Errorf("create %v user failed: %v", uName, err)

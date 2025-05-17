@@ -42,8 +42,8 @@ func (s *AuthService) Login(ctx *gin.Context, req *auth.LoginRequest) (*auth.Log
 
 	baseC := utils.BaseClaims{
 		ID:          user.GetId(),
-		Username:    user.GetUserName(),
-		NickName:    user.GetNickName(),
+		Username:    user.GetUsername(),
+		NickName:    user.GetNickname(),
 		AuthorityId: int32(user.GetAuthority()),
 		Role:        "admin",
 	}
@@ -89,8 +89,8 @@ func (s *AuthService) RefreshToken(ctx *gin.Context, req *auth.RefreshTokenReque
 	}
 	baseC := utils.BaseClaims{
 		ID:          user.GetId(),
-		Username:    user.GetUserName(),
-		NickName:    user.GetNickName(),
+		Username:    user.GetUsername(),
+		NickName:    user.GetNickname(),
 		AuthorityId: int32(user.GetAuthority()),
 		Role:        "admin",
 	}
@@ -110,7 +110,7 @@ func (s *AuthService) RefreshToken(ctx *gin.Context, req *auth.RefreshTokenReque
 
 func (s *AuthService) Register(ctx *gin.Context, req *auth.RegisterRequest) (*emptypb.Empty, error) {
 	user, err := s.uc.CreateUser(ctx, &common.User{
-		UserName: &req.Username,
+		Username: &req.Username,
 		Password: trans.Ptr(utils.BcryptHash(req.Password)),
 		Email:    &req.Email,
 	}, true)

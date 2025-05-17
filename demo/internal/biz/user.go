@@ -22,7 +22,15 @@ func NewUserUsecase(repo UserRepo, logger log.Logger) *UserUsecase {
 }
 
 func (uc *UserUsecase) CreateUser(ctx *gin.Context, user *common.User, ignorePassword bool) (*common.User, error) {
-	u, err := uc.repo.CreateUser(ctx, user)
+	u, err := uc.repo.CreateUsers(ctx, []*common.User{user})
+	if err != nil {
+		return nil, err
+	}
+	return uc.convertToUser(u, ignorePassword), nil
+}
+
+func (uc *UserUsecase) CreateUsers(ctx *gin.Context, users []*common.User, ignorePassword bool) (*common.User, error) {
+	u, err := uc.repo.CreateUsers(ctx, users)
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +131,10 @@ func (uc *UserUsecase) convertToUsers(us []*ent.User, ignorePassword bool) []*co
 }
 
 func (uc *UserUsecase) convertToUser(u *ent.User, ignorePassword bool) *common.User {
-	roleName := u.Edges.Role.Name
+	roleName := ""
+	if u.Edges.Role != nil {
+		roleName = u.Edges.Role.Name
+	}
 	pass := u.Password
 	if ignorePassword {
 		pass = nil
@@ -133,8 +144,8 @@ func (uc *UserUsecase) convertToUser(u *ent.User, ignorePassword bool) *common.U
 		RoleName:      &roleName,
 		CreateBy:      u.CreateBy,
 		UpdateBy:      u.UpdateBy,
-		UserName:      u.Username,
-		NickName:      u.NickName,
+		Username:      u.Username,
+		Nickname:      u.NickName,
 		Password:      pass,
 		Avatar:        u.Avatar,
 		Email:         u.Email,

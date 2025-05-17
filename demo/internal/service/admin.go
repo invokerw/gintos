@@ -36,6 +36,14 @@ func NewAdminService(
 	}
 }
 
+func (s *AdminService) CreateUser(context *gin.Context, request *admin.CreateUserRequest) (*admin.CreateUserResponse, error) {
+	user, err := s.userUc.CreateUser(context, request.User, true)
+	if err != nil {
+		return nil, err
+	}
+	return &admin.CreateUserResponse{User: user}, nil
+}
+
 func (s *AdminService) GetUserList(ctx *gin.Context, req *admin.GetUserListRequest) (*admin.GetUserListResponse, error) {
 	users, err := s.userUc.GetUserList(ctx, req, true)
 	if err != nil {

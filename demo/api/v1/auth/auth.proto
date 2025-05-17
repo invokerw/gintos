@@ -58,17 +58,14 @@ service Auth {
 
 message RegisterRequest {
 	string username = 1 [
-		json_name = "username",
 		(google.api.field_behavior) = REQUIRED
 	]; // 用户名，必选项。
 
 	string password = 2 [
-		json_name = "password",
 		(google.api.field_behavior) = REQUIRED
 	]; // 用户的密码，必选项。
 
 	string email = 3 [
-		json_name = "email",
 		(google.api.field_behavior) = REQUIRED
 	]; // 用户的邮箱，必选项。
 }
@@ -81,12 +78,10 @@ message LogoutRequest {
 // 用户后台登录 - 请求
 message LoginRequest {
 	string username = 1 [
-		json_name = "username",
 		(google.api.field_behavior) = REQUIRED
 	]; // 用户名，必选项。
 
 	string password = 2 [
-		json_name = "password",
 		(google.api.field_behavior) = REQUIRED
 	]; // 用户的密码，必选项。
 }
@@ -94,14 +89,12 @@ message LoginRequest {
 // 用户后台登录 - 回应
 message LoginResponse {
 	common.v1.User user = 1 [
-		json_name = "user",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "用户信息"
 		}
 	]; // 用户信息
 	string access_token = 2 [
-		json_name = "access_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "访问令牌，必选项。"
@@ -109,7 +102,6 @@ message LoginResponse {
 	]; // 访问令牌
 
 	string refresh_token = 3 [
-		json_name = "refresh_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "更新令牌，用来获取下一次的访问令牌，"
@@ -117,14 +109,12 @@ message LoginResponse {
 	]; // 更新令牌，用来获取下一次的访问令牌，可选项。
 
 	int64 expires = 4 [
-		json_name = "expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "令牌过期时间，单位为毫秒"
 		}
 	];
 	int64 refresh_expires = 5 [
-		json_name = "refresh_expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "刷新令牌过期时间，单位为毫秒"
@@ -135,7 +125,6 @@ message LoginResponse {
 // 用户刷新令牌 - 请求
 message RefreshTokenRequest {
 	string refresh_token = 1 [
-		json_name = "refresh_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "更新令牌，用来获取下一次的访问令牌"
@@ -146,14 +135,12 @@ message RefreshTokenRequest {
 // 用户刷新令牌 - 回应
 message RefreshTokenResponse {
 	common.v1.User user = 1 [
-		json_name = "user",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "用户信息"
 		}
 	]; // 用户信息，必选项。
 	string access_token = 2 [
-		json_name = "access_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "访问令牌，必选项。"
@@ -161,7 +148,6 @@ message RefreshTokenResponse {
 	]; // 访问令牌，必选项。
 
 	string refresh_token = 3 [
-		json_name = "refresh_token",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "更新令牌，用来获取下一次的访问令牌，"
@@ -169,14 +155,12 @@ message RefreshTokenResponse {
 	]; // 更新令牌，用来获取下一次的访问令牌，可选项。
 
 	int64 expires = 4 [
-		json_name = "expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "令牌过期时间，单位为毫秒"
 		}
 	];
 	int64 refresh_expires = 5 [
-		json_name = "refresh_expires",
 		(google.api.field_behavior) = REQUIRED,
 		(openapi.v3.property) = {
 			description: "刷新令牌过期时间，单位为毫秒"
@@ -200,7 +184,6 @@ enum VerifyPasswordResult {
 
 message GetAsyncRoutesResponse {
 	repeated RouteConfig routes = 1 [
-		json_name = "routes",
 		(openapi.v3.property) = {
 			description: "异步路由列表"
 		}

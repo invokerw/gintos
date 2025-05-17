@@ -243,11 +243,11 @@ func (x *LoginRequest) GetPassword() string {
 // 用户后台登录 - 回应
 type LoginResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	User           *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                   // 用户信息
-	AccessToken    string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌
-	RefreshToken   string                 `protobuf:"bytes,3,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
+	User           *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                                     // 用户信息
+	AccessToken    string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`    // 访问令牌
+	RefreshToken   string                 `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
 	Expires        int64                  `protobuf:"varint,4,opt,name=expires,proto3" json:"expires,omitempty"`
-	RefreshExpires int64                  `protobuf:"varint,5,opt,name=refresh_expires,proto3" json:"refresh_expires,omitempty"`
+	RefreshExpires int64                  `protobuf:"varint,5,opt,name=refresh_expires,json=refreshExpires,proto3" json:"refresh_expires,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -320,7 +320,7 @@ func (x *LoginResponse) GetRefreshExpires() int64 {
 // 用户刷新令牌 - 请求
 type RefreshTokenRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，必选项。
+	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，必选项。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -365,11 +365,11 @@ func (x *RefreshTokenRequest) GetRefreshToken() string {
 // 用户刷新令牌 - 回应
 type RefreshTokenResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	User           *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                   // 用户信息，必选项。
-	AccessToken    string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty"`   // 访问令牌，必选项。
-	RefreshToken   string                 `protobuf:"bytes,3,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
+	User           *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`                                     // 用户信息，必选项。
+	AccessToken    string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`    // 访问令牌，必选项。
+	RefreshToken   string                 `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"` // 更新令牌，用来获取下一次的访问令牌，可选项。
 	Expires        int64                  `protobuf:"varint,4,opt,name=expires,proto3" json:"expires,omitempty"`
-	RefreshExpires int64                  `protobuf:"varint,5,opt,name=refresh_expires,proto3" json:"refresh_expires,omitempty"`
+	RefreshExpires int64                  `protobuf:"varint,5,opt,name=refresh_expires,json=refreshExpires,proto3" json:"refresh_expires,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -666,21 +666,21 @@ const file_v1_auth_auth_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"R\n" +
 	"\fLoginRequest\x12 \n" +
 	"\busername\x18\x01 \x01(\tB\x04\xe2A\x01\x02R\busername\x12 \n" +
-	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\"\xad\x03\n" +
+	"\bpassword\x18\x02 \x01(\tB\x04\xe2A\x01\x02R\bpassword\"\xaa\x03\n" +
 	"\rLoginResponse\x12?\n" +
-	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12I\n" +
-	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
-	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12H\n" +
-	"\aexpires\x18\x04 \x01(\x03B.\xe2A\x01\x02\xbaG'\x92\x02$令牌过期时间，单位为毫秒R\aexpires\x12^\n" +
-	"\x0frefresh_expires\x18\x05 \x01(\x03B4\xe2A\x01\x02\xbaG-\x92\x02*刷新令牌过期时间，单位为毫秒R\x0frefresh_expires\"z\n" +
-	"\x13RefreshTokenRequest\x12c\n" +
-	"\rrefresh_token\x18\x01 \x01(\tB=\xe2A\x01\x02\xbaG6\x92\x023更新令牌，用来获取下一次的访问令牌R\rrefresh_token\"\xb4\x03\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12H\n" +
+	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\vaccessToken\x12e\n" +
+	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\frefreshToken\x12H\n" +
+	"\aexpires\x18\x04 \x01(\x03B.\xe2A\x01\x02\xbaG'\x92\x02$令牌过期时间，单位为毫秒R\aexpires\x12]\n" +
+	"\x0frefresh_expires\x18\x05 \x01(\x03B4\xe2A\x01\x02\xbaG-\x92\x02*刷新令牌过期时间，单位为毫秒R\x0erefreshExpires\"y\n" +
+	"\x13RefreshTokenRequest\x12b\n" +
+	"\rrefresh_token\x18\x01 \x01(\tB=\xe2A\x01\x02\xbaG6\x92\x023更新令牌，用来获取下一次的访问令牌R\frefreshToken\"\xb1\x03\n" +
 	"\x14RefreshTokenResponse\x12?\n" +
-	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12I\n" +
-	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\faccess_token\x12f\n" +
-	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\rrefresh_token\x12H\n" +
-	"\aexpires\x18\x04 \x01(\x03B.\xe2A\x01\x02\xbaG'\x92\x02$令牌过期时间，单位为毫秒R\aexpires\x12^\n" +
-	"\x0frefresh_expires\x18\x05 \x01(\x03B4\xe2A\x01\x02\xbaG-\x92\x02*刷新令牌过期时间，单位为毫秒R\x0frefresh_expires\"d\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x16\xe2A\x01\x02\xbaG\x0f\x92\x02\f用户信息R\x04user\x12H\n" +
+	"\faccess_token\x18\x02 \x01(\tB%\xe2A\x01\x02\xbaG\x1e\x92\x02\x1b访问令牌，必选项。R\vaccessToken\x12e\n" +
+	"\rrefresh_token\x18\x03 \x01(\tB@\xe2A\x01\x02\xbaG9\x92\x026更新令牌，用来获取下一次的访问令牌，R\frefreshToken\x12H\n" +
+	"\aexpires\x18\x04 \x01(\x03B.\xe2A\x01\x02\xbaG'\x92\x02$令牌过期时间，单位为毫秒R\aexpires\x12]\n" +
+	"\x0frefresh_expires\x18\x05 \x01(\x03B4\xe2A\x01\x02\xbaG-\x92\x02*刷新令牌过期时间，单位为毫秒R\x0erefreshExpires\"d\n" +
 	"\x16GetAsyncRoutesResponse\x12J\n" +
 	"\x06routes\x18\x01 \x03(\v2\x18.api.v1.auth.RouteConfigB\x18\xbaG\x15\x92\x02\x12异步路由列表R\x06routes\"\x92\x01\n" +
 	"\tRouteMeta\x12\x14\n" +

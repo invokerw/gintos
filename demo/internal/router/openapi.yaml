@@ -6,6 +6,26 @@ info:
     title: ""
     version: 0.0.1
 paths:
+    /api/v1/admin/create_user:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_CreateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.CreateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.CreateUserResponse'
+            security:
+                - {}
     /api/v1/admin/delete_roles:
         post:
             tags:
@@ -376,10 +396,10 @@ components:
                 desc:
                     type: string
                     description: 角色描述
-                parentID:
+                parentId:
                     type: string
                     description: 父角色ID
-                sortID:
+                sortId:
                     type: integer
                     description: 排序ID
                     format: int32
@@ -396,22 +416,22 @@ components:
                 id:
                     type: string
                     description: 用户ID
-                role_name:
+                roleName:
                     type: string
                     description: 角色名称
-                create_by:
+                createBy:
                     type: string
                     description: 创建者ID
-                update_by:
+                updateBy:
                     type: string
                     description: 更新者ID
-                user_name:
+                username:
                     type: string
                     description: 登录名
                 password:
                     type: string
                     description: 密码
-                nick_name:
+                nickname:
                     type: string
                     description: 昵称
                 avatar:
@@ -430,7 +450,7 @@ components:
                 remark:
                     type: string
                     description: 备注名
-                last_login_time:
+                lastLoginTime:
                     type: string
                     description: 最后登录时间
                 status:
@@ -451,13 +471,23 @@ components:
                     items:
                         type: string
                     description: 角色
-                create_time:
+                createTime:
                     type: string
                     description: 创建时间
-                update_time:
+                updateTime:
                     type: string
                     description: 更新时间
             description: 用户
+        api.v1.admin.CreateUserRequest:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+        api.v1.admin.CreateUserResponse:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
         api.v1.admin.DeleteRolesRequest:
             type: object
             properties:
@@ -596,24 +626,24 @@ components:
         api.v1.auth.LoginResponse:
             required:
                 - user
-                - access_token
-                - refresh_token
+                - accessToken
+                - refreshToken
                 - expires
-                - refresh_expires
+                - refreshExpires
             type: object
             properties:
                 user:
                     $ref: '#/components/schemas/api.common.v1.User'
-                access_token:
+                accessToken:
                     type: string
                     description: 访问令牌，必选项。
-                refresh_token:
+                refreshToken:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，
                 expires:
                     type: string
                     description: 令牌过期时间，单位为毫秒
-                refresh_expires:
+                refreshExpires:
                     type: string
                     description: 刷新令牌过期时间，单位为毫秒
             description: 用户后台登录 - 回应
@@ -626,34 +656,34 @@ components:
             description: 用户后台登出 - 请求
         api.v1.auth.RefreshTokenRequest:
             required:
-                - refresh_token
+                - refreshToken
             type: object
             properties:
-                refresh_token:
+                refreshToken:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌
             description: 用户刷新令牌 - 请求
         api.v1.auth.RefreshTokenResponse:
             required:
                 - user
-                - access_token
-                - refresh_token
+                - accessToken
+                - refreshToken
                 - expires
-                - refresh_expires
+                - refreshExpires
             type: object
             properties:
                 user:
                     $ref: '#/components/schemas/api.common.v1.User'
-                access_token:
+                accessToken:
                     type: string
                     description: 访问令牌，必选项。
-                refresh_token:
+                refreshToken:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，
                 expires:
                     type: string
                     description: 令牌过期时间，单位为毫秒
-                refresh_expires:
+                refreshExpires:
                     type: string
                     description: 刷新令牌过期时间，单位为毫秒
             description: 用户刷新令牌 - 回应
