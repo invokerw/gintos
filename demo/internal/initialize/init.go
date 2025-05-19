@@ -3,8 +3,6 @@ package initialize
 import (
 	"context"
 	"fmt"
-	"github.com/casbin/casbin/v2"
-	"github.com/google/wire"
 	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/biz"
@@ -12,6 +10,9 @@ import (
 	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
 	"math/rand"
+
+	"github.com/casbin/casbin/v2"
+	"github.com/google/wire"
 )
 
 var ProviderSet = wire.NewSet(DoInit)
@@ -26,10 +27,11 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l lo
 	createRole := func(roleName string, sortId int32, rules [][]string) error {
 		if getRole, _ := role.GetRole(ctx, roleName); getRole == nil {
 			_, err := role.CreateRole(ctx, &common.Role{
-				Name:     &roleName,
-				Desc:     &roleName,
-				ParentId: nil,
-				SortId:   trans.Ptr(sortId),
+				Name:   &roleName,
+				Label:  &roleName,
+				Remark: &roleName,
+				Status: trans.Ptr(common.RoleStatus_R_ON),
+				SortId: trans.Ptr(sortId),
 			})
 			if err != nil {
 				logger.Errorf("create %v role failed: %v", roleName, err)

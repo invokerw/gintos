@@ -3,12 +3,13 @@ package biz
 import (
 	"context"
 	"fmt"
-	"github.com/google/wire"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/conf"
 	"github/invokerw/gintos/demo/internal/data/ent"
 	"github/invokerw/gintos/demo/internal/pkg/upload"
+
+	"github.com/google/wire"
 )
 
 // ProviderSet is biz providers.
@@ -53,9 +54,9 @@ type UserRepo interface {
 }
 type RoleRepo interface {
 	CreateRole(ctx context.Context, in *common.Role) (*ent.Role, error)
-	GetRole(ctx context.Context, name string) (*ent.Role, error)
+	GetRole(ctx context.Context, label string) (*ent.Role, error)
 	GetRoleByID(ctx context.Context, id uint64) (*ent.Role, error)
-	DeleteRoles(ctx context.Context, names []string) error
+	DeleteRoles(ctx context.Context, labels []string) error
 	UpdateRoles(ctx context.Context, roles []*common.Role) ([]*ent.Role, error)
 	GetRoleList(ctx context.Context, req *admin.GetRoleListRequest) ([]*ent.Role, error)
 	Count(ctx context.Context) (int, error)

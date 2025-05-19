@@ -1,4 +1,4 @@
-module github/invokerw/gintos/cmd/protoc-gen-go-gin-http
+module github/invokerw/gintos/cmd/protoc-gen-go-gin
 
 go 1.21
 

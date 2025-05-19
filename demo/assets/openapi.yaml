@@ -159,13 +159,13 @@ paths:
                     content: {}
             security:
                 - {}
-    /api/v1/admin/role_get_policy/:role_name:
+    /api/v1/admin/role_get_policy/:role_lable:
         get:
             tags:
                 - Admin
             operationId: Admin_RoleGetPolicy
             parameters:
-                - name: role_name
+                - name: role_lable
                   in: query
                   schema:
                     type: string
@@ -413,12 +413,9 @@ components:
                 name:
                     type: string
                     description: 角色名称
-                desc:
+                label:
                     type: string
-                    description: 角色描述
-                parent_id:
-                    type: string
-                    description: 父角色ID
+                    description: 角色标识
                 sort_id:
                     type: integer
                     description: 排序ID
@@ -431,6 +428,9 @@ components:
                     default: ON
                     description: 角色状态
                     format: enum
+                remark:
+                    type: string
+                    description: 备注
                 create_time:
                     type: string
                     description: 创建时间
@@ -477,7 +477,7 @@ components:
                     format: enum
                 remark:
                     type: string
-                    description: 备注名
+                    description: 备注
                 last_login_time:
                     type: string
                     description: 最后登录时间
@@ -519,11 +519,11 @@ components:
         api.v1.admin.DeleteRolesRequest:
             type: object
             properties:
-                names:
+                lables:
                     type: array
                     items:
                         type: string
-                    description: 角色名字
+                    description: 角色标识
         api.v1.admin.DeleteUsersRequest:
             type: object
             properties:
@@ -548,6 +548,9 @@ components:
                 name:
                     type: string
                     description: 角色名
+                label:
+                    type: string
+                    description: 角色标识
                 status:
                     type: integer
                     description: 状态
@@ -587,9 +590,9 @@ components:
         api.v1.admin.RoleGetPolicyResponse:
             type: object
             properties:
-                role_name:
+                role_lable:
                     type: string
-                    description: 角色名字
+                    description: 角色标识
                 api_info:
                     type: array
                     items:
@@ -598,9 +601,9 @@ components:
         api.v1.admin.RoleUpdatePolicyRequest:
             type: object
             properties:
-                role_name:
+                role_lable:
                     type: string
-                    description: 角色名字
+                    description: 角色标识
                 api_name:
                     type: array
                     items:

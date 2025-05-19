@@ -466,8 +466,9 @@ func (x *DeleteUsersRequest) GetNames() []string {
 type GetRoleListRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          *common.PageInfo       `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`                                          // 分页信息
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                    // 登录名
-	Status        *common.RoleStatus     `protobuf:"varint,3,opt,name=status,proto3,enum=api.common.v1.RoleStatus,oneof" json:"status,omitempty"` // 状态
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                    // 角色名
+	Label         *string                `protobuf:"bytes,3,opt,name=label,proto3,oneof" json:"label,omitempty"`                                  // 角色标识
+	Status        *common.RoleStatus     `protobuf:"varint,4,opt,name=status,proto3,enum=api.common.v1.RoleStatus,oneof" json:"status,omitempty"` // 状态
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -512,6 +513,13 @@ func (x *GetRoleListRequest) GetPage() *common.PageInfo {
 func (x *GetRoleListRequest) GetName() string {
 	if x != nil && x.Name != nil {
 		return *x.Name
+	}
+	return ""
+}
+
+func (x *GetRoleListRequest) GetLabel() string {
+	if x != nil && x.Label != nil {
+		return *x.Label
 	}
 	return ""
 }
@@ -657,7 +665,7 @@ func (x *UpdateRolesResponse) GetRoles() []*common.Role {
 
 type DeleteRolesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Names         []string               `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
+	Lables        []string               `protobuf:"bytes,1,rep,name=lables,proto3" json:"lables,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -692,9 +700,9 @@ func (*DeleteRolesRequest) Descriptor() ([]byte, []int) {
 	return file_v1_admin_admin_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *DeleteRolesRequest) GetNames() []string {
+func (x *DeleteRolesRequest) GetLables() []string {
 	if x != nil {
-		return x.Names
+		return x.Lables
 	}
 	return nil
 }
@@ -745,7 +753,7 @@ func (x *GetApiInfoListResponse) GetApiTypeMap() map[string]*common.ApiTypeInfo 
 
 type RoleGetPolicyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleName      string                 `protobuf:"bytes,1,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"` // 角色名字
+	RoleLable     string                 `protobuf:"bytes,1,opt,name=role_lable,json=roleLable,proto3" json:"role_lable,omitempty"` // 角色名字
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -780,17 +788,17 @@ func (*RoleGetPolicyRequest) Descriptor() ([]byte, []int) {
 	return file_v1_admin_admin_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *RoleGetPolicyRequest) GetRoleName() string {
+func (x *RoleGetPolicyRequest) GetRoleLable() string {
 	if x != nil {
-		return x.RoleName
+		return x.RoleLable
 	}
 	return ""
 }
 
 type RoleGetPolicyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleName      string                 `protobuf:"bytes,1,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"` // 角色名字
-	ApiInfo       []*common.ApiInfo      `protobuf:"bytes,2,rep,name=api_info,json=apiInfo,proto3" json:"api_info,omitempty"`    // API信息
+	RoleLable     string                 `protobuf:"bytes,1,opt,name=role_lable,json=roleLable,proto3" json:"role_lable,omitempty"` // 角色名字
+	ApiInfo       []*common.ApiInfo      `protobuf:"bytes,2,rep,name=api_info,json=apiInfo,proto3" json:"api_info,omitempty"`       // API信息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -825,9 +833,9 @@ func (*RoleGetPolicyResponse) Descriptor() ([]byte, []int) {
 	return file_v1_admin_admin_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *RoleGetPolicyResponse) GetRoleName() string {
+func (x *RoleGetPolicyResponse) GetRoleLable() string {
 	if x != nil {
-		return x.RoleName
+		return x.RoleLable
 	}
 	return ""
 }
@@ -841,8 +849,8 @@ func (x *RoleGetPolicyResponse) GetApiInfo() []*common.ApiInfo {
 
 type RoleUpdatePolicyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleName      string                 `protobuf:"bytes,1,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"` // 角色名字
-	ApiName       []string               `protobuf:"bytes,2,rep,name=api_name,json=apiName,proto3" json:"api_name,omitempty"`    // 权限名字
+	RoleLable     string                 `protobuf:"bytes,1,opt,name=role_lable,json=roleLable,proto3" json:"role_lable,omitempty"` // 角色名字
+	ApiName       []string               `protobuf:"bytes,2,rep,name=api_name,json=apiName,proto3" json:"api_name,omitempty"`       // 权限名字
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -877,9 +885,9 @@ func (*RoleUpdatePolicyRequest) Descriptor() ([]byte, []int) {
 	return file_v1_admin_admin_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *RoleUpdatePolicyRequest) GetRoleName() string {
+func (x *RoleUpdatePolicyRequest) GetRoleLable() string {
 	if x != nil {
-		return x.RoleName
+		return x.RoleLable
 	}
 	return ""
 }
@@ -924,36 +932,41 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\x13UpdateUsersResponse\x12)\n" +
 	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users\";\n" +
 	"\x12DeleteUsersRequest\x12%\n" +
-	"\x05names\x18\x01 \x03(\tB\x0f\xbaG\f\x92\x02\t用户名R\x05names\"\xd9\x01\n" +
+	"\x05names\x18\x01 \x03(\tB\x0f\xbaG\f\x92\x02\t用户名R\x05names\"\x92\x02\n" +
 	"\x12GetRoleListRequest\x12?\n" +
 	"\x04page\x18\x01 \x01(\v2\x17.api.common.v1.PageInfoB\x12\xbaG\x0f\x92\x02\f分页信息R\x04page\x12(\n" +
-	"\x04name\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t角色名H\x00R\x04name\x88\x01\x01\x12D\n" +
-	"\x06status\x18\x03 \x01(\x0e2\x19.api.common.v1.RoleStatusB\f\xbaG\t\x92\x02\x06状态H\x01R\x06status\x88\x01\x01B\a\n" +
-	"\x05_nameB\t\n" +
+	"\x04name\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t角色名H\x00R\x04name\x88\x01\x01\x12-\n" +
+	"\x05label\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识H\x01R\x05label\x88\x01\x01\x12D\n" +
+	"\x06status\x18\x04 \x01(\x0e2\x19.api.common.v1.RoleStatusB\f\xbaG\t\x92\x02\x06状态H\x02R\x06status\x88\x01\x01B\a\n" +
+	"\x05_nameB\b\n" +
+	"\x06_labelB\t\n" +
 	"\a_status\"@\n" +
 	"\x13GetRoleListResponse\x12)\n" +
 	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleR\x05roles\"S\n" +
 	"\x12UpdateRolesRequest\x12=\n" +
 	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleB\x12\xbaG\x0f\x92\x02\f角色信息R\x05roles\"@\n" +
 	"\x13UpdateRolesResponse\x12)\n" +
-	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleR\x05roles\">\n" +
-	"\x12DeleteRolesRequest\x12(\n" +
-	"\x05names\x18\x01 \x03(\tB\x12\xbaG\x0f\x92\x02\f角色名字R\x05names\"\xe2\x01\n" +
+	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleR\x05roles\"@\n" +
+	"\x12DeleteRolesRequest\x12*\n" +
+	"\x06lables\x18\x01 \x03(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\x06lables\"\xe2\x01\n" +
 	"\x16GetApiInfoListResponse\x12m\n" +
 	"\fapi_type_map\x18\x02 \x03(\v24.api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntryB\x15\xbaG\x12\x92\x02\x0f分类API数据R\n" +
 	"apiTypeMap\x1aY\n" +
 	"\x0fApiTypeMapEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x120\n" +
-	"\x05value\x18\x02 \x01(\v2\x1a.api.common.v1.ApiTypeInfoR\x05value:\x028\x01\"G\n" +
-	"\x14RoleGetPolicyRequest\x12/\n" +
-	"\trole_name\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名字R\broleName\"\x8c\x01\n" +
-	"\x15RoleGetPolicyResponse\x12/\n" +
-	"\trole_name\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名字R\broleName\x12B\n" +
-	"\bapi_info\x18\x02 \x03(\v2\x16.api.common.v1.ApiInfoB\x0f\xbaG\f\x92\x02\tAPI信息R\aapiInfo\"w\n" +
-	"\x17RoleUpdatePolicyRequest\x12/\n" +
-	"\trole_name\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名字R\broleName\x12+\n" +
+	"\x05value\x18\x02 \x01(\v2\x1a.api.common.v1.ApiTypeInfoR\x05value:\x028\x01\"I\n" +
+	"\x14RoleGetPolicyRequest\x121\n" +
+	"\n" +
+	"role_lable\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\troleLable\"\x8e\x01\n" +
+	"\x15RoleGetPolicyResponse\x121\n" +
+	"\n" +
+	"role_lable\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\troleLable\x12B\n" +
+	"\bapi_info\x18\x02 \x03(\v2\x16.api.common.v1.ApiInfoB\x0f\xbaG\f\x92\x02\tAPI信息R\aapiInfo\"y\n" +
+	"\x17RoleUpdatePolicyRequest\x121\n" +
+	"\n" +
+	"role_lable\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\troleLable\x12+\n" +
 	"\bapi_name\x18\x02 \x03(\tB\x10\xbaG\r\x92\x02\n" +
-	"api 名称R\aapiName2\xc6\x0f\n" +
+	"api 名称R\aapiName2\xc7\x0f\n" +
 	"\x05Admin\x12\x90\x01\n" +
 	"\n" +
 	"CreateUser\x12\x1f.api.v1.admin.CreateUserRequest\x1a .api.v1.admin.CreateUserResponse\"?\xbaG\x02Z\x00\x82}\f创建用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/admin/create_user\x12\x9b\x01\n" +
@@ -965,8 +978,8 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\vUpdateRoles\x12 .api.v1.admin.UpdateRolesRequest\x1a!.api.v1.admin.UpdateRolesResponse\"@\xbaG\x02Z\x00\x82}\f更新角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_roles\x12\x89\x01\n" +
 	"\vDeleteRoles\x12 .api.v1.admin.DeleteRolesRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_roles\x12\x86\x01\n" +
 	"\fGetRoleCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"E\xbaG\x02Z\x00\x82}\x12获取角色数量\x8a}\x04role\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_role_count\x12\x96\x01\n" +
-	"\x0eGetApiInfoList\x12\x16.google.protobuf.Empty\x1a$.api.v1.admin.GetApiInfoListResponse\"F\xbaG\x02Z\x00\x82}\x15获取API信息列表\x8a}\x04rbac\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/get_api_info\x12\xab\x01\n" +
-	"\rRoleGetPolicy\x12\".api.v1.admin.RoleGetPolicyRequest\x1a#.api.v1.admin.RoleGetPolicyResponse\"Q\xbaG\x02Z\x00\x82}\x12获取角色权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02*\x12(/api/v1/admin/role_get_policy/:role_name\x12\x9c\x01\n" +
+	"\x0eGetApiInfoList\x12\x16.google.protobuf.Empty\x1a$.api.v1.admin.GetApiInfoListResponse\"F\xbaG\x02Z\x00\x82}\x15获取API信息列表\x8a}\x04rbac\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/get_api_info\x12\xac\x01\n" +
+	"\rRoleGetPolicy\x12\".api.v1.admin.RoleGetPolicyRequest\x1a#.api.v1.admin.RoleGetPolicyResponse\"R\xbaG\x02Z\x00\x82}\x12获取角色权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02+\x12)/api/v1/admin/role_get_policy/:role_lable\x12\x9c\x01\n" +
 	"\x10RoleUpdatePolicy\x12%.api.v1.admin.RoleUpdatePolicyRequest\x1a\x16.google.protobuf.Empty\"I\xbaG\x02Z\x00\x82}\x12角色更新权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/v1/admin/role_add_policy\x12\xaf\x01\n" +
 	"\x10UpdateUserAvatar\x12%.api.v1.admin.UpdateUserAvatarRequest\x1a&.api.v1.admin.UpdateUserAvatarResponse\"L\xbaG\x02Z\x00\x82}\x12更新用户头像\x8a}\x04user\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/admin/update_user_avatarB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
 

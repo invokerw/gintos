@@ -235,7 +235,7 @@ type User struct {
 	Email         *string                `protobuf:"bytes,14,opt,name=email,proto3,oneof" json:"email,omitempty"`                                           // 邮箱
 	Phone         *string                `protobuf:"bytes,15,opt,name=phone,proto3,oneof" json:"phone,omitempty"`                                           // 手机号
 	Gender        *UserGender            `protobuf:"varint,17,opt,name=gender,proto3,enum=api.common.v1.UserGender,oneof" json:"gender,omitempty"`          // 性别
-	Remark        *string                `protobuf:"bytes,21,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                         // 备注名
+	Remark        *string                `protobuf:"bytes,21,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                         // 备注
 	LastLoginTime *int64                 `protobuf:"varint,30,opt,name=last_login_time,json=lastLoginTime,proto3,oneof" json:"last_login_time,omitempty"`   // 最后登录时间
 	Status        *UserStatus            `protobuf:"varint,32,opt,name=status,proto3,enum=api.common.v1.UserStatus,oneof" json:"status,omitempty"`          // 用户状态
 	Authority     *UserAuthority         `protobuf:"varint,33,opt,name=authority,proto3,enum=api.common.v1.UserAuthority,oneof" json:"authority,omitempty"` // 权限
@@ -407,10 +407,10 @@ type Role struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            *uint64                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"` // 角色ID
 	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Desc          *string                `protobuf:"bytes,3,opt,name=desc,proto3,oneof" json:"desc,omitempty"`
-	ParentId      *uint64                `protobuf:"varint,4,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
+	Label         *string                `protobuf:"bytes,3,opt,name=label,proto3,oneof" json:"label,omitempty"`
 	SortId        *int32                 `protobuf:"varint,5,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`
 	Status        *RoleStatus            `protobuf:"varint,32,opt,name=status,proto3,enum=api.common.v1.RoleStatus,oneof" json:"status,omitempty"` // 用户状态
+	Remark        *string                `protobuf:"bytes,33,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                // 备注
 	CreateTime    *int64                 `protobuf:"varint,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`    // 创建时间
 	UpdateTime    *int64                 `protobuf:"varint,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`    // 更新时间
 	unknownFields protoimpl.UnknownFields
@@ -461,18 +461,11 @@ func (x *Role) GetName() string {
 	return ""
 }
 
-func (x *Role) GetDesc() string {
-	if x != nil && x.Desc != nil {
-		return *x.Desc
+func (x *Role) GetLabel() string {
+	if x != nil && x.Label != nil {
+		return *x.Label
 	}
 	return ""
-}
-
-func (x *Role) GetParentId() uint64 {
-	if x != nil && x.ParentId != nil {
-		return *x.ParentId
-	}
-	return 0
 }
 
 func (x *Role) GetSortId() int32 {
@@ -487,6 +480,13 @@ func (x *Role) GetStatus() RoleStatus {
 		return *x.Status
 	}
 	return RoleStatus_R_OFF
+}
+
+func (x *Role) GetRemark() string {
+	if x != nil && x.Remark != nil {
+		return *x.Remark
+	}
+	return ""
 }
 
 func (x *Role) GetCreateTime() int64 {
@@ -507,7 +507,7 @@ var File_v1_common_user_proto protoreflect.FileDescriptor
 
 const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
-	"\x14v1/common/user.proto\x12\rapi.common.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcd\t\n" +
+	"\x14v1/common/user.proto\x12\rapi.common.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xca\t\n" +
 	"\x04User\x12#\n" +
 	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x124\n" +
 	"\trole_name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\broleName\x88\x01\x01\x123\n" +
@@ -521,8 +521,8 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\x05email\x18\x0e \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\bR\x05email\x88\x01\x01\x12*\n" +
 	"\x05phone\x18\x0f \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\tR\x05phone\x88\x01\x01\x12D\n" +
 	"\x06gender\x18\x11 \x01(\x0e2\x19.api.common.v1.UserGenderB\f\xbaG\t\x92\x02\x06性别H\n" +
-	"R\x06gender\x88\x01\x01\x12,\n" +
-	"\x06remark\x18\x15 \x01(\tB\x0f\xbaG\f\x92\x02\t备注名H\vR\x06remark\x88\x01\x01\x12E\n" +
+	"R\x06gender\x88\x01\x01\x12)\n" +
+	"\x06remark\x18\x15 \x01(\tB\f\xbaG\t\x92\x02\x06备注H\vR\x06remark\x88\x01\x01\x12E\n" +
 	"\x0flast_login_time\x18\x1e \x01(\x03B\x18\xbaG\x15\x92\x02\x12最后登录时间H\fR\rlastLoginTime\x88\x01\x01\x12`\n" +
 	"\x06status\x18  \x01(\x0e2\x19.api.common.v1.UserStatusB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f用户状态H\rR\x06status\x88\x01\x01\x12_\n" +
 	"\tauthority\x18! \x01(\x0e2\x1c.api.common.v1.UserAuthorityB\x1e\xbaG\x1b\x8a\x02\x0f\x1a\rCUSTOMER_USER\x92\x02\x06权限H\x0eR\tauthority\x88\x01\x01\x12\"\n" +
@@ -551,26 +551,25 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
 	"_authorityB\x0e\n" +
 	"\f_create_timeB\x0e\n" +
-	"\f_update_time\"\x9e\x04\n" +
+	"\f_update_time\"\x94\x04\n" +
 	"\x04Role\x12#\n" +
 	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b角色IDH\x00R\x02id\x88\x01\x01\x12+\n" +
-	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\x04name\x88\x01\x01\x12+\n" +
-	"\x04desc\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色描述H\x02R\x04desc\x88\x01\x01\x123\n" +
-	"\tparent_id\x18\x04 \x01(\x04B\x11\xbaG\x0e\x92\x02\v父角色IDH\x03R\bparentId\x88\x01\x01\x12,\n" +
-	"\asort_id\x18\x05 \x01(\x05B\x0e\xbaG\v\x92\x02\b排序IDH\x04R\x06sortId\x88\x01\x01\x12`\n" +
-	"\x06status\x18  \x01(\x0e2\x19.api.common.v1.RoleStatusB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f角色状态H\x05R\x06status\x88\x01\x01\x129\n" +
+	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\x04name\x88\x01\x01\x12-\n" +
+	"\x05label\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识H\x02R\x05label\x88\x01\x01\x12,\n" +
+	"\asort_id\x18\x05 \x01(\x05B\x0e\xbaG\v\x92\x02\b排序IDH\x03R\x06sortId\x88\x01\x01\x12`\n" +
+	"\x06status\x18  \x01(\x0e2\x19.api.common.v1.RoleStatusB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f角色状态H\x04R\x06status\x88\x01\x01\x12)\n" +
+	"\x06remark\x18! \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x05R\x06remark\x88\x01\x01\x129\n" +
 	"\vcreate_time\x18\xc8\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f创建时间H\x06R\n" +
 	"createTime\x88\x01\x01\x129\n" +
 	"\vupdate_time\x18\xc9\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f更新时间H\aR\n" +
 	"updateTime\x88\x01\x01B\x05\n" +
 	"\x03_idB\a\n" +
-	"\x05_nameB\a\n" +
-	"\x05_descB\f\n" +
-	"\n" +
-	"_parent_idB\n" +
+	"\x05_nameB\b\n" +
+	"\x06_labelB\n" +
 	"\n" +
 	"\b_sort_idB\t\n" +
-	"\a_statusB\x0e\n" +
+	"\a_statusB\t\n" +
+	"\a_remarkB\x0e\n" +
 	"\f_create_timeB\x0e\n" +
 	"\f_update_time*R\n" +
 	"\rUserAuthority\x12\r\n" +

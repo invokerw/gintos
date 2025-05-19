@@ -34,24 +34,16 @@ var (
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint64, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint64, Nullable: true, Comment: "更新者ID"},
-		{Name: "name", Type: field.TypeString, Unique: true, Size: 128, Comment: "角色名称"},
-		{Name: "desc", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色描述", Default: ""},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "name", Type: field.TypeString, Size: 128, Comment: "角色名称"},
+		{Name: "label", Type: field.TypeString, Unique: true, Size: 128, Comment: "角色描述"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
-		{Name: "parent_id", Type: field.TypeUint64, Nullable: true, Comment: "父角色ID"},
 	}
 	// RolesTable holds the schema information for the "roles" table.
 	RolesTable = &schema.Table{
 		Name:       "roles",
 		Columns:    RolesColumns,
 		PrimaryKey: []*schema.Column{RolesColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "roles_roles_children",
-				Columns:    []*schema.Column{RolesColumns[9]},
-				RefColumns: []*schema.Column{RolesColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
 		Indexes: []*schema.Index{
 			{
 				Name:    "role_id",
@@ -59,9 +51,9 @@ var (
 				Columns: []*schema.Column{RolesColumns[0]},
 			},
 			{
-				Name:    "role_id_name",
+				Name:    "role_id_label",
 				Unique:  false,
-				Columns: []*schema.Column{RolesColumns[0], RolesColumns[6]},
+				Columns: []*schema.Column{RolesColumns[0], RolesColumns[8]},
 			},
 		},
 	}
@@ -121,7 +113,6 @@ var (
 )
 
 func init() {
-	RolesTable.ForeignKeys[0].RefTable = RolesTable
 	RolesTable.Annotation = &entsql.Annotation{
 		Table:     "roles",
 		Charset:   "utf8mb4",

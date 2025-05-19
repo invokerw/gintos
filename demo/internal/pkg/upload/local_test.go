@@ -63,7 +63,7 @@ func TestLocal_DeleteFile(t *testing.T) {
 	}
 
 	// 测试删除文件
-	err = localOSS.DeleteFile(context.Background(), fileName)
+	err = localOSS.DeleteFile(context.Background(), "", fileName)
 	if err != nil {
 		t.Fatalf("DeleteFile failed: %v", err)
 	}

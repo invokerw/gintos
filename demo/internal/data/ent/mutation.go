@@ -684,29 +684,25 @@ func (m *CasbinRuleMutation) ResetEdge(name string) error {
 // RoleMutation represents an operation that mutates the Role nodes in the graph.
 type RoleMutation struct {
 	config
-	op              Op
-	typ             string
-	id              *uint64
-	create_time     *time.Time
-	update_time     *time.Time
-	status          *role.Status
-	create_by       *uint64
-	addcreate_by    *int64
-	update_by       *uint64
-	addupdate_by    *int64
-	name            *string
-	desc            *string
-	sort_id         *int32
-	addsort_id      *int32
-	clearedFields   map[string]struct{}
-	parent          *uint64
-	clearedparent   bool
-	children        map[uint64]struct{}
-	removedchildren map[uint64]struct{}
-	clearedchildren bool
-	done            bool
-	oldValue        func(context.Context) (*Role, error)
-	predicates      []predicate.Role
+	op            Op
+	typ           string
+	id            *uint64
+	create_time   *time.Time
+	update_time   *time.Time
+	status        *role.Status
+	create_by     *uint64
+	addcreate_by  *int64
+	update_by     *uint64
+	addupdate_by  *int64
+	remark        *string
+	name          *string
+	label         *string
+	sort_id       *int32
+	addsort_id    *int32
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*Role, error)
+	predicates    []predicate.Role
 }
 
 var _ ent.Mutation = (*RoleMutation)(nil)
@@ -1100,6 +1096,55 @@ func (m *RoleMutation) ResetUpdateBy() {
 	delete(m.clearedFields, role.FieldUpdateBy)
 }
 
+// SetRemark sets the "remark" field.
+func (m *RoleMutation) SetRemark(s string) {
+	m.remark = &s
+}
+
+// Remark returns the value of the "remark" field in the mutation.
+func (m *RoleMutation) Remark() (r string, exists bool) {
+	v := m.remark
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRemark returns the old "remark" field's value of the Role entity.
+// If the Role object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RoleMutation) OldRemark(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRemark is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRemark requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRemark: %w", err)
+	}
+	return oldValue.Remark, nil
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (m *RoleMutation) ClearRemark() {
+	m.remark = nil
+	m.clearedFields[role.FieldRemark] = struct{}{}
+}
+
+// RemarkCleared returns if the "remark" field was cleared in this mutation.
+func (m *RoleMutation) RemarkCleared() bool {
+	_, ok := m.clearedFields[role.FieldRemark]
+	return ok
+}
+
+// ResetRemark resets all changes to the "remark" field.
+func (m *RoleMutation) ResetRemark() {
+	m.remark = nil
+	delete(m.clearedFields, role.FieldRemark)
+}
+
 // SetName sets the "name" field.
 func (m *RoleMutation) SetName(s string) {
 	m.name = &s
@@ -1136,102 +1181,40 @@ func (m *RoleMutation) ResetName() {
 	m.name = nil
 }
 
-// SetDesc sets the "desc" field.
-func (m *RoleMutation) SetDesc(s string) {
-	m.desc = &s
+// SetLabel sets the "label" field.
+func (m *RoleMutation) SetLabel(s string) {
+	m.label = &s
 }
 
-// Desc returns the value of the "desc" field in the mutation.
-func (m *RoleMutation) Desc() (r string, exists bool) {
-	v := m.desc
+// Label returns the value of the "label" field in the mutation.
+func (m *RoleMutation) Label() (r string, exists bool) {
+	v := m.label
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldDesc returns the old "desc" field's value of the Role entity.
+// OldLabel returns the old "label" field's value of the Role entity.
 // If the Role object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RoleMutation) OldDesc(ctx context.Context) (v *string, err error) {
+func (m *RoleMutation) OldLabel(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDesc is only allowed on UpdateOne operations")
+		return v, errors.New("OldLabel is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDesc requires an ID field in the mutation")
+		return v, errors.New("OldLabel requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDesc: %w", err)
+		return v, fmt.Errorf("querying old value for OldLabel: %w", err)
 	}
-	return oldValue.Desc, nil
+	return oldValue.Label, nil
 }
 
-// ClearDesc clears the value of the "desc" field.
-func (m *RoleMutation) ClearDesc() {
-	m.desc = nil
-	m.clearedFields[role.FieldDesc] = struct{}{}
-}
-
-// DescCleared returns if the "desc" field was cleared in this mutation.
-func (m *RoleMutation) DescCleared() bool {
-	_, ok := m.clearedFields[role.FieldDesc]
-	return ok
-}
-
-// ResetDesc resets all changes to the "desc" field.
-func (m *RoleMutation) ResetDesc() {
-	m.desc = nil
-	delete(m.clearedFields, role.FieldDesc)
-}
-
-// SetParentID sets the "parent_id" field.
-func (m *RoleMutation) SetParentID(u uint64) {
-	m.parent = &u
-}
-
-// ParentID returns the value of the "parent_id" field in the mutation.
-func (m *RoleMutation) ParentID() (r uint64, exists bool) {
-	v := m.parent
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldParentID returns the old "parent_id" field's value of the Role entity.
-// If the Role object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RoleMutation) OldParentID(ctx context.Context) (v *uint64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldParentID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldParentID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldParentID: %w", err)
-	}
-	return oldValue.ParentID, nil
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (m *RoleMutation) ClearParentID() {
-	m.parent = nil
-	m.clearedFields[role.FieldParentID] = struct{}{}
-}
-
-// ParentIDCleared returns if the "parent_id" field was cleared in this mutation.
-func (m *RoleMutation) ParentIDCleared() bool {
-	_, ok := m.clearedFields[role.FieldParentID]
-	return ok
-}
-
-// ResetParentID resets all changes to the "parent_id" field.
-func (m *RoleMutation) ResetParentID() {
-	m.parent = nil
-	delete(m.clearedFields, role.FieldParentID)
+// ResetLabel resets all changes to the "label" field.
+func (m *RoleMutation) ResetLabel() {
+	m.label = nil
 }
 
 // SetSortID sets the "sort_id" field.
@@ -1304,87 +1287,6 @@ func (m *RoleMutation) ResetSortID() {
 	delete(m.clearedFields, role.FieldSortID)
 }
 
-// ClearParent clears the "parent" edge to the Role entity.
-func (m *RoleMutation) ClearParent() {
-	m.clearedparent = true
-	m.clearedFields[role.FieldParentID] = struct{}{}
-}
-
-// ParentCleared reports if the "parent" edge to the Role entity was cleared.
-func (m *RoleMutation) ParentCleared() bool {
-	return m.ParentIDCleared() || m.clearedparent
-}
-
-// ParentIDs returns the "parent" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ParentID instead. It exists only for internal usage by the builders.
-func (m *RoleMutation) ParentIDs() (ids []uint64) {
-	if id := m.parent; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetParent resets all changes to the "parent" edge.
-func (m *RoleMutation) ResetParent() {
-	m.parent = nil
-	m.clearedparent = false
-}
-
-// AddChildIDs adds the "children" edge to the Role entity by ids.
-func (m *RoleMutation) AddChildIDs(ids ...uint64) {
-	if m.children == nil {
-		m.children = make(map[uint64]struct{})
-	}
-	for i := range ids {
-		m.children[ids[i]] = struct{}{}
-	}
-}
-
-// ClearChildren clears the "children" edge to the Role entity.
-func (m *RoleMutation) ClearChildren() {
-	m.clearedchildren = true
-}
-
-// ChildrenCleared reports if the "children" edge to the Role entity was cleared.
-func (m *RoleMutation) ChildrenCleared() bool {
-	return m.clearedchildren
-}
-
-// RemoveChildIDs removes the "children" edge to the Role entity by IDs.
-func (m *RoleMutation) RemoveChildIDs(ids ...uint64) {
-	if m.removedchildren == nil {
-		m.removedchildren = make(map[uint64]struct{})
-	}
-	for i := range ids {
-		delete(m.children, ids[i])
-		m.removedchildren[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedChildren returns the removed IDs of the "children" edge to the Role entity.
-func (m *RoleMutation) RemovedChildrenIDs() (ids []uint64) {
-	for id := range m.removedchildren {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ChildrenIDs returns the "children" edge IDs in the mutation.
-func (m *RoleMutation) ChildrenIDs() (ids []uint64) {
-	for id := range m.children {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetChildren resets all changes to the "children" edge.
-func (m *RoleMutation) ResetChildren() {
-	m.children = nil
-	m.clearedchildren = false
-	m.removedchildren = nil
-}
-
 // Where appends a list predicates to the RoleMutation builder.
 func (m *RoleMutation) Where(ps ...predicate.Role) {
 	m.predicates = append(m.predicates, ps...)
@@ -1435,14 +1337,14 @@ func (m *RoleMutation) Fields() []string {
 	if m.update_by != nil {
 		fields = append(fields, role.FieldUpdateBy)
 	}
+	if m.remark != nil {
+		fields = append(fields, role.FieldRemark)
+	}
 	if m.name != nil {
 		fields = append(fields, role.FieldName)
 	}
-	if m.desc != nil {
-		fields = append(fields, role.FieldDesc)
-	}
-	if m.parent != nil {
-		fields = append(fields, role.FieldParentID)
+	if m.label != nil {
+		fields = append(fields, role.FieldLabel)
 	}
 	if m.sort_id != nil {
 		fields = append(fields, role.FieldSortID)
@@ -1465,12 +1367,12 @@ func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 		return m.CreateBy()
 	case role.FieldUpdateBy:
 		return m.UpdateBy()
+	case role.FieldRemark:
+		return m.Remark()
 	case role.FieldName:
 		return m.Name()
-	case role.FieldDesc:
-		return m.Desc()
-	case role.FieldParentID:
-		return m.ParentID()
+	case role.FieldLabel:
+		return m.Label()
 	case role.FieldSortID:
 		return m.SortID()
 	}
@@ -1492,12 +1394,12 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldCreateBy(ctx)
 	case role.FieldUpdateBy:
 		return m.OldUpdateBy(ctx)
+	case role.FieldRemark:
+		return m.OldRemark(ctx)
 	case role.FieldName:
 		return m.OldName(ctx)
-	case role.FieldDesc:
-		return m.OldDesc(ctx)
-	case role.FieldParentID:
-		return m.OldParentID(ctx)
+	case role.FieldLabel:
+		return m.OldLabel(ctx)
 	case role.FieldSortID:
 		return m.OldSortID(ctx)
 	}
@@ -1544,6 +1446,13 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUpdateBy(v)
 		return nil
+	case role.FieldRemark:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRemark(v)
+		return nil
 	case role.FieldName:
 		v, ok := value.(string)
 		if !ok {
@@ -1551,19 +1460,12 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetName(v)
 		return nil
-	case role.FieldDesc:
+	case role.FieldLabel:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetDesc(v)
-		return nil
-	case role.FieldParentID:
-		v, ok := value.(uint64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetParentID(v)
+		m.SetLabel(v)
 		return nil
 	case role.FieldSortID:
 		v, ok := value.(int32)
@@ -1656,11 +1558,8 @@ func (m *RoleMutation) ClearedFields() []string {
 	if m.FieldCleared(role.FieldUpdateBy) {
 		fields = append(fields, role.FieldUpdateBy)
 	}
-	if m.FieldCleared(role.FieldDesc) {
-		fields = append(fields, role.FieldDesc)
-	}
-	if m.FieldCleared(role.FieldParentID) {
-		fields = append(fields, role.FieldParentID)
+	if m.FieldCleared(role.FieldRemark) {
+		fields = append(fields, role.FieldRemark)
 	}
 	if m.FieldCleared(role.FieldSortID) {
 		fields = append(fields, role.FieldSortID)
@@ -1694,11 +1593,8 @@ func (m *RoleMutation) ClearField(name string) error {
 	case role.FieldUpdateBy:
 		m.ClearUpdateBy()
 		return nil
-	case role.FieldDesc:
-		m.ClearDesc()
-		return nil
-	case role.FieldParentID:
-		m.ClearParentID()
+	case role.FieldRemark:
+		m.ClearRemark()
 		return nil
 	case role.FieldSortID:
 		m.ClearSortID()
@@ -1726,14 +1622,14 @@ func (m *RoleMutation) ResetField(name string) error {
 	case role.FieldUpdateBy:
 		m.ResetUpdateBy()
 		return nil
+	case role.FieldRemark:
+		m.ResetRemark()
+		return nil
 	case role.FieldName:
 		m.ResetName()
 		return nil
-	case role.FieldDesc:
-		m.ResetDesc()
-		return nil
-	case role.FieldParentID:
-		m.ResetParentID()
+	case role.FieldLabel:
+		m.ResetLabel()
 		return nil
 	case role.FieldSortID:
 		m.ResetSortID()
@@ -1744,103 +1640,49 @@ func (m *RoleMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *RoleMutation) AddedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.parent != nil {
-		edges = append(edges, role.EdgeParent)
-	}
-	if m.children != nil {
-		edges = append(edges, role.EdgeChildren)
-	}
+	edges := make([]string, 0, 0)
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
 func (m *RoleMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case role.EdgeParent:
-		if id := m.parent; id != nil {
-			return []ent.Value{*id}
-		}
-	case role.EdgeChildren:
-		ids := make([]ent.Value, 0, len(m.children))
-		for id := range m.children {
-			ids = append(ids, id)
-		}
-		return ids
-	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *RoleMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.removedchildren != nil {
-		edges = append(edges, role.EdgeChildren)
-	}
+	edges := make([]string, 0, 0)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
 func (m *RoleMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case role.EdgeChildren:
-		ids := make([]ent.Value, 0, len(m.removedchildren))
-		for id := range m.removedchildren {
-			ids = append(ids, id)
-		}
-		return ids
-	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *RoleMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.clearedparent {
-		edges = append(edges, role.EdgeParent)
-	}
-	if m.clearedchildren {
-		edges = append(edges, role.EdgeChildren)
-	}
+	edges := make([]string, 0, 0)
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
 func (m *RoleMutation) EdgeCleared(name string) bool {
-	switch name {
-	case role.EdgeParent:
-		return m.clearedparent
-	case role.EdgeChildren:
-		return m.clearedchildren
-	}
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
 func (m *RoleMutation) ClearEdge(name string) error {
-	switch name {
-	case role.EdgeParent:
-		m.ClearParent()
-		return nil
-	}
 	return fmt.Errorf("unknown Role unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
 func (m *RoleMutation) ResetEdge(name string) error {
-	switch name {
-	case role.EdgeParent:
-		m.ResetParent()
-		return nil
-	case role.EdgeChildren:
-		m.ResetChildren()
-		return nil
-	}
 	return fmt.Errorf("unknown Role edge %s", name)
 }
 

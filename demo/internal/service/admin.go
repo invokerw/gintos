@@ -2,8 +2,6 @@ package service
 
 import (
 	"bytes"
-	"github.com/casbin/casbin/v2"
-	"github.com/gin-gonic/gin"
 	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
@@ -12,8 +10,11 @@ import (
 	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
 	"github/invokerw/gintos/proto/rbac"
-	"google.golang.org/protobuf/types/known/emptypb"
 	"strings"
+
+	"github.com/casbin/casbin/v2"
+	"github.com/gin-gonic/gin"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type AdminService struct {
@@ -56,11 +57,11 @@ func (s *AdminService) GetUserList(ctx *gin.Context, req *admin.GetUserListReque
 }
 
 func (s *AdminService) DeleteRoles(context *gin.Context, request *admin.DeleteRolesRequest) (*emptypb.Empty, error) {
-	err := s.roleUc.DeleteRoles(context, request.Names)
+	err := s.roleUc.DeleteRoles(context, request.Lables)
 	if err != nil {
 		return nil, err
 	}
-	for _, n := range request.Names {
+	for _, n := range request.Lables {
 		_, err = s.casbinEnforcer.DeleteUser(n)
 		if err != nil {
 			s.log.Errorf("DeleteRoles casbinEnforcer %s error: %v", n, err)
@@ -117,7 +118,7 @@ func (s *AdminService) GetApiInfoList(context *gin.Context, empty *emptypb.Empty
 }
 
 func (s *AdminService) RoleGetPolicy(context *gin.Context, request *admin.RoleGetPolicyRequest) (*admin.RoleGetPolicyResponse, error) {
-	p, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleName)
+	p, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleLable)
 	if err != nil {
 		return nil, err
 	}
@@ -132,13 +133,13 @@ func (s *AdminService) RoleGetPolicy(context *gin.Context, request *admin.RoleGe
 }
 
 func (s *AdminService) RoleUpdatePolicy(context *gin.Context, request *admin.RoleUpdatePolicyRequest) (*emptypb.Empty, error) {
-	p, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleName)
+	p, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleLable)
 	if err != nil {
 		return nil, err
 	}
 	rules := make([][]string, 0, len(p))
 	for _, v := range p {
-		rules = append(rules, []string{request.RoleName, v[0], v[1]})
+		rules = append(rules, []string{request.RoleLable, v[0], v[1]})
 	}
 	_, err = s.casbinEnforcer.RemovePolicies(rules)
 	if err != nil {
@@ -147,7 +148,7 @@ func (s *AdminService) RoleUpdatePolicy(context *gin.Context, request *admin.Rol
 	rules = nil
 	for _, v := range request.ApiName {
 		if apiInfo, ok := api.ApiMap[v]; ok {
-			rules = append(rules, []string{request.RoleName, apiInfo.Path, apiInfo.Method})
+			rules = append(rules, []string{request.RoleLable, apiInfo.Path, apiInfo.Method})
 		}
 
 	}

@@ -75,8 +75,8 @@ message User {
   ]; // 性别
 
   optional string remark = 21 [
-    (openapi.v3.property) = {description: "备注名"}
-  ]; // 备注名
+    (openapi.v3.property) = {description: "备注"}
+  ]; // 备注
 
   optional int64 last_login_time = 30 [
     (openapi.v3.property) = {description: "最后登录时间"}
@@ -109,14 +109,17 @@ message Role {
   ];  // 角色ID
 
   optional string name = 2 [ (openapi.v3.property) = {description: "角色名称"}];
-  optional string desc = 3 [ (openapi.v3.property) = {description: "角色描述"}];
-  optional uint64 parent_id = 4 [ (openapi.v3.property) = {description: "父角色ID"}];
+  optional string label = 3 [ (openapi.v3.property) = {description: "角色标识"}];
   optional int32 sort_id = 5 [ (openapi.v3.property) = {description: "排序ID"}];
   optional RoleStatus status = 32 [(openapi.v3.property) = {
     description: "角色状态"
     default: {string: "ON"}
     enum: [{yaml: "ON"}, {yaml: "OFF"}]
   }]; // 用户状态
+
+  optional string remark = 33 [
+    (openapi.v3.property) = {description: "备注"}
+  ]; // 备注
 
   optional int64 create_time = 200 [ (openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional int64 update_time = 201 [ (openapi.v3.property) = {description: "更新时间"}];// 更新时间

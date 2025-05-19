@@ -90,37 +90,29 @@ func (rc *RoleCreate) SetNillableUpdateBy(u *uint64) *RoleCreate {
 	return rc
 }
 
+// SetRemark sets the "remark" field.
+func (rc *RoleCreate) SetRemark(s string) *RoleCreate {
+	rc.mutation.SetRemark(s)
+	return rc
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (rc *RoleCreate) SetNillableRemark(s *string) *RoleCreate {
+	if s != nil {
+		rc.SetRemark(*s)
+	}
+	return rc
+}
+
 // SetName sets the "name" field.
 func (rc *RoleCreate) SetName(s string) *RoleCreate {
 	rc.mutation.SetName(s)
 	return rc
 }
 
-// SetDesc sets the "desc" field.
-func (rc *RoleCreate) SetDesc(s string) *RoleCreate {
-	rc.mutation.SetDesc(s)
-	return rc
-}
-
-// SetNillableDesc sets the "desc" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableDesc(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetDesc(*s)
-	}
-	return rc
-}
-
-// SetParentID sets the "parent_id" field.
-func (rc *RoleCreate) SetParentID(u uint64) *RoleCreate {
-	rc.mutation.SetParentID(u)
-	return rc
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableParentID(u *uint64) *RoleCreate {
-	if u != nil {
-		rc.SetParentID(*u)
-	}
+// SetLabel sets the "label" field.
+func (rc *RoleCreate) SetLabel(s string) *RoleCreate {
+	rc.mutation.SetLabel(s)
 	return rc
 }
 
@@ -142,26 +134,6 @@ func (rc *RoleCreate) SetNillableSortID(i *int32) *RoleCreate {
 func (rc *RoleCreate) SetID(u uint64) *RoleCreate {
 	rc.mutation.SetID(u)
 	return rc
-}
-
-// SetParent sets the "parent" edge to the Role entity.
-func (rc *RoleCreate) SetParent(r *Role) *RoleCreate {
-	return rc.SetParentID(r.ID)
-}
-
-// AddChildIDs adds the "children" edge to the Role entity by IDs.
-func (rc *RoleCreate) AddChildIDs(ids ...uint64) *RoleCreate {
-	rc.mutation.AddChildIDs(ids...)
-	return rc
-}
-
-// AddChildren adds the "children" edges to the Role entity.
-func (rc *RoleCreate) AddChildren(r ...*Role) *RoleCreate {
-	ids := make([]uint64, len(r))
-	for i := range r {
-		ids[i] = r[i].ID
-	}
-	return rc.AddChildIDs(ids...)
 }
 
 // Mutation returns the RoleMutation object of the builder.
@@ -203,9 +175,9 @@ func (rc *RoleCreate) defaults() {
 		v := role.DefaultStatus
 		rc.mutation.SetStatus(v)
 	}
-	if _, ok := rc.mutation.Desc(); !ok {
-		v := role.DefaultDesc
-		rc.mutation.SetDesc(v)
+	if _, ok := rc.mutation.Remark(); !ok {
+		v := role.DefaultRemark
+		rc.mutation.SetRemark(v)
 	}
 	if _, ok := rc.mutation.SortID(); !ok {
 		v := role.DefaultSortID
@@ -228,9 +200,12 @@ func (rc *RoleCreate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
 		}
 	}
-	if v, ok := rc.mutation.Desc(); ok {
-		if err := role.DescValidator(v); err != nil {
-			return &ValidationError{Name: "desc", err: fmt.Errorf(`ent: validator failed for field "Role.desc": %w`, err)}
+	if _, ok := rc.mutation.Label(); !ok {
+		return &ValidationError{Name: "label", err: errors.New(`ent: missing required field "Role.label"`)}
+	}
+	if v, ok := rc.mutation.Label(); ok {
+		if err := role.LabelValidator(v); err != nil {
+			return &ValidationError{Name: "label", err: fmt.Errorf(`ent: validator failed for field "Role.label": %w`, err)}
 		}
 	}
 	if v, ok := rc.mutation.ID(); ok {
@@ -290,50 +265,21 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldUpdateBy, field.TypeUint64, value)
 		_node.UpdateBy = &value
 	}
+	if value, ok := rc.mutation.Remark(); ok {
+		_spec.SetField(role.FieldRemark, field.TypeString, value)
+		_node.Remark = &value
+	}
 	if value, ok := rc.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := rc.mutation.Desc(); ok {
-		_spec.SetField(role.FieldDesc, field.TypeString, value)
-		_node.Desc = &value
+	if value, ok := rc.mutation.Label(); ok {
+		_spec.SetField(role.FieldLabel, field.TypeString, value)
+		_node.Label = value
 	}
 	if value, ok := rc.mutation.SortID(); ok {
 		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
-	}
-	if nodes := rc.mutation.ParentIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   role.ParentTable,
-			Columns: []string{role.ParentColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_node.ParentID = &nodes[0]
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := rc.mutation.ChildrenIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   role.ChildrenTable,
-			Columns: []string{role.ChildrenColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }

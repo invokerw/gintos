@@ -28,49 +28,15 @@ type Role struct {
 	CreateBy *uint64 `json:"create_by,omitempty"`
 	// 更新者ID
 	UpdateBy *uint64 `json:"update_by,omitempty"`
+	// 备注
+	Remark *string `json:"remark,omitempty"`
 	// 角色名称
 	Name string `json:"name,omitempty"`
 	// 角色描述
-	Desc *string `json:"desc,omitempty"`
-	// 父角色ID
-	ParentID *uint64 `json:"parent_id,omitempty"`
+	Label string `json:"label,omitempty"`
 	// 排序ID
-	SortID *int32 `json:"sort_id,omitempty"`
-	// Edges holds the relations/edges for other nodes in the graph.
-	// The values are being populated by the RoleQuery when eager-loading is set.
-	Edges        RoleEdges `json:"edges"`
+	SortID       *int32 `json:"sort_id,omitempty"`
 	selectValues sql.SelectValues
-}
-
-// RoleEdges holds the relations/edges for other nodes in the graph.
-type RoleEdges struct {
-	// Parent holds the value of the parent edge.
-	Parent *Role `json:"parent,omitempty"`
-	// Children holds the value of the children edge.
-	Children []*Role `json:"children,omitempty"`
-	// loadedTypes holds the information for reporting if a
-	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
-}
-
-// ParentOrErr returns the Parent value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e RoleEdges) ParentOrErr() (*Role, error) {
-	if e.Parent != nil {
-		return e.Parent, nil
-	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: role.Label}
-	}
-	return nil, &NotLoadedError{edge: "parent"}
-}
-
-// ChildrenOrErr returns the Children value or an error if the edge
-// was not loaded in eager-loading.
-func (e RoleEdges) ChildrenOrErr() ([]*Role, error) {
-	if e.loadedTypes[1] {
-		return e.Children, nil
-	}
-	return nil, &NotLoadedError{edge: "children"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -78,9 +44,9 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldParentID, role.FieldSortID:
+		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case role.FieldStatus, role.FieldName, role.FieldDesc:
+		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldLabel:
 			values[i] = new(sql.NullString)
 		case role.FieldCreateTime, role.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
@@ -140,25 +106,24 @@ func (r *Role) assignValues(columns []string, values []any) error {
 				r.UpdateBy = new(uint64)
 				*r.UpdateBy = uint64(value.Int64)
 			}
+		case role.FieldRemark:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field remark", values[i])
+			} else if value.Valid {
+				r.Remark = new(string)
+				*r.Remark = value.String
+			}
 		case role.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
 				r.Name = value.String
 			}
-		case role.FieldDesc:
+		case role.FieldLabel:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field desc", values[i])
+				return fmt.Errorf("unexpected type %T for field label", values[i])
 			} else if value.Valid {
-				r.Desc = new(string)
-				*r.Desc = value.String
-			}
-		case role.FieldParentID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
-			} else if value.Valid {
-				r.ParentID = new(uint64)
-				*r.ParentID = uint64(value.Int64)
+				r.Label = value.String
 			}
 		case role.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -178,16 +143,6 @@ func (r *Role) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (r *Role) Value(name string) (ent.Value, error) {
 	return r.selectValues.Get(name)
-}
-
-// QueryParent queries the "parent" edge of the Role entity.
-func (r *Role) QueryParent() *RoleQuery {
-	return NewRoleClient(r.config).QueryParent(r)
-}
-
-// QueryChildren queries the "children" edge of the Role entity.
-func (r *Role) QueryChildren() *RoleQuery {
-	return NewRoleClient(r.config).QueryChildren(r)
 }
 
 // Update returns a builder for updating this Role.
@@ -238,18 +193,16 @@ func (r *Role) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	builder.WriteString("name=")
-	builder.WriteString(r.Name)
-	builder.WriteString(", ")
-	if v := r.Desc; v != nil {
-		builder.WriteString("desc=")
+	if v := r.Remark; v != nil {
+		builder.WriteString("remark=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := r.ParentID; v != nil {
-		builder.WriteString("parent_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
+	builder.WriteString("name=")
+	builder.WriteString(r.Name)
+	builder.WriteString(", ")
+	builder.WriteString("label=")
+	builder.WriteString(r.Label)
 	builder.WriteString(", ")
 	if v := r.SortID; v != nil {
 		builder.WriteString("sort_id=")

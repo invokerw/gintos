@@ -37,21 +37,21 @@ func (r *roleRepo) convertToStatus(status *common.RoleStatus) *role.Status {
 }
 
 func (r *roleRepo) CreateRole(ctx context.Context, in *common.Role) (*ent.Role, error) {
-	if in == nil || in.Name == nil {
+	if in == nil || in.Label == nil || in.Name == nil {
 		return nil, errs.DBErrInvalidParam
 	}
 	now := time.Now()
 	var u *ent.Role
 	var err error
 	err = WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
-		u, err = tx.Role.Query().Where(role.Name(in.GetName())).Only(ctx)
+		u, err = tx.Role.Query().Where(role.LabelEQ(in.GetLabel())).Only(ctx)
 		if u != nil {
 			return errs.DBErrRoleExist
 		}
 		uc := tx.Role.Create().
 			SetName(in.GetName()).
-			SetNillableDesc(in.Desc).
-			SetNillableParentID(in.ParentId).
+			SetLabel(in.GetLabel()).
+			SetNillableRemark(in.Remark).
 			SetNillableSortID(in.SortId).
 			SetNillableStatus(r.convertToStatus(in.Status)).
 			SetCreateTime(now).
@@ -83,8 +83,7 @@ func (r *roleRepo) UpdateRoles(ctx context.Context, roles []*common.Role) ([]*en
 				return err
 			}
 			uc := u.Update().
-				SetNillableDesc(in.Desc).
-				SetNillableParentID(in.ParentId).
+				SetNillableName(in.Name).
 				SetNillableSortID(in.SortId).
 				SetNillableStatus(r.convertToStatus(in.Status)).
 				SetUpdateTime(time.Now())
@@ -144,6 +143,15 @@ func (r *roleRepo) GetRoleList(ctx context.Context, req *admin.GetRoleListReques
 	name := req.GetName()
 	if name != "" {
 		q.Where(role.NameContains(name))
+	}
+	label := req.GetLabel()
+	if label != "" {
+		q.Where(role.LabelContains(label))
+	}
+	if req.Status != nil {
+		if s := r.convertToStatus(req.Status); s != nil {
+			q.Where(role.StatusEQ(*s))
+		}
 	}
 	rs, err := q.All(ctx)
 	if err != nil {

@@ -135,7 +135,7 @@ service Admin {
 
 	rpc RoleGetPolicy (RoleGetPolicyRequest) returns (RoleGetPolicyResponse) {
 		option (google.api.http) = {
-			get: "/api/v1/admin/role_get_policy/:role_name"
+			get: "/api/v1/admin/role_get_policy/:role_lable"
 		};
 		option (rbac.comment) = "获取角色权限";
 		option (rbac.type) = "rbac";
@@ -242,8 +242,11 @@ message GetRoleListRequest {
 	]; // 分页信息
 	optional string name = 2 [
 		(openapi.v3.property) = {description: "角色名"}
-	]; // 登录名
-	optional common.v1.RoleStatus status = 3 [
+	]; // 角色名
+	optional string label = 3 [
+		(openapi.v3.property) = {description: "角色标识"}
+	]; // 角色标识
+	optional common.v1.RoleStatus status = 4 [
 		(openapi.v3.property) = {description: "状态"}
 	]; // 状态
 }
@@ -263,8 +266,8 @@ message UpdateRolesResponse {
 }
 
 message DeleteRolesRequest {
-	repeated string names = 1 [
-		(openapi.v3.property) = {description: "角色名字"}
+	repeated string lables = 1 [
+		(openapi.v3.property) = {description: "角色标识"}
 	];
 }
 
@@ -275,14 +278,14 @@ message GetApiInfoListResponse {
 }
 
 message RoleGetPolicyRequest {
-	string role_name = 1 [
-		(openapi.v3.property) = {description: "角色名字"}
+	string role_lable = 1 [
+		(openapi.v3.property) = {description: "角色标识"}
 	]; // 角色名字
 }
 
 message RoleGetPolicyResponse {
-	string role_name = 1 [
-		(openapi.v3.property) = {description: "角色名字"}
+	string role_lable = 1 [
+		(openapi.v3.property) = {description: "角色标识"}
 	]; // 角色名字
 	repeated common.v1.ApiInfo api_info = 2 [
 		(openapi.v3.property) = {description: "API信息"}
@@ -290,8 +293,8 @@ message RoleGetPolicyResponse {
 }
 
 message RoleUpdatePolicyRequest {
-	string role_name = 1 [
-		(openapi.v3.property) = {description: "角色名字"}
+	string role_lable = 1 [
+		(openapi.v3.property) = {description: "角色标识"}
 	]; // 角色名字
 	repeated string api_name = 2 [
 		(openapi.v3.property) = {description: "api 名称"}

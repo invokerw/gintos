@@ -32,7 +32,7 @@ api:
 		   --proto_path=./api \
 	       --proto_path=../third_party \
  	       --go_out=paths=source_relative:./api \
- 	       --go-gin-http_out=paths=source_relative,rbac_path=./api,rbac_package_name=api:./api \
+ 	       --go-gin_out=paths=source_relative,rbac_path=./api,rbac_package_name=api:./api \
 	       --openapi_out=fq_schema_naming=true,naming=proto,default_response=false:./assets \
 	       $(API_PROTO_FILES)
 	PB_GO_FILES=$$(find api -name '*.pb.go' | grep -v gin.pb.go); \

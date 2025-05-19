@@ -29,8 +29,8 @@ func (uc *RoleUsecase) CreateRole(ctx *gin.Context, user *common.Role) (*common.
 	return uc.convertToRole(u), nil
 }
 
-func (uc *RoleUsecase) GetRole(ctx *gin.Context, username string) (*common.Role, error) {
-	u, err := uc.repo.GetRole(ctx, username)
+func (uc *RoleUsecase) GetRole(ctx *gin.Context, label string) (*common.Role, error) {
+	u, err := uc.repo.GetRole(ctx, label)
 	if err != nil {
 		return nil, err
 	}
@@ -45,16 +45,16 @@ func (uc *RoleUsecase) GetRoleByID(ctx *gin.Context, id uint64) (*common.Role, e
 	return uc.convertToRole(u), nil
 }
 
-func (uc *RoleUsecase) DeleteRoles(ctx *gin.Context, names []string) error {
-	err := uc.repo.DeleteRoles(ctx, names)
+func (uc *RoleUsecase) DeleteRoles(ctx *gin.Context, labels []string) error {
+	err := uc.repo.DeleteRoles(ctx, labels)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (uc *RoleUsecase) UpdateRoles(ctx context.Context, users []*common.Role) ([]*common.Role, error) {
-	us, err := uc.repo.UpdateRoles(ctx, users)
+func (uc *RoleUsecase) UpdateRoles(ctx context.Context, roles []*common.Role) ([]*common.Role, error) {
+	us, err := uc.repo.UpdateRoles(ctx, roles)
 	if err != nil {
 		return nil, err
 	}
@@ -104,9 +104,9 @@ func (uc *RoleUsecase) convertToRole(u *ent.Role) *common.Role {
 	return &common.Role{
 		Id:         trans.Uint64(u.ID),
 		Name:       &u.Name,
-		Desc:       u.Desc,
-		ParentId:   u.ParentID,
+		Label:      &u.Label,
 		SortId:     u.SortID,
+		Remark:     u.Remark,
 		Status:     uc.convertToStatus(u.Status),
 		CreateTime: trans.Ptr(u.CreateTime.Unix()),
 		UpdateTime: trans.Ptr(u.UpdateTime.Unix()),

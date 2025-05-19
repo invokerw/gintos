@@ -1,13 +1,13 @@
 package schema
 
 import (
-	"entgo.io/ent/schema/index"
 	"github/invokerw/gintos/demo/internal/pkg/mixin"
+
+	"entgo.io/ent/schema/index"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
 
@@ -32,22 +32,15 @@ func (Role) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("角色名称").
-			Unique().
 			NotEmpty().
+			MaxLen(128),
+
+		field.String("label").
+			Comment("角色描述").
+			NotEmpty().
+			Unique().
 			Immutable().
 			MaxLen(128),
-
-		field.String("desc").
-			Comment("角色描述").
-			Default("").
-			Optional().
-			Nillable().
-			MaxLen(128),
-
-		field.Uint64("parent_id").
-			Comment("父角色ID").
-			Nillable().
-			Optional(),
 
 		field.Int32("sort_id").
 			Comment("排序ID").
@@ -65,21 +58,18 @@ func (Role) Mixin() []ent.Mixin {
 		mixin.SwitchStatus{},
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
+		mixin.Remark{},
 	}
 }
 
 // Edges of the Role.
 func (Role) Edges() []ent.Edge {
-	return []ent.Edge{
-		edge.
-			To("children", Role.Type).
-			From("parent").Unique().Field("parent_id"),
-	}
+	return []ent.Edge{}
 }
 
 // Indexes of the User.
 func (Role) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "name"),
+		index.Fields("id", "label"),
 	}
 }

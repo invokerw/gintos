@@ -97,7 +97,7 @@ func getApiInfoList() []*rbac.ApiInfo {
 		},
 		{
 			Method: "GET",
-			Path: "/api/v1/admin/role_get_policy/:role_name",
+			Path: "/api/v1/admin/role_get_policy/:role_lable",
 			Name: "获取角色权限",
 			Type: "rbac",
 		},

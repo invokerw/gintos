@@ -48,8 +48,14 @@ func init() {
 	_ = roleMixinFields0
 	roleMixinFields2 := roleMixin[2].Fields()
 	_ = roleMixinFields2
+	roleMixinFields5 := roleMixin[5].Fields()
+	_ = roleMixinFields5
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
+	// roleDescRemark is the schema descriptor for remark field.
+	roleDescRemark := roleMixinFields5[0].Descriptor()
+	// role.DefaultRemark holds the default value on creation for the remark field.
+	role.DefaultRemark = roleDescRemark.Default.(string)
 	// roleDescName is the schema descriptor for name field.
 	roleDescName := roleFields[0].Descriptor()
 	// role.NameValidator is a validator for the "name" field. It is called by the builders before save.
@@ -68,14 +74,26 @@ func init() {
 			return nil
 		}
 	}()
-	// roleDescDesc is the schema descriptor for desc field.
-	roleDescDesc := roleFields[1].Descriptor()
-	// role.DefaultDesc holds the default value on creation for the desc field.
-	role.DefaultDesc = roleDescDesc.Default.(string)
-	// role.DescValidator is a validator for the "desc" field. It is called by the builders before save.
-	role.DescValidator = roleDescDesc.Validators[0].(func(string) error)
+	// roleDescLabel is the schema descriptor for label field.
+	roleDescLabel := roleFields[1].Descriptor()
+	// role.LabelValidator is a validator for the "label" field. It is called by the builders before save.
+	role.LabelValidator = func() func(string) error {
+		validators := roleDescLabel.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(label string) error {
+			for _, fn := range fns {
+				if err := fn(label); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// roleDescSortID is the schema descriptor for sort_id field.
-	roleDescSortID := roleFields[3].Descriptor()
+	roleDescSortID := roleFields[2].Descriptor()
 	// role.DefaultSortID holds the default value on creation for the sort_id field.
 	role.DefaultSortID = roleDescSortID.Default.(int32)
 	// roleDescID is the schema descriptor for id field.
