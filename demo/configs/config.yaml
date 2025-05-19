@@ -11,6 +11,12 @@ data:
     dial_timeout: 1s
     read_timeout: 0.2s
     write_timeout: 0.2s
+file:
+  type: 1 # 1: local
+  local:
+    path: ./upload
+    url: /download
+
 jwt:
     secret: gintos
     expire: 3600s

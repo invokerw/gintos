@@ -107,6 +107,12 @@ func getApiInfoList() []*rbac.ApiInfo {
 			Name: "角色更新权限",
 			Type: "rbac",
 		},
+		{
+			Method: "POST",
+			Path: "/api/v1/admin/update_user_avatar",
+			Name: "更新用户头像",
+			Type: "user",
+		},
 	}
 }
 

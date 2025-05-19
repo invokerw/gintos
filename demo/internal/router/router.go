@@ -30,6 +30,7 @@ func NewGinHttpServer(c *conf.Server,
 	adminS *service.AdminService,
 	bs *service.BaseService,
 	enforce *casbin.Enforcer,
+	fConf *conf.File,
 	logger log.Logger) *gin.Engine {
 
 	//engine := gin.Default()
@@ -43,6 +44,10 @@ func NewGinHttpServer(c *conf.Server,
 		})
 		st, _ := fs.Sub(assets.Frontend, "frontend/dist")
 		g.StaticFS("/admin", http.FS(st))
+
+		if fConf.Type == conf.FileType_FILE_TYPE_LOCAL {
+			g.StaticFS(fConf.Local.Url, http.Dir(fConf.Local.Path))
+		}
 	}
 	{
 		g := engine.Group("/")

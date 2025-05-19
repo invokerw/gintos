@@ -2,23 +2,27 @@ package biz
 
 import (
 	"context"
+	"github.com/gin-gonic/gin"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/data/ent"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
+	"github/invokerw/gintos/demo/internal/errs"
 	"github/invokerw/gintos/demo/internal/pkg/trans"
+	"github/invokerw/gintos/demo/internal/pkg/upload"
 	"github/invokerw/gintos/log"
-
-	"github.com/gin-gonic/gin"
+	"io"
+	"strings"
 )
 
 type UserUsecase struct {
 	repo UserRepo
+	oss  upload.OSS
 	log  *log.Helper
 }
 
-func NewUserUsecase(repo UserRepo, logger log.Logger) *UserUsecase {
-	return &UserUsecase{repo: repo, log: log.NewHelper(log.With(logger, "usecase", "user"))}
+func NewUserUsecase(repo UserRepo, oss upload.OSS, logger log.Logger) *UserUsecase {
+	return &UserUsecase{repo: repo, oss: oss, log: log.NewHelper(log.With(logger, "usecase", "user"))}
 }
 
 func (uc *UserUsecase) CreateUser(ctx *gin.Context, user *common.User, ignorePassword bool) (*common.User, error) {
@@ -87,6 +91,42 @@ func (uc *UserUsecase) GetUserCount(ctx context.Context) (int, error) {
 		return 0, err
 	}
 	return count, nil
+}
+
+func (uc *UserUsecase) UpdateUserAvatar(ctx *gin.Context, id uint64, avatarData io.Reader, ext string) (*common.User, error) {
+	if ext != "png" && ext != "jpg" && ext != "jpeg" {
+		return nil, errs.ErrAvatarExtWrong
+	}
+	u, err := uc.repo.GetUserByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	url, _, err := uc.oss.UploadFile(ctx, FILE_CATEGORY_USER_AVATAR, avatarData, *u.Username+"_avatar."+ext)
+	if err != nil {
+		return nil, err
+	}
+	uc.log.Infof("upload avatar %s", url)
+	if u.Avatar != nil && *u.Avatar != "" {
+		old := strings.Split(*u.Avatar, "/")
+		if len(old) > 0 {
+			key := old[len(old)-1]
+			uc.log.Infof("delete old avatar %s", key)
+			err = uc.oss.DeleteFile(ctx, FILE_CATEGORY_USER_AVATAR, key)
+			if err != nil {
+				uc.log.Errorf("delete old avatar %s failed: %v", key, err)
+			}
+		}
+	}
+	us, err := uc.repo.UpdateUsers(ctx, []*common.User{
+		{
+			Id:     trans.Ptr(u.ID),
+			Avatar: trans.Ptr(url),
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+	return uc.convertToUser(us[0], true), nil
 }
 
 func (uc *UserUsecase) convertToGender(g *user.Gender) *common.UserGender {

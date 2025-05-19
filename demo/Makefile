@@ -47,21 +47,29 @@ conf:
 		   --go_out=paths=source_relative:./internal \
 		   $(INTERNAL_PROTO_FILES)
 
+.PHONY: wire
+# generate wire
+wire:
+	go run github.com/google/wire/cmd/wire
+
+.PHONY: db
+# migrate db
+db:
+	cd ./internal/data/ent && go generate ./...
+
 .PHONY: build
 # build
 build:
 	mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./...
 
-.PHONY: generate
-# generate
-generate:
-	go generate ./...
-	go mod tidy
-
 .PHONY: all
 # generate all
 all:
+	make conf;
+	make db;
+	make wire;
 	make api;
+	make build;
 
 # show help
 help:

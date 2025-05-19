@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="gintos/demo" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="gintos" />
+    <working_directory value="$PROJECT_DIR$/demo" />
+    <kind value="PACKAGE" />
+    <package value="github/invokerw/gintos/demo" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/demo/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,12 +1,15 @@
 package service
 
 import (
+	"bytes"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/biz"
+	"github/invokerw/gintos/demo/internal/errs"
+	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
 	"github/invokerw/gintos/proto/rbac"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -177,4 +180,20 @@ func (s *AdminService) convertApiInfo(i *rbac.ApiInfo) *common.ApiInfo {
 		Path:   i.Path,
 		Method: i.Method,
 	}
+}
+
+func (s *AdminService) UpdateUserAvatar(context *gin.Context, request *admin.UpdateUserAvatarRequest) (*admin.UpdateUserAvatarResponse, error) {
+	if request.AvatarData == "" {
+		return nil, errs.ErrAvatarDataWrong
+	}
+
+	data, ext, err := utils.DecodeImageDataURI(request.AvatarData)
+	if err != nil {
+		return nil, err
+	}
+	u, err := s.userUc.UpdateUserAvatar(context, request.Id, bytes.NewReader(data), ext)
+	if err != nil {
+		return nil, err
+	}
+	return &admin.UpdateUserAvatarResponse{User: u}, nil
 }

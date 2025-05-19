@@ -2,14 +2,30 @@ package biz
 
 import (
 	"context"
+	"fmt"
 	"github.com/google/wire"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
+	"github/invokerw/gintos/demo/internal/conf"
 	"github/invokerw/gintos/demo/internal/data/ent"
+	"github/invokerw/gintos/demo/internal/pkg/upload"
 )
 
 // ProviderSet is biz providers.
-var ProviderSet = wire.NewSet(NewGreeterUsecase, NewUserUsecase, NewRoleUsecase, NewCasbinEnforcer)
+var ProviderSet = wire.NewSet(NewOSS, NewGreeterUsecase, NewUserUsecase, NewRoleUsecase, NewCasbinEnforcer)
+
+const (
+	FILE_CATEGORY_USER_AVATAR = "user_avatar"
+)
+
+func NewOSS(data *conf.File) (upload.OSS, error) {
+	switch data.Type {
+	case conf.FileType_FILE_TYPE_LOCAL:
+		return upload.NewLocalOSS(data.Local.Path, data.Local.Url)
+	default:
+		panic(fmt.Sprintf("oss type %snot support", data.Type))
+	}
+}
 
 // Greeter is a Greeter model.
 type Greeter struct {

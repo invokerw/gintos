@@ -156,6 +156,33 @@ service Admin {
 		};
 	}
 
+	rpc UpdateUserAvatar (UpdateUserAvatarRequest) returns (UpdateUserAvatarResponse) {
+		option (google.api.http) = {
+			post: "/api/v1/admin/update_user_avatar"
+			body: "*"
+		};
+		option (rbac.comment) = "更新用户头像";
+		option (rbac.type) = "user";
+		option(openapi.v3.operation) = {
+			security: {}
+		};
+	}
+
+}
+
+message UpdateUserAvatarRequest {
+	uint64 id = 1 [
+		(openapi.v3.property) = {description: "用户ID"}
+	]; // 用户ID
+	string avatarData = 2 [
+		(openapi.v3.property) = {description: "头像数据"}
+	]; // 头像数据
+}
+
+message UpdateUserAvatarResponse {
+	common.v1.User user = 1 [
+		(openapi.v3.property) = {description: "用户信息"}
+	]; // 用户信息
 }
 
 message GetUserListRequest {

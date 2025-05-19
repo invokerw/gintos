@@ -19,7 +19,7 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App, func(), error) {
+func wireApp(server *conf.Server, confData *conf.Data, file *conf.File, logger log.Logger) (*App, func(), error) {
 	dataData, cleanup, err := data.NewData(confData, logger)
 	if err != nil {
 		return nil, nil, err
@@ -40,12 +40,17 @@ func wireApp(server *conf.Server, confData *conf.Data, logger log.Logger) (*App,
 	greeterRepo := data.NewGreeterRepo(dataData, logger)
 	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
 	greeterService := service.NewGreeterService(greeterUsecase, logger)
-	userUsecase := biz.NewUserUsecase(userRepo, logger)
+	oss, err := biz.NewOSS(file)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	userUsecase := biz.NewUserUsecase(userRepo, oss, logger)
 	authService := service.NewAuthService(userUsecase, logger)
 	roleUsecase := biz.NewRoleUsecase(roleRepo, logger)
 	adminService := service.NewAdminService(userUsecase, roleUsecase, enforcer, logger)
 	baseService := service.NewBaseService(userUsecase, logger)
-	engine := router.NewGinHttpServer(server, greeterService, authService, adminService, baseService, enforcer, logger)
+	engine := router.NewGinHttpServer(server, greeterService, authService, adminService, baseService, enforcer, file, logger)
 	app := newApp(initRet, engine)
 	return app, func() {
 		cleanup()

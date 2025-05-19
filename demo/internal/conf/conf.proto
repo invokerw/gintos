@@ -9,6 +9,7 @@ message Bootstrap {
   Server server = 1;
   Data data = 2;
   Jwt jwt = 3;
+  File file = 4;
 }
 
 message Server {
@@ -43,4 +44,18 @@ message Jwt {
   string secret = 2; // jwt签名秘钥
   google.protobuf.Duration expire = 3; // jwt过期时间
   google.protobuf.Duration refresh_expire = 4; // 刷新token过期时间
+}
+
+enum FileType {
+  FILE_TYPE_NONE = 0; // 未知存储类型
+  FILE_TYPE_LOCAL = 1; // 本地存储
+}
+
+message File {
+  FileType type = 1; // 文件存储类型
+  Local local = 3; // 本地存储配置
+  message Local {
+    string path = 1; // 本地存储路径
+    string url = 2; // 服务器访问路径
+  }
 }

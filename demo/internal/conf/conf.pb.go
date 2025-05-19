@@ -22,11 +22,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type FileType int32
+
+const (
+	FileType_FILE_TYPE_NONE  FileType = 0 // 未知存储类型
+	FileType_FILE_TYPE_LOCAL FileType = 1 // 本地存储
+)
+
+// Enum value maps for FileType.
+var (
+	FileType_name = map[int32]string{
+		0: "FILE_TYPE_NONE",
+		1: "FILE_TYPE_LOCAL",
+	}
+	FileType_value = map[string]int32{
+		"FILE_TYPE_NONE":  0,
+		"FILE_TYPE_LOCAL": 1,
+	}
+)
+
+func (x FileType) Enum() *FileType {
+	p := new(FileType)
+	*p = x
+	return p
+}
+
+func (x FileType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (FileType) Descriptor() protoreflect.EnumDescriptor {
+	return file_conf_conf_proto_enumTypes[0].Descriptor()
+}
+
+func (FileType) Type() protoreflect.EnumType {
+	return &file_conf_conf_proto_enumTypes[0]
+}
+
+func (x FileType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use FileType.Descriptor instead.
+func (FileType) EnumDescriptor() ([]byte, []int) {
+	return file_conf_conf_proto_rawDescGZIP(), []int{0}
+}
+
 type Bootstrap struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Server        *Server                `protobuf:"bytes,1,opt,name=server,proto3" json:"server,omitempty"`
 	Data          *Data                  `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	Jwt           *Jwt                   `protobuf:"bytes,3,opt,name=jwt,proto3" json:"jwt,omitempty"`
+	File          *File                  `protobuf:"bytes,4,opt,name=file,proto3" json:"file,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -78,6 +125,13 @@ func (x *Bootstrap) GetData() *Data {
 func (x *Bootstrap) GetJwt() *Jwt {
 	if x != nil {
 		return x.Jwt
+	}
+	return nil
+}
+
+func (x *Bootstrap) GetFile() *File {
+	if x != nil {
+		return x.File
 	}
 	return nil
 }
@@ -246,6 +300,58 @@ func (x *Jwt) GetRefreshExpire() *durationpb.Duration {
 	return nil
 }
 
+type File struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          FileType               `protobuf:"varint,1,opt,name=type,proto3,enum=kratos.api.FileType" json:"type,omitempty"` // 文件存储类型
+	Local         *File_Local            `protobuf:"bytes,3,opt,name=local,proto3" json:"local,omitempty"`                         // 本地存储配置
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *File) Reset() {
+	*x = File{}
+	mi := &file_conf_conf_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *File) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*File) ProtoMessage() {}
+
+func (x *File) ProtoReflect() protoreflect.Message {
+	mi := &file_conf_conf_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use File.ProtoReflect.Descriptor instead.
+func (*File) Descriptor() ([]byte, []int) {
+	return file_conf_conf_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *File) GetType() FileType {
+	if x != nil {
+		return x.Type
+	}
+	return FileType_FILE_TYPE_NONE
+}
+
+func (x *File) GetLocal() *File_Local {
+	if x != nil {
+		return x.Local
+	}
+	return nil
+}
+
 type Server_HTTP struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Network       string                 `protobuf:"bytes,1,opt,name=network,proto3" json:"network,omitempty"`
@@ -257,7 +363,7 @@ type Server_HTTP struct {
 
 func (x *Server_HTTP) Reset() {
 	*x = Server_HTTP{}
-	mi := &file_conf_conf_proto_msgTypes[4]
+	mi := &file_conf_conf_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -269,7 +375,7 @@ func (x *Server_HTTP) String() string {
 func (*Server_HTTP) ProtoMessage() {}
 
 func (x *Server_HTTP) ProtoReflect() protoreflect.Message {
-	mi := &file_conf_conf_proto_msgTypes[4]
+	mi := &file_conf_conf_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -316,7 +422,7 @@ type Data_Database struct {
 
 func (x *Data_Database) Reset() {
 	*x = Data_Database{}
-	mi := &file_conf_conf_proto_msgTypes[5]
+	mi := &file_conf_conf_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -328,7 +434,7 @@ func (x *Data_Database) String() string {
 func (*Data_Database) ProtoMessage() {}
 
 func (x *Data_Database) ProtoReflect() protoreflect.Message {
-	mi := &file_conf_conf_proto_msgTypes[5]
+	mi := &file_conf_conf_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -373,7 +479,7 @@ type Data_Redis struct {
 
 func (x *Data_Redis) Reset() {
 	*x = Data_Redis{}
-	mi := &file_conf_conf_proto_msgTypes[6]
+	mi := &file_conf_conf_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -385,7 +491,7 @@ func (x *Data_Redis) String() string {
 func (*Data_Redis) ProtoMessage() {}
 
 func (x *Data_Redis) ProtoReflect() protoreflect.Message {
-	mi := &file_conf_conf_proto_msgTypes[6]
+	mi := &file_conf_conf_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -450,16 +556,69 @@ func (x *Data_Redis) GetWriteTimeout() *durationpb.Duration {
 	return nil
 }
 
+type File_Local struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"` // 本地存储路径
+	Url           string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`   // 服务器访问路径
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *File_Local) Reset() {
+	*x = File_Local{}
+	mi := &file_conf_conf_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *File_Local) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*File_Local) ProtoMessage() {}
+
+func (x *File_Local) ProtoReflect() protoreflect.Message {
+	mi := &file_conf_conf_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use File_Local.ProtoReflect.Descriptor instead.
+func (*File_Local) Descriptor() ([]byte, []int) {
+	return file_conf_conf_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (x *File_Local) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+func (x *File_Local) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 var File_conf_conf_proto protoreflect.FileDescriptor
 
 const file_conf_conf_proto_rawDesc = "" +
 	"\n" +
 	"\x0fconf/conf.proto\x12\n" +
-	"kratos.api\x1a\x1egoogle/protobuf/duration.proto\"\x80\x01\n" +
+	"kratos.api\x1a\x1egoogle/protobuf/duration.proto\"\xa6\x01\n" +
 	"\tBootstrap\x12*\n" +
 	"\x06server\x18\x01 \x01(\v2\x12.kratos.api.ServerR\x06server\x12$\n" +
 	"\x04data\x18\x02 \x01(\v2\x10.kratos.api.DataR\x04data\x12!\n" +
-	"\x03jwt\x18\x03 \x01(\v2\x0f.kratos.api.JwtR\x03jwt\"\xa0\x01\n" +
+	"\x03jwt\x18\x03 \x01(\v2\x0f.kratos.api.JwtR\x03jwt\x12$\n" +
+	"\x04file\x18\x04 \x01(\v2\x10.kratos.api.FileR\x04file\"\xa0\x01\n" +
 	"\x06Server\x12+\n" +
 	"\x04http\x18\x01 \x01(\v2\x17.kratos.api.Server.HTTPR\x04http\x1ai\n" +
 	"\x04HTTP\x12\x18\n" +
@@ -484,7 +643,16 @@ const file_conf_conf_proto_rawDesc = "" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x16\n" +
 	"\x06secret\x18\x02 \x01(\tR\x06secret\x121\n" +
 	"\x06expire\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x06expire\x12@\n" +
-	"\x0erefresh_expire\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\rrefreshExpireB0Z.github/invokerw/gintos/demo/internal/conf;confb\x06proto3"
+	"\x0erefresh_expire\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\rrefreshExpire\"\x8d\x01\n" +
+	"\x04File\x12(\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x14.kratos.api.FileTypeR\x04type\x12,\n" +
+	"\x05local\x18\x03 \x01(\v2\x16.kratos.api.File.LocalR\x05local\x1a-\n" +
+	"\x05Local\x12\x12\n" +
+	"\x04path\x18\x01 \x01(\tR\x04path\x12\x10\n" +
+	"\x03url\x18\x02 \x01(\tR\x03url*3\n" +
+	"\bFileType\x12\x12\n" +
+	"\x0eFILE_TYPE_NONE\x10\x00\x12\x13\n" +
+	"\x0fFILE_TYPE_LOCAL\x10\x01B0Z.github/invokerw/gintos/demo/internal/conf;confb\x06proto3"
 
 var (
 	file_conf_conf_proto_rawDescOnce sync.Once
@@ -498,35 +666,42 @@ func file_conf_conf_proto_rawDescGZIP() []byte {
 	return file_conf_conf_proto_rawDescData
 }
 
-var file_conf_conf_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_conf_conf_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_conf_conf_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_conf_conf_proto_goTypes = []any{
-	(*Bootstrap)(nil),           // 0: kratos.api.Bootstrap
-	(*Server)(nil),              // 1: kratos.api.Server
-	(*Data)(nil),                // 2: kratos.api.Data
-	(*Jwt)(nil),                 // 3: kratos.api.Jwt
-	(*Server_HTTP)(nil),         // 4: kratos.api.Server.HTTP
-	(*Data_Database)(nil),       // 5: kratos.api.Data.Database
-	(*Data_Redis)(nil),          // 6: kratos.api.Data.Redis
-	(*durationpb.Duration)(nil), // 7: google.protobuf.Duration
+	(FileType)(0),               // 0: kratos.api.FileType
+	(*Bootstrap)(nil),           // 1: kratos.api.Bootstrap
+	(*Server)(nil),              // 2: kratos.api.Server
+	(*Data)(nil),                // 3: kratos.api.Data
+	(*Jwt)(nil),                 // 4: kratos.api.Jwt
+	(*File)(nil),                // 5: kratos.api.File
+	(*Server_HTTP)(nil),         // 6: kratos.api.Server.HTTP
+	(*Data_Database)(nil),       // 7: kratos.api.Data.Database
+	(*Data_Redis)(nil),          // 8: kratos.api.Data.Redis
+	(*File_Local)(nil),          // 9: kratos.api.File.Local
+	(*durationpb.Duration)(nil), // 10: google.protobuf.Duration
 }
 var file_conf_conf_proto_depIdxs = []int32{
-	1,  // 0: kratos.api.Bootstrap.server:type_name -> kratos.api.Server
-	2,  // 1: kratos.api.Bootstrap.data:type_name -> kratos.api.Data
-	3,  // 2: kratos.api.Bootstrap.jwt:type_name -> kratos.api.Jwt
-	4,  // 3: kratos.api.Server.http:type_name -> kratos.api.Server.HTTP
-	5,  // 4: kratos.api.Data.database:type_name -> kratos.api.Data.Database
-	6,  // 5: kratos.api.Data.redis:type_name -> kratos.api.Data.Redis
-	7,  // 6: kratos.api.Jwt.expire:type_name -> google.protobuf.Duration
-	7,  // 7: kratos.api.Jwt.refresh_expire:type_name -> google.protobuf.Duration
-	7,  // 8: kratos.api.Server.HTTP.timeout:type_name -> google.protobuf.Duration
-	7,  // 9: kratos.api.Data.Redis.dial_timeout:type_name -> google.protobuf.Duration
-	7,  // 10: kratos.api.Data.Redis.read_timeout:type_name -> google.protobuf.Duration
-	7,  // 11: kratos.api.Data.Redis.write_timeout:type_name -> google.protobuf.Duration
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	2,  // 0: kratos.api.Bootstrap.server:type_name -> kratos.api.Server
+	3,  // 1: kratos.api.Bootstrap.data:type_name -> kratos.api.Data
+	4,  // 2: kratos.api.Bootstrap.jwt:type_name -> kratos.api.Jwt
+	5,  // 3: kratos.api.Bootstrap.file:type_name -> kratos.api.File
+	6,  // 4: kratos.api.Server.http:type_name -> kratos.api.Server.HTTP
+	7,  // 5: kratos.api.Data.database:type_name -> kratos.api.Data.Database
+	8,  // 6: kratos.api.Data.redis:type_name -> kratos.api.Data.Redis
+	10, // 7: kratos.api.Jwt.expire:type_name -> google.protobuf.Duration
+	10, // 8: kratos.api.Jwt.refresh_expire:type_name -> google.protobuf.Duration
+	0,  // 9: kratos.api.File.type:type_name -> kratos.api.FileType
+	9,  // 10: kratos.api.File.local:type_name -> kratos.api.File.Local
+	10, // 11: kratos.api.Server.HTTP.timeout:type_name -> google.protobuf.Duration
+	10, // 12: kratos.api.Data.Redis.dial_timeout:type_name -> google.protobuf.Duration
+	10, // 13: kratos.api.Data.Redis.read_timeout:type_name -> google.protobuf.Duration
+	10, // 14: kratos.api.Data.Redis.write_timeout:type_name -> google.protobuf.Duration
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_conf_conf_proto_init() }
@@ -539,13 +714,14 @@ func file_conf_conf_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_conf_conf_proto_rawDesc), len(file_conf_conf_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   7,
+			NumEnums:      1,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_conf_conf_proto_goTypes,
 		DependencyIndexes: file_conf_conf_proto_depIdxs,
+		EnumInfos:         file_conf_conf_proto_enumTypes,
 		MessageInfos:      file_conf_conf_proto_msgTypes,
 	}.Build()
 	File_conf_conf_proto = out.File

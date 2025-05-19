@@ -198,6 +198,26 @@ paths:
                                 $ref: '#/components/schemas/api.v1.admin.UpdateRolesResponse'
             security:
                 - {}
+    /api/v1/admin/update_user_avatar:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_UpdateUserAvatar
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.UpdateUserAvatarRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.UpdateUserAvatarResponse'
+            security:
+                - {}
     /api/v1/admin/update_users:
         post:
             tags:
@@ -589,6 +609,20 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/api.common.v1.Role'
+        api.v1.admin.UpdateUserAvatarRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 用户ID
+                avatarData:
+                    type: string
+                    description: 头像数据
+        api.v1.admin.UpdateUserAvatarResponse:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
         api.v1.admin.UpdateUsersRequest:
             type: object
             properties:
