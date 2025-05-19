@@ -36,7 +36,9 @@ type User struct {
 	// 登录密码
 	Password *string `json:"password,omitempty"`
 	// 昵称
-	NickName *string `json:"nick_name,omitempty"`
+	Nickname *string `json:"nickname,omitempty"`
+	// 角色
+	RoleName *string `json:"role_name,omitempty"`
 	// 电子邮箱
 	Email *string `json:"email,omitempty"`
 	// 手机号码
@@ -83,7 +85,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldLastLoginTime:
 			values[i] = new(sql.NullInt64)
-		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldEmail, user.FieldPhone, user.FieldAvatar, user.FieldGender, user.FieldAuthority:
+		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickname, user.FieldRoleName, user.FieldEmail, user.FieldPhone, user.FieldAvatar, user.FieldGender, user.FieldAuthority:
 			values[i] = new(sql.NullString)
 		case user.FieldCreateTime, user.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
@@ -166,12 +168,19 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.Password = new(string)
 				*u.Password = value.String
 			}
-		case user.FieldNickName:
+		case user.FieldNickname:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field nick_name", values[i])
+				return fmt.Errorf("unexpected type %T for field nickname", values[i])
 			} else if value.Valid {
-				u.NickName = new(string)
-				*u.NickName = value.String
+				u.Nickname = new(string)
+				*u.Nickname = value.String
+			}
+		case user.FieldRoleName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field role_name", values[i])
+			} else if value.Valid {
+				u.RoleName = new(string)
+				*u.RoleName = value.String
 			}
 		case user.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -303,8 +312,13 @@ func (u *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.NickName; v != nil {
-		builder.WriteString("nick_name=")
+	if v := u.Nickname; v != nil {
+		builder.WriteString("nickname=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := u.RoleName; v != nil {
+		builder.WriteString("role_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")

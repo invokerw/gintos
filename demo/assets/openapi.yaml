@@ -165,7 +165,7 @@ paths:
                 - Admin
             operationId: Admin_RoleGetPolicy
             parameters:
-                - name: roleName
+                - name: role_name
                   in: query
                   schema:
                     type: string
@@ -361,7 +361,7 @@ components:
                 type:
                     type: string
                     description: 分类
-                apiInfo:
+                api_info:
                     type: array
                     items:
                         $ref: '#/components/schemas/api.common.v1.ApiInfo'
@@ -380,7 +380,7 @@ components:
                     type: integer
                     description: 偏移
                     format: int32
-                pageSize:
+                page_size:
                     type: integer
                     description: 数量
                     format: int32
@@ -396,17 +396,17 @@ components:
                 desc:
                     type: string
                     description: 角色描述
-                parentId:
+                parent_id:
                     type: string
                     description: 父角色ID
-                sortId:
+                sort_id:
                     type: integer
                     description: 排序ID
                     format: int32
-                createTime:
+                create_time:
                     type: string
                     description: 创建时间
-                updateTime:
+                update_time:
                     type: string
                     description: 更新时间
             description: Role
@@ -416,13 +416,13 @@ components:
                 id:
                     type: string
                     description: 用户ID
-                roleName:
+                role_name:
                     type: string
                     description: 角色名称
-                createBy:
+                create_by:
                     type: string
                     description: 创建者ID
-                updateBy:
+                update_by:
                     type: string
                     description: 更新者ID
                 username:
@@ -450,7 +450,7 @@ components:
                 remark:
                     type: string
                     description: 备注名
-                lastLoginTime:
+                last_login_time:
                     type: string
                     description: 最后登录时间
                 status:
@@ -471,10 +471,10 @@ components:
                     items:
                         type: string
                     description: 角色
-                createTime:
+                create_time:
                     type: string
                     description: 创建时间
-                updateTime:
+                update_time:
                     type: string
                     description: 更新时间
             description: 用户
@@ -507,7 +507,7 @@ components:
         api.v1.admin.GetApiInfoListResponse:
             type: object
             properties:
-                apiTypeMap:
+                api_type_map:
                     type: object
                     additionalProperties:
                         $ref: '#/components/schemas/api.common.v1.ApiTypeInfo'
@@ -555,10 +555,10 @@ components:
         api.v1.admin.RoleGetPolicyResponse:
             type: object
             properties:
-                roleName:
+                role_name:
                     type: string
                     description: 角色名字
-                apiInfo:
+                api_info:
                     type: array
                     items:
                         $ref: '#/components/schemas/api.common.v1.ApiInfo'
@@ -566,10 +566,10 @@ components:
         api.v1.admin.RoleUpdatePolicyRequest:
             type: object
             properties:
-                roleName:
+                role_name:
                     type: string
                     description: 角色名字
-                apiName:
+                api_name:
                     type: array
                     items:
                         type: string
@@ -626,24 +626,24 @@ components:
         api.v1.auth.LoginResponse:
             required:
                 - user
-                - accessToken
-                - refreshToken
+                - access_token
+                - refresh_token
                 - expires
-                - refreshExpires
+                - refresh_expires
             type: object
             properties:
                 user:
                     $ref: '#/components/schemas/api.common.v1.User'
-                accessToken:
+                access_token:
                     type: string
                     description: 访问令牌，必选项。
-                refreshToken:
+                refresh_token:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，
                 expires:
                     type: string
                     description: 令牌过期时间，单位为毫秒
-                refreshExpires:
+                refresh_expires:
                     type: string
                     description: 刷新令牌过期时间，单位为毫秒
             description: 用户后台登录 - 回应
@@ -656,34 +656,34 @@ components:
             description: 用户后台登出 - 请求
         api.v1.auth.RefreshTokenRequest:
             required:
-                - refreshToken
+                - refresh_token
             type: object
             properties:
-                refreshToken:
+                refresh_token:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌
             description: 用户刷新令牌 - 请求
         api.v1.auth.RefreshTokenResponse:
             required:
                 - user
-                - accessToken
-                - refreshToken
+                - access_token
+                - refresh_token
                 - expires
-                - refreshExpires
+                - refresh_expires
             type: object
             properties:
                 user:
                     $ref: '#/components/schemas/api.common.v1.User'
-                accessToken:
+                access_token:
                     type: string
                     description: 访问令牌，必选项。
-                refreshToken:
+                refresh_token:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，
                 expires:
                     type: string
                     description: 令牌过期时间，单位为毫秒
-                refreshExpires:
+                refresh_expires:
                     type: string
                     description: 刷新令牌过期时间，单位为毫秒
             description: 用户刷新令牌 - 回应
@@ -728,7 +728,7 @@ components:
                 rank:
                     type: integer
                     format: int32
-                showLink:
+                show_link:
                     type: boolean
                 roles:
                     type: array

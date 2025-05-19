@@ -1787,7 +1787,8 @@ type UserMutation struct {
 	status             *user.Status
 	username           *string
 	password           *string
-	nick_name          *string
+	nickname           *string
+	role_name          *string
 	email              *string
 	phone              *string
 	avatar             *string
@@ -2341,53 +2342,102 @@ func (m *UserMutation) ResetPassword() {
 	delete(m.clearedFields, user.FieldPassword)
 }
 
-// SetNickName sets the "nick_name" field.
-func (m *UserMutation) SetNickName(s string) {
-	m.nick_name = &s
+// SetNickname sets the "nickname" field.
+func (m *UserMutation) SetNickname(s string) {
+	m.nickname = &s
 }
 
-// NickName returns the value of the "nick_name" field in the mutation.
-func (m *UserMutation) NickName() (r string, exists bool) {
-	v := m.nick_name
+// Nickname returns the value of the "nickname" field in the mutation.
+func (m *UserMutation) Nickname() (r string, exists bool) {
+	v := m.nickname
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldNickName returns the old "nick_name" field's value of the User entity.
+// OldNickname returns the old "nickname" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldNickName(ctx context.Context) (v *string, err error) {
+func (m *UserMutation) OldNickname(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldNickName is only allowed on UpdateOne operations")
+		return v, errors.New("OldNickname is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldNickName requires an ID field in the mutation")
+		return v, errors.New("OldNickname requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldNickName: %w", err)
+		return v, fmt.Errorf("querying old value for OldNickname: %w", err)
 	}
-	return oldValue.NickName, nil
+	return oldValue.Nickname, nil
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (m *UserMutation) ClearNickName() {
-	m.nick_name = nil
-	m.clearedFields[user.FieldNickName] = struct{}{}
+// ClearNickname clears the value of the "nickname" field.
+func (m *UserMutation) ClearNickname() {
+	m.nickname = nil
+	m.clearedFields[user.FieldNickname] = struct{}{}
 }
 
-// NickNameCleared returns if the "nick_name" field was cleared in this mutation.
-func (m *UserMutation) NickNameCleared() bool {
-	_, ok := m.clearedFields[user.FieldNickName]
+// NicknameCleared returns if the "nickname" field was cleared in this mutation.
+func (m *UserMutation) NicknameCleared() bool {
+	_, ok := m.clearedFields[user.FieldNickname]
 	return ok
 }
 
-// ResetNickName resets all changes to the "nick_name" field.
-func (m *UserMutation) ResetNickName() {
-	m.nick_name = nil
-	delete(m.clearedFields, user.FieldNickName)
+// ResetNickname resets all changes to the "nickname" field.
+func (m *UserMutation) ResetNickname() {
+	m.nickname = nil
+	delete(m.clearedFields, user.FieldNickname)
+}
+
+// SetRoleName sets the "role_name" field.
+func (m *UserMutation) SetRoleName(s string) {
+	m.role_name = &s
+}
+
+// RoleName returns the value of the "role_name" field in the mutation.
+func (m *UserMutation) RoleName() (r string, exists bool) {
+	v := m.role_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRoleName returns the old "role_name" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldRoleName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRoleName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRoleName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRoleName: %w", err)
+	}
+	return oldValue.RoleName, nil
+}
+
+// ClearRoleName clears the value of the "role_name" field.
+func (m *UserMutation) ClearRoleName() {
+	m.role_name = nil
+	m.clearedFields[user.FieldRoleName] = struct{}{}
+}
+
+// RoleNameCleared returns if the "role_name" field was cleared in this mutation.
+func (m *UserMutation) RoleNameCleared() bool {
+	_, ok := m.clearedFields[user.FieldRoleName]
+	return ok
+}
+
+// ResetRoleName resets all changes to the "role_name" field.
+func (m *UserMutation) ResetRoleName() {
+	m.role_name = nil
+	delete(m.clearedFields, user.FieldRoleName)
 }
 
 // SetEmail sets the "email" field.
@@ -2778,7 +2828,7 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 15)
+	fields := make([]string, 0, 16)
 	if m.create_by != nil {
 		fields = append(fields, user.FieldCreateBy)
 	}
@@ -2803,8 +2853,11 @@ func (m *UserMutation) Fields() []string {
 	if m.password != nil {
 		fields = append(fields, user.FieldPassword)
 	}
-	if m.nick_name != nil {
-		fields = append(fields, user.FieldNickName)
+	if m.nickname != nil {
+		fields = append(fields, user.FieldNickname)
+	}
+	if m.role_name != nil {
+		fields = append(fields, user.FieldRoleName)
 	}
 	if m.email != nil {
 		fields = append(fields, user.FieldEmail)
@@ -2848,8 +2901,10 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.Username()
 	case user.FieldPassword:
 		return m.Password()
-	case user.FieldNickName:
-		return m.NickName()
+	case user.FieldNickname:
+		return m.Nickname()
+	case user.FieldRoleName:
+		return m.RoleName()
 	case user.FieldEmail:
 		return m.Email()
 	case user.FieldPhone:
@@ -2887,8 +2942,10 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldUsername(ctx)
 	case user.FieldPassword:
 		return m.OldPassword(ctx)
-	case user.FieldNickName:
-		return m.OldNickName(ctx)
+	case user.FieldNickname:
+		return m.OldNickname(ctx)
+	case user.FieldRoleName:
+		return m.OldRoleName(ctx)
 	case user.FieldEmail:
 		return m.OldEmail(ctx)
 	case user.FieldPhone:
@@ -2966,12 +3023,19 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPassword(v)
 		return nil
-	case user.FieldNickName:
+	case user.FieldNickname:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetNickName(v)
+		m.SetNickname(v)
+		return nil
+	case user.FieldRoleName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRoleName(v)
 		return nil
 	case user.FieldEmail:
 		v, ok := value.(string)
@@ -3108,8 +3172,11 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldPassword) {
 		fields = append(fields, user.FieldPassword)
 	}
-	if m.FieldCleared(user.FieldNickName) {
-		fields = append(fields, user.FieldNickName)
+	if m.FieldCleared(user.FieldNickname) {
+		fields = append(fields, user.FieldNickname)
+	}
+	if m.FieldCleared(user.FieldRoleName) {
+		fields = append(fields, user.FieldRoleName)
 	}
 	if m.FieldCleared(user.FieldEmail) {
 		fields = append(fields, user.FieldEmail)
@@ -3167,8 +3234,11 @@ func (m *UserMutation) ClearField(name string) error {
 	case user.FieldPassword:
 		m.ClearPassword()
 		return nil
-	case user.FieldNickName:
-		m.ClearNickName()
+	case user.FieldNickname:
+		m.ClearNickname()
+		return nil
+	case user.FieldRoleName:
+		m.ClearRoleName()
 		return nil
 	case user.FieldEmail:
 		m.ClearEmail()
@@ -3220,8 +3290,11 @@ func (m *UserMutation) ResetField(name string) error {
 	case user.FieldPassword:
 		m.ResetPassword()
 		return nil
-	case user.FieldNickName:
-		m.ResetNickName()
+	case user.FieldNickname:
+		m.ResetNickname()
+		return nil
+	case user.FieldRoleName:
+		m.ResetRoleName()
 		return nil
 	case user.FieldEmail:
 		m.ResetEmail()

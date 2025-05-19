@@ -31,7 +31,7 @@ func NewAuthService(uc *biz.UserUsecase, logger log.Logger) *AuthService {
 }
 
 func (s *AuthService) Login(ctx *gin.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
-	user, err := s.uc.GetUser(ctx, req.Username, true)
+	user, err := s.uc.GetUser(ctx, req.Username, false)
 	if err != nil {
 		return nil, errs.ErrUserNotFound.Wrap(err)
 	}

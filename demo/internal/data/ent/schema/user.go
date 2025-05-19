@@ -45,8 +45,14 @@ func (User) Fields() []ent.Field {
 			Nillable().
 			NotEmpty(),
 
-		field.String("nick_name").
+		field.String("nickname").
 			Comment("昵称").
+			MaxLen(255).
+			Optional().
+			Nillable(),
+
+		field.String("role_name").
+			Comment("角色").
 			MaxLen(255).
 			Optional().
 			Nillable(),

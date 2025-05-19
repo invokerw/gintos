@@ -132,20 +132,20 @@ func (uc *UserUsecase) convertToUsers(us []*ent.User, ignorePassword bool) []*co
 
 func (uc *UserUsecase) convertToUser(u *ent.User, ignorePassword bool) *common.User {
 	roleName := ""
-	if u.Edges.Role != nil {
-		roleName = u.Edges.Role.Name
+	if u.RoleName != nil {
+		roleName = *u.RoleName
 	}
 	pass := u.Password
 	if ignorePassword {
-		pass = nil
+		pass = trans.Ptr("********")
 	}
 	return &common.User{
 		Id:            trans.Uint64(u.ID),
-		RoleName:      &roleName,
+		RoleName:      u.RoleName,
 		CreateBy:      u.CreateBy,
 		UpdateBy:      u.UpdateBy,
 		Username:      u.Username,
-		Nickname:      u.NickName,
+		Nickname:      u.Nickname,
 		Password:      pass,
 		Avatar:        u.Avatar,
 		Email:         u.Email,

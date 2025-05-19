@@ -75,7 +75,8 @@ var (
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Comment: "用户名"},
 		{Name: "password", Type: field.TypeString, Nullable: true, Size: 255, Comment: "登录密码"},
-		{Name: "nick_name", Type: field.TypeString, Nullable: true, Size: 255, Comment: "昵称"},
+		{Name: "nickname", Type: field.TypeString, Nullable: true, Size: 255, Comment: "昵称"},
+		{Name: "role_name", Type: field.TypeString, Nullable: true, Size: 255, Comment: "角色"},
 		{Name: "email", Type: field.TypeString, Nullable: true, Size: 320, Comment: "电子邮箱"},
 		{Name: "phone", Type: field.TypeString, Nullable: true, Size: 255, Comment: "手机号码", Default: ""},
 		{Name: "avatar", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "头像"},
@@ -92,7 +93,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "users_roles_role",
-				Columns:    []*schema.Column{UsersColumns[16]},
+				Columns:    []*schema.Column{UsersColumns[17]},
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

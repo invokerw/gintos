@@ -132,16 +132,30 @@ func (uc *UserCreate) SetNillablePassword(s *string) *UserCreate {
 	return uc
 }
 
-// SetNickName sets the "nick_name" field.
-func (uc *UserCreate) SetNickName(s string) *UserCreate {
-	uc.mutation.SetNickName(s)
+// SetNickname sets the "nickname" field.
+func (uc *UserCreate) SetNickname(s string) *UserCreate {
+	uc.mutation.SetNickname(s)
 	return uc
 }
 
-// SetNillableNickName sets the "nick_name" field if the given value is not nil.
-func (uc *UserCreate) SetNillableNickName(s *string) *UserCreate {
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uc *UserCreate) SetNillableNickname(s *string) *UserCreate {
 	if s != nil {
-		uc.SetNickName(*s)
+		uc.SetNickname(*s)
+	}
+	return uc
+}
+
+// SetRoleName sets the "role_name" field.
+func (uc *UserCreate) SetRoleName(s string) *UserCreate {
+	uc.mutation.SetRoleName(s)
+	return uc
+}
+
+// SetNillableRoleName sets the "role_name" field if the given value is not nil.
+func (uc *UserCreate) SetNillableRoleName(s *string) *UserCreate {
+	if s != nil {
+		uc.SetRoleName(*s)
 	}
 	return uc
 }
@@ -325,9 +339,14 @@ func (uc *UserCreate) check() error {
 			return &ValidationError{Name: "password", err: fmt.Errorf(`ent: validator failed for field "User.password": %w`, err)}
 		}
 	}
-	if v, ok := uc.mutation.NickName(); ok {
-		if err := user.NickNameValidator(v); err != nil {
-			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
+	if v, ok := uc.mutation.Nickname(); ok {
+		if err := user.NicknameValidator(v); err != nil {
+			return &ValidationError{Name: "nickname", err: fmt.Errorf(`ent: validator failed for field "User.nickname": %w`, err)}
+		}
+	}
+	if v, ok := uc.mutation.RoleName(); ok {
+		if err := user.RoleNameValidator(v); err != nil {
+			return &ValidationError{Name: "role_name", err: fmt.Errorf(`ent: validator failed for field "User.role_name": %w`, err)}
 		}
 	}
 	if v, ok := uc.mutation.Email(); ok {
@@ -424,9 +443,13 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldPassword, field.TypeString, value)
 		_node.Password = &value
 	}
-	if value, ok := uc.mutation.NickName(); ok {
-		_spec.SetField(user.FieldNickName, field.TypeString, value)
-		_node.NickName = &value
+	if value, ok := uc.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
+		_node.Nickname = &value
+	}
+	if value, ok := uc.mutation.RoleName(); ok {
+		_spec.SetField(user.FieldRoleName, field.TypeString, value)
+		_node.RoleName = &value
 	}
 	if value, ok := uc.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)

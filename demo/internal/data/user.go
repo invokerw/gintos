@@ -9,6 +9,7 @@ import (
 	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"github/invokerw/gintos/demo/internal/data/ent/user"
 	"github/invokerw/gintos/demo/internal/errs"
+	"github/invokerw/gintos/demo/internal/pkg/trans"
 	"github/invokerw/gintos/log"
 	"time"
 )
@@ -75,18 +76,23 @@ func (r *userRepo) CreateUsers(ctx context.Context, ins []*common.User) (*ent.Us
 				return errs.DBErrUserExist
 			}
 			var roleId *uint64
-			roleName := in.GetRoleName()
-			if roleName != "" {
+			roleName := in.RoleName
+			if roleName == nil {
+				roleName = trans.Ptr("")
+			} else if *roleName != "" {
 				var roleData *ent.Role
-				roleData, err = tx.Role.Query().Where(role.Name(roleName)).Only(ctx)
+				roleData, err = tx.Role.Query().Where(role.Name(*roleName)).Only(ctx)
 				if err == nil {
 					roleId = &roleData.ID
+				} else {
+					*roleName = ""
 				}
 			}
 			uc := tx.User.Create().
 				SetUsername(*in.Username).
 				SetPassword(*in.Password).
-				SetNillableNickName(in.Nickname).
+				SetNillableNickname(in.Nickname).
+				SetNillableRoleName(roleName).
 				SetNillableCreateBy(in.CreateBy).
 				SetCreateTime(now).
 				SetUpdateTime(now).
@@ -118,23 +124,24 @@ func (r *userRepo) UpdateUsers(ctx context.Context, ins []*common.User) ([]*ent.
 		}
 	}
 
+	var err error
 	ret := make([]*ent.User, 0, len(ins))
-	err := WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
+	err = WithTx(ctx, r.data.db, func(tx *ent.Tx) error {
 		for _, in := range ins {
 			var roleId *uint64
-			roleName := in.GetRoleName()
-			if roleName != "" {
-				roleData, err := tx.Role.Query().Where(role.Name(roleName)).Only(ctx)
+			roleName := in.RoleName
+			if roleName != nil && *roleName != "" {
+				var roleData *ent.Role
+				roleData, err = tx.Role.Query().Where(role.Name(*roleName)).Only(ctx)
 				if err == nil {
 					roleId = &roleData.ID
+				} else {
+					*roleName = ""
 				}
 			}
-			u, err := tx.User.Query().Where(user.ID(in.GetId())).WithRole().Only(ctx)
-			if err != nil {
-				return errs.DBErrEntError.Wrap(err)
-			}
-			uc := u.Update().
-				SetNillableNickName(in.Nickname).
+			u, err := tx.User.UpdateOneID(in.GetId()).
+				SetNillableNickname(in.Nickname).
+				SetNillableRoleName(roleName).
 				SetNillableCreateBy(in.CreateBy).
 				SetNillableRemark(in.Remark).
 				SetNillableStatus(r.convertToStatus(in.Status)).
@@ -145,8 +152,8 @@ func (r *userRepo) UpdateUsers(ctx context.Context, ins []*common.User) ([]*ent.
 				SetNillableAuthority(r.convertToAuthority(in.Authority)).
 				SetNillableRoleID(roleId).
 				SetNillableLastLoginTime(in.LastLoginTime).
-				SetUpdateTime(time.Now())
-			u, err = uc.Save(ctx)
+				SetUpdateTime(time.Now()).
+				Save(ctx)
 			if err != nil {
 				return errs.DBErrEntError.Wrap(err)
 			}

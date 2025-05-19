@@ -1,13 +1,10 @@
 package router
 
 import (
-	_ "embed"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggest/swgui/v5emb"
+	"github/invokerw/gintos/demo/assets"
 )
-
-//go:embed openapi.yaml
-var OpenApiData []byte
 
 func registerSwaggerOpenApi(r gin.IRoutes) {
 	// 将 YAML 转换为 JSON
@@ -17,7 +14,7 @@ func registerSwaggerOpenApi(r gin.IRoutes) {
 
 	r.GET("/docs/*any", func(c *gin.Context) {
 		if c.Request.URL.Path == "/docs/openapi.yaml" {
-			c.String(200, string(OpenApiData))
+			c.String(200, string(assets.OpenApiData))
 			return
 		}
 		h := gin.WrapH(v5emb.New(

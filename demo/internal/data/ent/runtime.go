@@ -115,22 +115,26 @@ func init() {
 			return nil
 		}
 	}()
-	// userDescNickName is the schema descriptor for nick_name field.
-	userDescNickName := userFields[2].Descriptor()
-	// user.NickNameValidator is a validator for the "nick_name" field. It is called by the builders before save.
-	user.NickNameValidator = userDescNickName.Validators[0].(func(string) error)
+	// userDescNickname is the schema descriptor for nickname field.
+	userDescNickname := userFields[2].Descriptor()
+	// user.NicknameValidator is a validator for the "nickname" field. It is called by the builders before save.
+	user.NicknameValidator = userDescNickname.Validators[0].(func(string) error)
+	// userDescRoleName is the schema descriptor for role_name field.
+	userDescRoleName := userFields[3].Descriptor()
+	// user.RoleNameValidator is a validator for the "role_name" field. It is called by the builders before save.
+	user.RoleNameValidator = userDescRoleName.Validators[0].(func(string) error)
 	// userDescEmail is the schema descriptor for email field.
-	userDescEmail := userFields[3].Descriptor()
+	userDescEmail := userFields[4].Descriptor()
 	// user.EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	user.EmailValidator = userDescEmail.Validators[0].(func(string) error)
 	// userDescPhone is the schema descriptor for phone field.
-	userDescPhone := userFields[4].Descriptor()
+	userDescPhone := userFields[5].Descriptor()
 	// user.DefaultPhone holds the default value on creation for the phone field.
 	user.DefaultPhone = userDescPhone.Default.(string)
 	// user.PhoneValidator is a validator for the "phone" field. It is called by the builders before save.
 	user.PhoneValidator = userDescPhone.Validators[0].(func(string) error)
 	// userDescAvatar is the schema descriptor for avatar field.
-	userDescAvatar := userFields[5].Descriptor()
+	userDescAvatar := userFields[6].Descriptor()
 	// user.AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.
 	user.AvatarValidator = userDescAvatar.Validators[0].(func(string) error)
 	// userDescID is the schema descriptor for id field.

@@ -30,8 +30,10 @@ const (
 	FieldUsername = "username"
 	// FieldPassword holds the string denoting the password field in the database.
 	FieldPassword = "password"
-	// FieldNickName holds the string denoting the nick_name field in the database.
-	FieldNickName = "nick_name"
+	// FieldNickname holds the string denoting the nickname field in the database.
+	FieldNickname = "nickname"
+	// FieldRoleName holds the string denoting the role_name field in the database.
+	FieldRoleName = "role_name"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
 	// FieldPhone holds the string denoting the phone field in the database.
@@ -68,7 +70,8 @@ var Columns = []string{
 	FieldStatus,
 	FieldUsername,
 	FieldPassword,
-	FieldNickName,
+	FieldNickname,
+	FieldRoleName,
 	FieldEmail,
 	FieldPhone,
 	FieldAvatar,
@@ -105,8 +108,10 @@ var (
 	UsernameValidator func(string) error
 	// PasswordValidator is a validator for the "password" field. It is called by the builders before save.
 	PasswordValidator func(string) error
-	// NickNameValidator is a validator for the "nick_name" field. It is called by the builders before save.
-	NickNameValidator func(string) error
+	// NicknameValidator is a validator for the "nickname" field. It is called by the builders before save.
+	NicknameValidator func(string) error
+	// RoleNameValidator is a validator for the "role_name" field. It is called by the builders before save.
+	RoleNameValidator func(string) error
 	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	EmailValidator func(string) error
 	// DefaultPhone holds the default value on creation for the "phone" field.
@@ -246,9 +251,14 @@ func ByPassword(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPassword, opts...).ToFunc()
 }
 
-// ByNickName orders the results by the nick_name field.
-func ByNickName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldNickName, opts...).ToFunc()
+// ByNickname orders the results by the nickname field.
+func ByNickname(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldNickname, opts...).ToFunc()
+}
+
+// ByRoleName orders the results by the role_name field.
+func ByRoleName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRoleName, opts...).ToFunc()
 }
 
 // ByEmail orders the results by the email field.

@@ -163,23 +163,43 @@ func (uu *UserUpdate) ClearPassword() *UserUpdate {
 	return uu
 }
 
-// SetNickName sets the "nick_name" field.
-func (uu *UserUpdate) SetNickName(s string) *UserUpdate {
-	uu.mutation.SetNickName(s)
+// SetNickname sets the "nickname" field.
+func (uu *UserUpdate) SetNickname(s string) *UserUpdate {
+	uu.mutation.SetNickname(s)
 	return uu
 }
 
-// SetNillableNickName sets the "nick_name" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableNickName(s *string) *UserUpdate {
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableNickname(s *string) *UserUpdate {
 	if s != nil {
-		uu.SetNickName(*s)
+		uu.SetNickname(*s)
 	}
 	return uu
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (uu *UserUpdate) ClearNickName() *UserUpdate {
-	uu.mutation.ClearNickName()
+// ClearNickname clears the value of the "nickname" field.
+func (uu *UserUpdate) ClearNickname() *UserUpdate {
+	uu.mutation.ClearNickname()
+	return uu
+}
+
+// SetRoleName sets the "role_name" field.
+func (uu *UserUpdate) SetRoleName(s string) *UserUpdate {
+	uu.mutation.SetRoleName(s)
+	return uu
+}
+
+// SetNillableRoleName sets the "role_name" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableRoleName(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetRoleName(*s)
+	}
+	return uu
+}
+
+// ClearRoleName clears the value of the "role_name" field.
+func (uu *UserUpdate) ClearRoleName() *UserUpdate {
+	uu.mutation.ClearRoleName()
 	return uu
 }
 
@@ -379,9 +399,14 @@ func (uu *UserUpdate) check() error {
 			return &ValidationError{Name: "password", err: fmt.Errorf(`ent: validator failed for field "User.password": %w`, err)}
 		}
 	}
-	if v, ok := uu.mutation.NickName(); ok {
-		if err := user.NickNameValidator(v); err != nil {
-			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
+	if v, ok := uu.mutation.Nickname(); ok {
+		if err := user.NicknameValidator(v); err != nil {
+			return &ValidationError{Name: "nickname", err: fmt.Errorf(`ent: validator failed for field "User.nickname": %w`, err)}
+		}
+	}
+	if v, ok := uu.mutation.RoleName(); ok {
+		if err := user.RoleNameValidator(v); err != nil {
+			return &ValidationError{Name: "role_name", err: fmt.Errorf(`ent: validator failed for field "User.role_name": %w`, err)}
 		}
 	}
 	if v, ok := uu.mutation.Email(); ok {
@@ -472,11 +497,17 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.PasswordCleared() {
 		_spec.ClearField(user.FieldPassword, field.TypeString)
 	}
-	if value, ok := uu.mutation.NickName(); ok {
-		_spec.SetField(user.FieldNickName, field.TypeString, value)
+	if value, ok := uu.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
 	}
-	if uu.mutation.NickNameCleared() {
-		_spec.ClearField(user.FieldNickName, field.TypeString)
+	if uu.mutation.NicknameCleared() {
+		_spec.ClearField(user.FieldNickname, field.TypeString)
+	}
+	if value, ok := uu.mutation.RoleName(); ok {
+		_spec.SetField(user.FieldRoleName, field.TypeString, value)
+	}
+	if uu.mutation.RoleNameCleared() {
+		_spec.ClearField(user.FieldRoleName, field.TypeString)
 	}
 	if value, ok := uu.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
@@ -700,23 +731,43 @@ func (uuo *UserUpdateOne) ClearPassword() *UserUpdateOne {
 	return uuo
 }
 
-// SetNickName sets the "nick_name" field.
-func (uuo *UserUpdateOne) SetNickName(s string) *UserUpdateOne {
-	uuo.mutation.SetNickName(s)
+// SetNickname sets the "nickname" field.
+func (uuo *UserUpdateOne) SetNickname(s string) *UserUpdateOne {
+	uuo.mutation.SetNickname(s)
 	return uuo
 }
 
-// SetNillableNickName sets the "nick_name" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableNickName(s *string) *UserUpdateOne {
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableNickname(s *string) *UserUpdateOne {
 	if s != nil {
-		uuo.SetNickName(*s)
+		uuo.SetNickname(*s)
 	}
 	return uuo
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (uuo *UserUpdateOne) ClearNickName() *UserUpdateOne {
-	uuo.mutation.ClearNickName()
+// ClearNickname clears the value of the "nickname" field.
+func (uuo *UserUpdateOne) ClearNickname() *UserUpdateOne {
+	uuo.mutation.ClearNickname()
+	return uuo
+}
+
+// SetRoleName sets the "role_name" field.
+func (uuo *UserUpdateOne) SetRoleName(s string) *UserUpdateOne {
+	uuo.mutation.SetRoleName(s)
+	return uuo
+}
+
+// SetNillableRoleName sets the "role_name" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableRoleName(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetRoleName(*s)
+	}
+	return uuo
+}
+
+// ClearRoleName clears the value of the "role_name" field.
+func (uuo *UserUpdateOne) ClearRoleName() *UserUpdateOne {
+	uuo.mutation.ClearRoleName()
 	return uuo
 }
 
@@ -929,9 +980,14 @@ func (uuo *UserUpdateOne) check() error {
 			return &ValidationError{Name: "password", err: fmt.Errorf(`ent: validator failed for field "User.password": %w`, err)}
 		}
 	}
-	if v, ok := uuo.mutation.NickName(); ok {
-		if err := user.NickNameValidator(v); err != nil {
-			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
+	if v, ok := uuo.mutation.Nickname(); ok {
+		if err := user.NicknameValidator(v); err != nil {
+			return &ValidationError{Name: "nickname", err: fmt.Errorf(`ent: validator failed for field "User.nickname": %w`, err)}
+		}
+	}
+	if v, ok := uuo.mutation.RoleName(); ok {
+		if err := user.RoleNameValidator(v); err != nil {
+			return &ValidationError{Name: "role_name", err: fmt.Errorf(`ent: validator failed for field "User.role_name": %w`, err)}
 		}
 	}
 	if v, ok := uuo.mutation.Email(); ok {
@@ -1039,11 +1095,17 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.PasswordCleared() {
 		_spec.ClearField(user.FieldPassword, field.TypeString)
 	}
-	if value, ok := uuo.mutation.NickName(); ok {
-		_spec.SetField(user.FieldNickName, field.TypeString, value)
+	if value, ok := uuo.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
 	}
-	if uuo.mutation.NickNameCleared() {
-		_spec.ClearField(user.FieldNickName, field.TypeString)
+	if uuo.mutation.NicknameCleared() {
+		_spec.ClearField(user.FieldNickname, field.TypeString)
+	}
+	if value, ok := uuo.mutation.RoleName(); ok {
+		_spec.SetField(user.FieldRoleName, field.TypeString, value)
+	}
+	if uuo.mutation.RoleNameCleared() {
+		_spec.ClearField(user.FieldRoleName, field.TypeString)
 	}
 	if value, ok := uuo.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
