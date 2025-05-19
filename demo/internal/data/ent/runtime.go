@@ -46,6 +46,8 @@ func init() {
 	roleMixin := schema.Role{}.Mixin()
 	roleMixinFields0 := roleMixin[0].Fields()
 	_ = roleMixinFields0
+	roleMixinFields2 := roleMixin[2].Fields()
+	_ = roleMixinFields2
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
 	// roleDescName is the schema descriptor for name field.

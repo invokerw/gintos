@@ -32,6 +32,12 @@ enum UserStatus {
   ON = 1;
 }
 
+enum RoleStatus {
+  R_OFF = 0;  // 禁用
+  R_ON = 1;   // 启用
+}
+
+
 // 用户
 message User {
   optional uint64 id = 1 [
@@ -106,6 +112,11 @@ message Role {
   optional string desc = 3 [ (openapi.v3.property) = {description: "角色描述"}];
   optional uint64 parent_id = 4 [ (openapi.v3.property) = {description: "父角色ID"}];
   optional int32 sort_id = 5 [ (openapi.v3.property) = {description: "排序ID"}];
+  optional RoleStatus status = 32 [(openapi.v3.property) = {
+    description: "角色状态"
+    default: {string: "ON"}
+    enum: [{yaml: "ON"}, {yaml: "OFF"}]
+  }]; // 用户状态
 
   optional int64 create_time = 200 [ (openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional int64 update_time = 201 [ (openapi.v3.property) = {description: "更新时间"}];// 更新时间

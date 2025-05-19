@@ -243,6 +243,9 @@ message GetRoleListRequest {
 	optional string name = 2 [
 		(openapi.v3.property) = {description: "角色名"}
 	]; // 登录名
+	optional common.v1.RoleStatus status = 3 [
+		(openapi.v3.property) = {description: "状态"}
+	]; // 状态
 }
 
 message GetRoleListResponse {

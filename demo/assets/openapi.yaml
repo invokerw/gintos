@@ -423,6 +423,14 @@ components:
                     type: integer
                     description: 排序ID
                     format: int32
+                status:
+                    enum:
+                        - ON
+                        - OFF
+                    type: integer
+                    default: ON
+                    description: 角色状态
+                    format: enum
                 create_time:
                     type: string
                     description: 创建时间
@@ -540,6 +548,10 @@ components:
                 name:
                     type: string
                     description: 角色名
+                status:
+                    type: integer
+                    description: 状态
+                    format: enum
         api.v1.admin.GetRoleListResponse:
             type: object
             properties:

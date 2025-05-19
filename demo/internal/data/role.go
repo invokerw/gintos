@@ -25,6 +25,17 @@ func NewRoleRepo(data *Data, logger log.Logger) biz.RoleRepo {
 	}
 }
 
+func (r *roleRepo) convertToStatus(status *common.RoleStatus) *role.Status {
+	if status == nil {
+		return nil
+	}
+	ret := role.Status(status.String())
+	if err := role.StatusValidator(ret); err != nil {
+		return nil
+	}
+	return &ret
+}
+
 func (r *roleRepo) CreateRole(ctx context.Context, in *common.Role) (*ent.Role, error) {
 	if in == nil || in.Name == nil {
 		return nil, errs.DBErrInvalidParam
@@ -42,6 +53,7 @@ func (r *roleRepo) CreateRole(ctx context.Context, in *common.Role) (*ent.Role, 
 			SetNillableDesc(in.Desc).
 			SetNillableParentID(in.ParentId).
 			SetNillableSortID(in.SortId).
+			SetNillableStatus(r.convertToStatus(in.Status)).
 			SetCreateTime(now).
 			SetUpdateTime(now)
 
@@ -74,6 +86,7 @@ func (r *roleRepo) UpdateRoles(ctx context.Context, roles []*common.Role) ([]*en
 				SetNillableDesc(in.Desc).
 				SetNillableParentID(in.ParentId).
 				SetNillableSortID(in.SortId).
+				SetNillableStatus(r.convertToStatus(in.Status)).
 				SetUpdateTime(time.Now())
 			u, err = uc.Save(ctx)
 			if err != nil {

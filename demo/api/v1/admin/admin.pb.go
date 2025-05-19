@@ -465,8 +465,9 @@ func (x *DeleteUsersRequest) GetNames() []string {
 
 type GetRoleListRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Page          *common.PageInfo       `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`       // 分页信息
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"` // 登录名
+	Page          *common.PageInfo       `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`                                          // 分页信息
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                    // 登录名
+	Status        *common.RoleStatus     `protobuf:"varint,3,opt,name=status,proto3,enum=api.common.v1.RoleStatus,oneof" json:"status,omitempty"` // 状态
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -513,6 +514,13 @@ func (x *GetRoleListRequest) GetName() string {
 		return *x.Name
 	}
 	return ""
+}
+
+func (x *GetRoleListRequest) GetStatus() common.RoleStatus {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return common.RoleStatus(0)
 }
 
 type GetRoleListResponse struct {
@@ -916,11 +924,13 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\x13UpdateUsersResponse\x12)\n" +
 	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users\";\n" +
 	"\x12DeleteUsersRequest\x12%\n" +
-	"\x05names\x18\x01 \x03(\tB\x0f\xbaG\f\x92\x02\t用户名R\x05names\"\x88\x01\n" +
+	"\x05names\x18\x01 \x03(\tB\x0f\xbaG\f\x92\x02\t用户名R\x05names\"\xd9\x01\n" +
 	"\x12GetRoleListRequest\x12?\n" +
 	"\x04page\x18\x01 \x01(\v2\x17.api.common.v1.PageInfoB\x12\xbaG\x0f\x92\x02\f分页信息R\x04page\x12(\n" +
-	"\x04name\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t角色名H\x00R\x04name\x88\x01\x01B\a\n" +
-	"\x05_name\"@\n" +
+	"\x04name\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t角色名H\x00R\x04name\x88\x01\x01\x12D\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x19.api.common.v1.RoleStatusB\f\xbaG\t\x92\x02\x06状态H\x01R\x06status\x88\x01\x01B\a\n" +
+	"\x05_nameB\t\n" +
+	"\a_status\"@\n" +
 	"\x13GetRoleListResponse\x12)\n" +
 	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleR\x05roles\"S\n" +
 	"\x12UpdateRolesRequest\x12=\n" +
@@ -996,11 +1006,12 @@ var file_v1_admin_admin_proto_goTypes = []any{
 	(*common.User)(nil),              // 19: api.common.v1.User
 	(*common.PageInfo)(nil),          // 20: api.common.v1.PageInfo
 	(common.UserStatus)(0),           // 21: api.common.v1.UserStatus
-	(*common.Role)(nil),              // 22: api.common.v1.Role
-	(*common.ApiInfo)(nil),           // 23: api.common.v1.ApiInfo
-	(*common.ApiTypeInfo)(nil),       // 24: api.common.v1.ApiTypeInfo
-	(*emptypb.Empty)(nil),            // 25: google.protobuf.Empty
-	(*common.IntValue)(nil),          // 26: api.common.v1.IntValue
+	(common.RoleStatus)(0),           // 22: api.common.v1.RoleStatus
+	(*common.Role)(nil),              // 23: api.common.v1.Role
+	(*common.ApiInfo)(nil),           // 24: api.common.v1.ApiInfo
+	(*common.ApiTypeInfo)(nil),       // 25: api.common.v1.ApiTypeInfo
+	(*emptypb.Empty)(nil),            // 26: google.protobuf.Empty
+	(*common.IntValue)(nil),          // 27: api.common.v1.IntValue
 }
 var file_v1_admin_admin_proto_depIdxs = []int32{
 	19, // 0: api.v1.admin.UpdateUserAvatarResponse.user:type_name -> api.common.v1.User
@@ -1012,43 +1023,44 @@ var file_v1_admin_admin_proto_depIdxs = []int32{
 	19, // 6: api.v1.admin.UpdateUsersRequest.users:type_name -> api.common.v1.User
 	19, // 7: api.v1.admin.UpdateUsersResponse.users:type_name -> api.common.v1.User
 	20, // 8: api.v1.admin.GetRoleListRequest.page:type_name -> api.common.v1.PageInfo
-	22, // 9: api.v1.admin.GetRoleListResponse.roles:type_name -> api.common.v1.Role
-	22, // 10: api.v1.admin.UpdateRolesRequest.roles:type_name -> api.common.v1.Role
-	22, // 11: api.v1.admin.UpdateRolesResponse.roles:type_name -> api.common.v1.Role
-	18, // 12: api.v1.admin.GetApiInfoListResponse.api_type_map:type_name -> api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry
-	23, // 13: api.v1.admin.RoleGetPolicyResponse.api_info:type_name -> api.common.v1.ApiInfo
-	24, // 14: api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry.value:type_name -> api.common.v1.ApiTypeInfo
-	3,  // 15: api.v1.admin.Admin.CreateUser:input_type -> api.v1.admin.CreateUserRequest
-	2,  // 16: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
-	6,  // 17: api.v1.admin.Admin.UpdateUsers:input_type -> api.v1.admin.UpdateUsersRequest
-	8,  // 18: api.v1.admin.Admin.DeleteUsers:input_type -> api.v1.admin.DeleteUsersRequest
-	25, // 19: api.v1.admin.Admin.GetUserCount:input_type -> google.protobuf.Empty
-	9,  // 20: api.v1.admin.Admin.GetRoleList:input_type -> api.v1.admin.GetRoleListRequest
-	11, // 21: api.v1.admin.Admin.UpdateRoles:input_type -> api.v1.admin.UpdateRolesRequest
-	13, // 22: api.v1.admin.Admin.DeleteRoles:input_type -> api.v1.admin.DeleteRolesRequest
-	25, // 23: api.v1.admin.Admin.GetRoleCount:input_type -> google.protobuf.Empty
-	25, // 24: api.v1.admin.Admin.GetApiInfoList:input_type -> google.protobuf.Empty
-	15, // 25: api.v1.admin.Admin.RoleGetPolicy:input_type -> api.v1.admin.RoleGetPolicyRequest
-	17, // 26: api.v1.admin.Admin.RoleUpdatePolicy:input_type -> api.v1.admin.RoleUpdatePolicyRequest
-	0,  // 27: api.v1.admin.Admin.UpdateUserAvatar:input_type -> api.v1.admin.UpdateUserAvatarRequest
-	4,  // 28: api.v1.admin.Admin.CreateUser:output_type -> api.v1.admin.CreateUserResponse
-	5,  // 29: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
-	7,  // 30: api.v1.admin.Admin.UpdateUsers:output_type -> api.v1.admin.UpdateUsersResponse
-	25, // 31: api.v1.admin.Admin.DeleteUsers:output_type -> google.protobuf.Empty
-	26, // 32: api.v1.admin.Admin.GetUserCount:output_type -> api.common.v1.IntValue
-	10, // 33: api.v1.admin.Admin.GetRoleList:output_type -> api.v1.admin.GetRoleListResponse
-	12, // 34: api.v1.admin.Admin.UpdateRoles:output_type -> api.v1.admin.UpdateRolesResponse
-	25, // 35: api.v1.admin.Admin.DeleteRoles:output_type -> google.protobuf.Empty
-	26, // 36: api.v1.admin.Admin.GetRoleCount:output_type -> api.common.v1.IntValue
-	14, // 37: api.v1.admin.Admin.GetApiInfoList:output_type -> api.v1.admin.GetApiInfoListResponse
-	16, // 38: api.v1.admin.Admin.RoleGetPolicy:output_type -> api.v1.admin.RoleGetPolicyResponse
-	25, // 39: api.v1.admin.Admin.RoleUpdatePolicy:output_type -> google.protobuf.Empty
-	1,  // 40: api.v1.admin.Admin.UpdateUserAvatar:output_type -> api.v1.admin.UpdateUserAvatarResponse
-	28, // [28:41] is the sub-list for method output_type
-	15, // [15:28] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	22, // 9: api.v1.admin.GetRoleListRequest.status:type_name -> api.common.v1.RoleStatus
+	23, // 10: api.v1.admin.GetRoleListResponse.roles:type_name -> api.common.v1.Role
+	23, // 11: api.v1.admin.UpdateRolesRequest.roles:type_name -> api.common.v1.Role
+	23, // 12: api.v1.admin.UpdateRolesResponse.roles:type_name -> api.common.v1.Role
+	18, // 13: api.v1.admin.GetApiInfoListResponse.api_type_map:type_name -> api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry
+	24, // 14: api.v1.admin.RoleGetPolicyResponse.api_info:type_name -> api.common.v1.ApiInfo
+	25, // 15: api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry.value:type_name -> api.common.v1.ApiTypeInfo
+	3,  // 16: api.v1.admin.Admin.CreateUser:input_type -> api.v1.admin.CreateUserRequest
+	2,  // 17: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
+	6,  // 18: api.v1.admin.Admin.UpdateUsers:input_type -> api.v1.admin.UpdateUsersRequest
+	8,  // 19: api.v1.admin.Admin.DeleteUsers:input_type -> api.v1.admin.DeleteUsersRequest
+	26, // 20: api.v1.admin.Admin.GetUserCount:input_type -> google.protobuf.Empty
+	9,  // 21: api.v1.admin.Admin.GetRoleList:input_type -> api.v1.admin.GetRoleListRequest
+	11, // 22: api.v1.admin.Admin.UpdateRoles:input_type -> api.v1.admin.UpdateRolesRequest
+	13, // 23: api.v1.admin.Admin.DeleteRoles:input_type -> api.v1.admin.DeleteRolesRequest
+	26, // 24: api.v1.admin.Admin.GetRoleCount:input_type -> google.protobuf.Empty
+	26, // 25: api.v1.admin.Admin.GetApiInfoList:input_type -> google.protobuf.Empty
+	15, // 26: api.v1.admin.Admin.RoleGetPolicy:input_type -> api.v1.admin.RoleGetPolicyRequest
+	17, // 27: api.v1.admin.Admin.RoleUpdatePolicy:input_type -> api.v1.admin.RoleUpdatePolicyRequest
+	0,  // 28: api.v1.admin.Admin.UpdateUserAvatar:input_type -> api.v1.admin.UpdateUserAvatarRequest
+	4,  // 29: api.v1.admin.Admin.CreateUser:output_type -> api.v1.admin.CreateUserResponse
+	5,  // 30: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
+	7,  // 31: api.v1.admin.Admin.UpdateUsers:output_type -> api.v1.admin.UpdateUsersResponse
+	26, // 32: api.v1.admin.Admin.DeleteUsers:output_type -> google.protobuf.Empty
+	27, // 33: api.v1.admin.Admin.GetUserCount:output_type -> api.common.v1.IntValue
+	10, // 34: api.v1.admin.Admin.GetRoleList:output_type -> api.v1.admin.GetRoleListResponse
+	12, // 35: api.v1.admin.Admin.UpdateRoles:output_type -> api.v1.admin.UpdateRolesResponse
+	26, // 36: api.v1.admin.Admin.DeleteRoles:output_type -> google.protobuf.Empty
+	27, // 37: api.v1.admin.Admin.GetRoleCount:output_type -> api.common.v1.IntValue
+	14, // 38: api.v1.admin.Admin.GetApiInfoList:output_type -> api.v1.admin.GetApiInfoListResponse
+	16, // 39: api.v1.admin.Admin.RoleGetPolicy:output_type -> api.v1.admin.RoleGetPolicyResponse
+	26, // 40: api.v1.admin.Admin.RoleUpdatePolicy:output_type -> google.protobuf.Empty
+	1,  // 41: api.v1.admin.Admin.UpdateUserAvatar:output_type -> api.v1.admin.UpdateUserAvatarResponse
+	29, // [29:42] is the sub-list for method output_type
+	16, // [16:29] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_v1_admin_admin_proto_init() }

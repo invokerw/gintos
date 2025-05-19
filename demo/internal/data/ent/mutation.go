@@ -689,6 +689,7 @@ type RoleMutation struct {
 	id              *uint64
 	create_time     *time.Time
 	update_time     *time.Time
+	status          *role.Status
 	create_by       *uint64
 	addcreate_by    *int64
 	update_by       *uint64
@@ -908,6 +909,55 @@ func (m *RoleMutation) UpdateTimeCleared() bool {
 func (m *RoleMutation) ResetUpdateTime() {
 	m.update_time = nil
 	delete(m.clearedFields, role.FieldUpdateTime)
+}
+
+// SetStatus sets the "status" field.
+func (m *RoleMutation) SetStatus(r role.Status) {
+	m.status = &r
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *RoleMutation) Status() (r role.Status, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the Role entity.
+// If the Role object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RoleMutation) OldStatus(ctx context.Context) (v *role.Status, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ClearStatus clears the value of the "status" field.
+func (m *RoleMutation) ClearStatus() {
+	m.status = nil
+	m.clearedFields[role.FieldStatus] = struct{}{}
+}
+
+// StatusCleared returns if the "status" field was cleared in this mutation.
+func (m *RoleMutation) StatusCleared() bool {
+	_, ok := m.clearedFields[role.FieldStatus]
+	return ok
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *RoleMutation) ResetStatus() {
+	m.status = nil
+	delete(m.clearedFields, role.FieldStatus)
 }
 
 // SetCreateBy sets the "create_by" field.
@@ -1369,12 +1419,15 @@ func (m *RoleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *RoleMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.create_time != nil {
 		fields = append(fields, role.FieldCreateTime)
 	}
 	if m.update_time != nil {
 		fields = append(fields, role.FieldUpdateTime)
+	}
+	if m.status != nil {
+		fields = append(fields, role.FieldStatus)
 	}
 	if m.create_by != nil {
 		fields = append(fields, role.FieldCreateBy)
@@ -1406,6 +1459,8 @@ func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 		return m.CreateTime()
 	case role.FieldUpdateTime:
 		return m.UpdateTime()
+	case role.FieldStatus:
+		return m.Status()
 	case role.FieldCreateBy:
 		return m.CreateBy()
 	case role.FieldUpdateBy:
@@ -1431,6 +1486,8 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldCreateTime(ctx)
 	case role.FieldUpdateTime:
 		return m.OldUpdateTime(ctx)
+	case role.FieldStatus:
+		return m.OldStatus(ctx)
 	case role.FieldCreateBy:
 		return m.OldCreateBy(ctx)
 	case role.FieldUpdateBy:
@@ -1465,6 +1522,13 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUpdateTime(v)
+		return nil
+	case role.FieldStatus:
+		v, ok := value.(role.Status)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
 		return nil
 	case role.FieldCreateBy:
 		v, ok := value.(uint64)
@@ -1583,6 +1647,9 @@ func (m *RoleMutation) ClearedFields() []string {
 	if m.FieldCleared(role.FieldUpdateTime) {
 		fields = append(fields, role.FieldUpdateTime)
 	}
+	if m.FieldCleared(role.FieldStatus) {
+		fields = append(fields, role.FieldStatus)
+	}
 	if m.FieldCleared(role.FieldCreateBy) {
 		fields = append(fields, role.FieldCreateBy)
 	}
@@ -1618,6 +1685,9 @@ func (m *RoleMutation) ClearField(name string) error {
 	case role.FieldUpdateTime:
 		m.ClearUpdateTime()
 		return nil
+	case role.FieldStatus:
+		m.ClearStatus()
+		return nil
 	case role.FieldCreateBy:
 		m.ClearCreateBy()
 		return nil
@@ -1646,6 +1716,9 @@ func (m *RoleMutation) ResetField(name string) error {
 		return nil
 	case role.FieldUpdateTime:
 		m.ResetUpdateTime()
+		return nil
+	case role.FieldStatus:
+		m.ResetStatus()
 		return nil
 	case role.FieldCreateBy:
 		m.ResetCreateBy()

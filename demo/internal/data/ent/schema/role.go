@@ -62,6 +62,7 @@ func (Role) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
 		mixin.Time{},
+		mixin.SwitchStatus{},
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
 	}

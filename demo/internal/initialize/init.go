@@ -116,9 +116,11 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l lo
 				Err: err,
 			}
 		}
-		if err := createUser(roleName, name, pass, common.UserAuthority_CUSTOMER_USER); err != nil {
-			return &InitRet{
-				Err: err,
+		for i := 0; i < 50; i++ {
+			if err := createUser(roleName, fmt.Sprintf("%s_%d", name, i), pass, common.UserAuthority_CUSTOMER_USER); err != nil {
+				return &InitRet{
+					Err: err,
+				}
 			}
 		}
 	}

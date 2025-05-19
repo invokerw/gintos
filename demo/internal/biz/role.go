@@ -5,6 +5,7 @@ import (
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
 	"github/invokerw/gintos/demo/internal/data/ent"
+	"github/invokerw/gintos/demo/internal/data/ent/role"
 	"github/invokerw/gintos/demo/internal/pkg/trans"
 	"github/invokerw/gintos/log"
 
@@ -87,6 +88,18 @@ func (uc *RoleUsecase) convertToRoles(u []*ent.Role) []*common.Role {
 	}
 	return ret
 }
+
+func (uc *RoleUsecase) convertToStatus(s *role.Status) *common.RoleStatus {
+	if s == nil {
+		return nil
+	}
+	find, ok := common.RoleStatus_value[s.String()]
+	if !ok {
+		return nil
+	}
+	return trans.Ptr(common.RoleStatus(find))
+}
+
 func (uc *RoleUsecase) convertToRole(u *ent.Role) *common.Role {
 	return &common.Role{
 		Id:         trans.Uint64(u.ID),
@@ -94,6 +107,7 @@ func (uc *RoleUsecase) convertToRole(u *ent.Role) *common.Role {
 		Desc:       u.Desc,
 		ParentId:   u.ParentID,
 		SortId:     u.SortID,
+		Status:     uc.convertToStatus(u.Status),
 		CreateTime: trans.Ptr(u.CreateTime.Unix()),
 		UpdateTime: trans.Ptr(u.UpdateTime.Unix()),
 	}

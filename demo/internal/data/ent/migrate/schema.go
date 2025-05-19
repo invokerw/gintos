@@ -31,6 +31,7 @@ var (
 		{Name: "id", Type: field.TypeUint64, Increment: true, Comment: "id"},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint64, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint64, Nullable: true, Comment: "更新者ID"},
 		{Name: "name", Type: field.TypeString, Unique: true, Size: 128, Comment: "角色名称"},
@@ -46,7 +47,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "roles_roles_children",
-				Columns:    []*schema.Column{RolesColumns[8]},
+				Columns:    []*schema.Column{RolesColumns[9]},
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -60,7 +61,7 @@ var (
 			{
 				Name:    "role_id_name",
 				Unique:  false,
-				Columns: []*schema.Column{RolesColumns[0], RolesColumns[5]},
+				Columns: []*schema.Column{RolesColumns[0], RolesColumns[6]},
 			},
 		},
 	}

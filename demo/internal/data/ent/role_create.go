@@ -48,6 +48,20 @@ func (rc *RoleCreate) SetNillableUpdateTime(t *time.Time) *RoleCreate {
 	return rc
 }
 
+// SetStatus sets the "status" field.
+func (rc *RoleCreate) SetStatus(r role.Status) *RoleCreate {
+	rc.mutation.SetStatus(r)
+	return rc
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (rc *RoleCreate) SetNillableStatus(r *role.Status) *RoleCreate {
+	if r != nil {
+		rc.SetStatus(*r)
+	}
+	return rc
+}
+
 // SetCreateBy sets the "create_by" field.
 func (rc *RoleCreate) SetCreateBy(u uint64) *RoleCreate {
 	rc.mutation.SetCreateBy(u)
@@ -185,6 +199,10 @@ func (rc *RoleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (rc *RoleCreate) defaults() {
+	if _, ok := rc.mutation.Status(); !ok {
+		v := role.DefaultStatus
+		rc.mutation.SetStatus(v)
+	}
 	if _, ok := rc.mutation.Desc(); !ok {
 		v := role.DefaultDesc
 		rc.mutation.SetDesc(v)
@@ -197,6 +215,11 @@ func (rc *RoleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rc *RoleCreate) check() error {
+	if v, ok := rc.mutation.Status(); ok {
+		if err := role.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
+		}
+	}
 	if _, ok := rc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Role.name"`)}
 	}
@@ -254,6 +277,10 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.UpdateTime(); ok {
 		_spec.SetField(role.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
+	}
+	if value, ok := rc.mutation.Status(); ok {
+		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
 	}
 	if value, ok := rc.mutation.CreateBy(); ok {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint64, value)

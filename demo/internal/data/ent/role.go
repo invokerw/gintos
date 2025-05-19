@@ -22,6 +22,8 @@ type Role struct {
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	// 更新时间
 	UpdateTime *time.Time `json:"update_time,omitempty"`
+	// 状态
+	Status *role.Status `json:"status,omitempty"`
 	// 创建者ID
 	CreateBy *uint64 `json:"create_by,omitempty"`
 	// 更新者ID
@@ -78,7 +80,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case role.FieldName, role.FieldDesc:
+		case role.FieldStatus, role.FieldName, role.FieldDesc:
 			values[i] = new(sql.NullString)
 		case role.FieldCreateTime, role.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
@@ -116,6 +118,13 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				r.UpdateTime = new(time.Time)
 				*r.UpdateTime = value.Time
+			}
+		case role.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				r.Status = new(role.Status)
+				*r.Status = role.Status(value.String)
 			}
 		case role.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -212,6 +221,11 @@ func (r *Role) String() string {
 	if v := r.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := r.Status; v != nil {
+		builder.WriteString("status=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := r.CreateBy; v != nil {

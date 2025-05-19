@@ -175,6 +175,52 @@ func (UserStatus) EnumDescriptor() ([]byte, []int) {
 	return file_v1_common_user_proto_rawDescGZIP(), []int{2}
 }
 
+type RoleStatus int32
+
+const (
+	RoleStatus_R_OFF RoleStatus = 0 // 禁用
+	RoleStatus_R_ON  RoleStatus = 1 // 启用
+)
+
+// Enum value maps for RoleStatus.
+var (
+	RoleStatus_name = map[int32]string{
+		0: "R_OFF",
+		1: "R_ON",
+	}
+	RoleStatus_value = map[string]int32{
+		"R_OFF": 0,
+		"R_ON":  1,
+	}
+)
+
+func (x RoleStatus) Enum() *RoleStatus {
+	p := new(RoleStatus)
+	*p = x
+	return p
+}
+
+func (x RoleStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RoleStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_v1_common_user_proto_enumTypes[3].Descriptor()
+}
+
+func (RoleStatus) Type() protoreflect.EnumType {
+	return &file_v1_common_user_proto_enumTypes[3]
+}
+
+func (x RoleStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RoleStatus.Descriptor instead.
+func (RoleStatus) EnumDescriptor() ([]byte, []int) {
+	return file_v1_common_user_proto_rawDescGZIP(), []int{3}
+}
+
 // 用户
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -364,8 +410,9 @@ type Role struct {
 	Desc          *string                `protobuf:"bytes,3,opt,name=desc,proto3,oneof" json:"desc,omitempty"`
 	ParentId      *uint64                `protobuf:"varint,4,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
 	SortId        *int32                 `protobuf:"varint,5,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`
-	CreateTime    *int64                 `protobuf:"varint,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"` // 创建时间
-	UpdateTime    *int64                 `protobuf:"varint,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"` // 更新时间
+	Status        *RoleStatus            `protobuf:"varint,32,opt,name=status,proto3,enum=api.common.v1.RoleStatus,oneof" json:"status,omitempty"` // 用户状态
+	CreateTime    *int64                 `protobuf:"varint,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`    // 创建时间
+	UpdateTime    *int64                 `protobuf:"varint,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`    // 更新时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -435,6 +482,13 @@ func (x *Role) GetSortId() int32 {
 	return 0
 }
 
+func (x *Role) GetStatus() RoleStatus {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return RoleStatus_R_OFF
+}
+
 func (x *Role) GetCreateTime() int64 {
 	if x != nil && x.CreateTime != nil {
 		return *x.CreateTime
@@ -497,16 +551,17 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
 	"_authorityB\x0e\n" +
 	"\f_create_timeB\x0e\n" +
-	"\f_update_time\"\xb1\x03\n" +
+	"\f_update_time\"\x9e\x04\n" +
 	"\x04Role\x12#\n" +
 	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b角色IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\x04name\x88\x01\x01\x12+\n" +
 	"\x04desc\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色描述H\x02R\x04desc\x88\x01\x01\x123\n" +
 	"\tparent_id\x18\x04 \x01(\x04B\x11\xbaG\x0e\x92\x02\v父角色IDH\x03R\bparentId\x88\x01\x01\x12,\n" +
-	"\asort_id\x18\x05 \x01(\x05B\x0e\xbaG\v\x92\x02\b排序IDH\x04R\x06sortId\x88\x01\x01\x129\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f创建时间H\x05R\n" +
+	"\asort_id\x18\x05 \x01(\x05B\x0e\xbaG\v\x92\x02\b排序IDH\x04R\x06sortId\x88\x01\x01\x12`\n" +
+	"\x06status\x18  \x01(\x0e2\x19.api.common.v1.RoleStatusB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f角色状态H\x05R\x06status\x88\x01\x01\x129\n" +
+	"\vcreate_time\x18\xc8\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f创建时间H\x06R\n" +
 	"createTime\x88\x01\x01\x129\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f更新时间H\x06R\n" +
+	"\vupdate_time\x18\xc9\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f更新时间H\aR\n" +
 	"updateTime\x88\x01\x01B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\a\n" +
@@ -514,7 +569,8 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
 	"_parent_idB\n" +
 	"\n" +
-	"\b_sort_idB\x0e\n" +
+	"\b_sort_idB\t\n" +
+	"\a_statusB\x0e\n" +
 	"\f_create_timeB\x0e\n" +
 	"\f_update_time*R\n" +
 	"\rUserAuthority\x12\r\n" +
@@ -533,7 +589,11 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
 	"UserStatus\x12\a\n" +
 	"\x03OFF\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x01B2Z0github/invokerw/gintos/demo/api/v1/common;commonb\x06proto3"
+	"\x02ON\x10\x01*!\n" +
+	"\n" +
+	"RoleStatus\x12\t\n" +
+	"\x05R_OFF\x10\x00\x12\b\n" +
+	"\x04R_ON\x10\x01B2Z0github/invokerw/gintos/demo/api/v1/common;commonb\x06proto3"
 
 var (
 	file_v1_common_user_proto_rawDescOnce sync.Once
@@ -547,24 +607,26 @@ func file_v1_common_user_proto_rawDescGZIP() []byte {
 	return file_v1_common_user_proto_rawDescData
 }
 
-var file_v1_common_user_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_v1_common_user_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_v1_common_user_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_v1_common_user_proto_goTypes = []any{
 	(UserAuthority)(0), // 0: api.common.v1.UserAuthority
 	(UserGender)(0),    // 1: api.common.v1.UserGender
 	(UserStatus)(0),    // 2: api.common.v1.UserStatus
-	(*User)(nil),       // 3: api.common.v1.User
-	(*Role)(nil),       // 4: api.common.v1.Role
+	(RoleStatus)(0),    // 3: api.common.v1.RoleStatus
+	(*User)(nil),       // 4: api.common.v1.User
+	(*Role)(nil),       // 5: api.common.v1.Role
 }
 var file_v1_common_user_proto_depIdxs = []int32{
 	1, // 0: api.common.v1.User.gender:type_name -> api.common.v1.UserGender
 	2, // 1: api.common.v1.User.status:type_name -> api.common.v1.UserStatus
 	0, // 2: api.common.v1.User.authority:type_name -> api.common.v1.UserAuthority
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 3: api.common.v1.Role.status:type_name -> api.common.v1.RoleStatus
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_v1_common_user_proto_init() }
@@ -579,7 +641,7 @@ func file_v1_common_user_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_common_user_proto_rawDesc), len(file_v1_common_user_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      4,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
