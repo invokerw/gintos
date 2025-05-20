@@ -162,23 +162,6 @@ paths:
                                 $ref: '#/components/schemas/api.v1.admin.GetUserListResponse'
             security:
                 - {}
-    /api/v1/admin/role_add_policy:
-        post:
-            tags:
-                - Admin
-            operationId: Admin_RoleUpdatePolicy
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.v1.admin.RoleUpdatePolicyRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-            security:
-                - {}
     /api/v1/admin/role_get_policy/:role_code:
         get:
             tags:
@@ -196,6 +179,23 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.admin.RoleGetPolicyResponse'
+            security:
+                - {}
+    /api/v1/admin/role_update_policy:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_RoleUpdatePolicy
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.RoleUpdatePolicyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
             security:
                 - {}
     /api/v1/admin/update_roles:

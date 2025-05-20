@@ -2,6 +2,8 @@ package service
 
 import (
 	"bytes"
+	"github.com/casbin/casbin/v2"
+	"github.com/gin-gonic/gin"
 	"github/invokerw/gintos/demo/api"
 	"github/invokerw/gintos/demo/api/v1/admin"
 	"github/invokerw/gintos/demo/api/v1/common"
@@ -10,10 +12,6 @@ import (
 	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
 	"github/invokerw/gintos/proto/rbac"
-	"strings"
-
-	"github.com/casbin/casbin/v2"
-	"github.com/gin-gonic/gin"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -132,8 +130,7 @@ func (s *AdminService) RoleGetPolicy(context *gin.Context, request *admin.RoleGe
 	}
 	ret := &admin.RoleGetPolicyResponse{}
 	for _, v := range p {
-		k := strings.Join(v, "-")
-		if apiInfo, ok := api.ApiPathMethodToApiInfo[k]; ok {
+		if apiInfo, ok := api.GetApiInfo(v[1], v[2]); ok {
 			ret.ApiInfo = append(ret.ApiInfo, s.convertApiInfo(apiInfo))
 		}
 	}
@@ -141,13 +138,9 @@ func (s *AdminService) RoleGetPolicy(context *gin.Context, request *admin.RoleGe
 }
 
 func (s *AdminService) RoleUpdatePolicy(context *gin.Context, request *admin.RoleUpdatePolicyRequest) (*emptypb.Empty, error) {
-	p, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleCode)
+	rules, err := s.casbinEnforcer.GetPermissionsForUser(request.RoleCode)
 	if err != nil {
 		return nil, err
-	}
-	rules := make([][]string, 0, len(p))
-	for _, v := range p {
-		rules = append(rules, []string{request.RoleCode, v[0], v[1]})
 	}
 	_, err = s.casbinEnforcer.RemovePolicies(rules)
 	if err != nil {
@@ -158,9 +151,14 @@ func (s *AdminService) RoleUpdatePolicy(context *gin.Context, request *admin.Rol
 		if apiInfo, ok := api.ApiMap[v]; ok {
 			rules = append(rules, []string{request.RoleCode, apiInfo.Path, apiInfo.Method})
 		}
-
 	}
-	_, err = s.casbinEnforcer.AddPolicies(rules)
+	if rules != nil {
+		_, err = s.casbinEnforcer.AddPolicies(rules)
+		if err != nil {
+			return nil, err
+		}
+	}
+	err = s.casbinEnforcer.SavePolicy()
 	if err != nil {
 		return nil, err
 	}

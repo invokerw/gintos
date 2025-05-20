@@ -63,7 +63,7 @@ func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
 	r.GET("/api/v1/admin/get_role_count", _Admin_GetRoleCount0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/get_api_info", _Admin_GetApiInfoList0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/role_get_policy/:role_code", _Admin_RoleGetPolicy0_HTTP_Handler(srv))
-	r.POST("/api/v1/admin/role_add_policy", _Admin_RoleUpdatePolicy0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/role_update_policy", _Admin_RoleUpdatePolicy0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/update_user_avatar", _Admin_UpdateUserAvatar0_HTTP_Handler(srv))
 }
 

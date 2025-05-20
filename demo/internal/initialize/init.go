@@ -112,7 +112,7 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l lo
 	{
 		var roleName = "normal"
 		var name = "user"
-		var pass = "user123"
+		var pass = "user1234"
 		if err := createRole(roleName, 100, nil); err != nil {
 			return &InitRet{
 				Err: err,

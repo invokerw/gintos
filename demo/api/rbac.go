@@ -109,7 +109,7 @@ func getApiInfoList() []*rbac.ApiInfo {
 		},
 		{
 			Method: "POST",
-			Path: "/api/v1/admin/role_add_policy",
+			Path: "/api/v1/admin/role_update_policy",
 			Name: "角色更新权限",
 			Type: "rbac",
 		},

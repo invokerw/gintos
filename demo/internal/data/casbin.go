@@ -112,9 +112,6 @@ func NewAdapterWithClient(client *ent.Client, options ...Option) (*Adapter, erro
 			return nil, err
 		}
 	}
-	if err := client.Schema.Create(a.ctx); err != nil {
-		return nil, err
-	}
 	return a, nil
 }
 
