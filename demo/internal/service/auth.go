@@ -39,13 +39,16 @@ func (s *AuthService) Login(ctx *gin.Context, req *auth.LoginRequest) (*auth.Log
 	if user.Password != nil && !utils.BcryptCheck(req.Password, *user.Password) {
 		return nil, errs.ErrUserPasswordWrong
 	}
-
+	roleName := ""
+	if user.RoleName != nil {
+		roleName = *user.RoleName
+	}
 	baseC := utils.BaseClaims{
 		ID:          user.GetId(),
 		Username:    user.GetUsername(),
 		NickName:    user.GetNickname(),
 		AuthorityId: int32(user.GetAuthority()),
-		Role:        "admin",
+		Role:        roleName,
 	}
 	token, claims, err := utils.CreateAccessToken(baseC)
 	if err != nil {
