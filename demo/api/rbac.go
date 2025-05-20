@@ -73,6 +73,12 @@ func getApiInfoList() []*rbac.ApiInfo {
 		},
 		{
 			Method: "POST",
+			Path: "/api/v1/admin/create_role",
+			Name: "创建角色",
+			Type: "role",
+		},
+		{
+			Method: "POST",
 			Path: "/api/v1/admin/update_roles",
 			Name: "更新角色",
 			Type: "role",
@@ -97,7 +103,7 @@ func getApiInfoList() []*rbac.ApiInfo {
 		},
 		{
 			Method: "GET",
-			Path: "/api/v1/admin/role_get_policy/:role_lable",
+			Path: "/api/v1/admin/role_get_policy/:role_code",
 			Name: "获取角色权限",
 			Type: "rbac",
 		},

@@ -35,8 +35,8 @@ func (Role) Fields() []ent.Field {
 			NotEmpty().
 			MaxLen(128),
 
-		field.String("label").
-			Comment("角色描述").
+		field.String("code").
+			Comment("角色标识").
 			NotEmpty().
 			Unique().
 			Immutable().
@@ -70,6 +70,6 @@ func (Role) Edges() []ent.Edge {
 // Indexes of the User.
 func (Role) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "label"),
+		index.Fields("id", "code"),
 	}
 }

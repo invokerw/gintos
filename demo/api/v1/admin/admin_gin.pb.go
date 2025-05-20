@@ -18,6 +18,7 @@ import (
 var _ = new(gin.Context)
 var _ = new(resp.Response)
 
+const OperationAdminCreateRole = "/api.v1.admin.Admin/CreateRole"
 const OperationAdminCreateUser = "/api.v1.admin.Admin/CreateUser"
 const OperationAdminDeleteRoles = "/api.v1.admin.Admin/DeleteRoles"
 const OperationAdminDeleteUsers = "/api.v1.admin.Admin/DeleteUsers"
@@ -33,6 +34,7 @@ const OperationAdminUpdateUserAvatar = "/api.v1.admin.Admin/UpdateUserAvatar"
 const OperationAdminUpdateUsers = "/api.v1.admin.Admin/UpdateUsers"
 
 type IAdminServer interface {
+	CreateRole(*gin.Context, *CreateRoleRequest) (*CreateRoleResponse, error)
 	CreateUser(*gin.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	DeleteRoles(*gin.Context, *DeleteRolesRequest) (*emptypb.Empty, error)
 	DeleteUsers(*gin.Context, *DeleteUsersRequest) (*emptypb.Empty, error)
@@ -55,11 +57,12 @@ func RegisterAdminServer(r gin.IRoutes, srv IAdminServer) {
 	r.POST("/api/v1/admin/delete_users", _Admin_DeleteUsers0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/get_user_count", _Admin_GetUserCount0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/get_role_list", _Admin_GetRoleList0_HTTP_Handler(srv))
+	r.POST("/api/v1/admin/create_role", _Admin_CreateRole0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/update_roles", _Admin_UpdateRoles0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/delete_roles", _Admin_DeleteRoles0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/get_role_count", _Admin_GetRoleCount0_HTTP_Handler(srv))
 	r.GET("/api/v1/admin/get_api_info", _Admin_GetApiInfoList0_HTTP_Handler(srv))
-	r.GET("/api/v1/admin/role_get_policy/:role_lable", _Admin_RoleGetPolicy0_HTTP_Handler(srv))
+	r.GET("/api/v1/admin/role_get_policy/:role_code", _Admin_RoleGetPolicy0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/role_add_policy", _Admin_RoleUpdatePolicy0_HTTP_Handler(srv))
 	r.POST("/api/v1/admin/update_user_avatar", _Admin_UpdateUserAvatar0_HTTP_Handler(srv))
 }
@@ -178,6 +181,27 @@ func _Admin_GetRoleList0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
 		}
 		// http.SetOperation(ctx, OperationAdminGetRoleList)
 		reply, err := srv.GetRoleList(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Admin_CreateRole0_HTTP_Handler(srv IAdminServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in CreateRoleRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationAdminCreateRole)
+		reply, err := srv.CreateRole(ctx, &in)
 		if err != nil {
 			resp.FailWithError(ctx, err)
 			return

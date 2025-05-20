@@ -54,7 +54,7 @@ type UserRepo interface {
 }
 type RoleRepo interface {
 	CreateRole(ctx context.Context, in *common.Role) (*ent.Role, error)
-	GetRole(ctx context.Context, label string) (*ent.Role, error)
+	GetRole(ctx context.Context, code string) (*ent.Role, error)
 	GetRoleByID(ctx context.Context, id uint64) (*ent.Role, error)
 	DeleteRoles(ctx context.Context, labels []string) error
 	UpdateRoles(ctx context.Context, roles []*common.Role) ([]*ent.Role, error)

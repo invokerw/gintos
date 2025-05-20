@@ -27,6 +27,94 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type CreateRoleRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Role          *common.Role           `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"` // 角色信息
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateRoleRequest) Reset() {
+	*x = CreateRoleRequest{}
+	mi := &file_v1_admin_admin_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateRoleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateRoleRequest) ProtoMessage() {}
+
+func (x *CreateRoleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_admin_admin_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateRoleRequest.ProtoReflect.Descriptor instead.
+func (*CreateRoleRequest) Descriptor() ([]byte, []int) {
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateRoleRequest) GetRole() *common.Role {
+	if x != nil {
+		return x.Role
+	}
+	return nil
+}
+
+type CreateRoleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Role          *common.Role           `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"` // 角色信息
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateRoleResponse) Reset() {
+	*x = CreateRoleResponse{}
+	mi := &file_v1_admin_admin_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateRoleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateRoleResponse) ProtoMessage() {}
+
+func (x *CreateRoleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_admin_admin_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateRoleResponse.ProtoReflect.Descriptor instead.
+func (*CreateRoleResponse) Descriptor() ([]byte, []int) {
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateRoleResponse) GetRole() *common.Role {
+	if x != nil {
+		return x.Role
+	}
+	return nil
+}
+
 type UpdateUserAvatarRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                // 用户ID
@@ -37,7 +125,7 @@ type UpdateUserAvatarRequest struct {
 
 func (x *UpdateUserAvatarRequest) Reset() {
 	*x = UpdateUserAvatarRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[0]
+	mi := &file_v1_admin_admin_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -49,7 +137,7 @@ func (x *UpdateUserAvatarRequest) String() string {
 func (*UpdateUserAvatarRequest) ProtoMessage() {}
 
 func (x *UpdateUserAvatarRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[0]
+	mi := &file_v1_admin_admin_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -62,7 +150,7 @@ func (x *UpdateUserAvatarRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserAvatarRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserAvatarRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{0}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UpdateUserAvatarRequest) GetId() uint64 {
@@ -88,7 +176,7 @@ type UpdateUserAvatarResponse struct {
 
 func (x *UpdateUserAvatarResponse) Reset() {
 	*x = UpdateUserAvatarResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[1]
+	mi := &file_v1_admin_admin_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -100,7 +188,7 @@ func (x *UpdateUserAvatarResponse) String() string {
 func (*UpdateUserAvatarResponse) ProtoMessage() {}
 
 func (x *UpdateUserAvatarResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[1]
+	mi := &file_v1_admin_admin_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -113,7 +201,7 @@ func (x *UpdateUserAvatarResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserAvatarResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserAvatarResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{1}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateUserAvatarResponse) GetUser() *common.User {
@@ -136,7 +224,7 @@ type GetUserListRequest struct {
 
 func (x *GetUserListRequest) Reset() {
 	*x = GetUserListRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[2]
+	mi := &file_v1_admin_admin_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -148,7 +236,7 @@ func (x *GetUserListRequest) String() string {
 func (*GetUserListRequest) ProtoMessage() {}
 
 func (x *GetUserListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[2]
+	mi := &file_v1_admin_admin_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -161,7 +249,7 @@ func (x *GetUserListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserListRequest.ProtoReflect.Descriptor instead.
 func (*GetUserListRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{2}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetUserListRequest) GetPage() *common.PageInfo {
@@ -208,7 +296,7 @@ type CreateUserRequest struct {
 
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[3]
+	mi := &file_v1_admin_admin_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -220,7 +308,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[3]
+	mi := &file_v1_admin_admin_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -233,7 +321,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{3}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateUserRequest) GetUser() *common.User {
@@ -252,7 +340,7 @@ type CreateUserResponse struct {
 
 func (x *CreateUserResponse) Reset() {
 	*x = CreateUserResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[4]
+	mi := &file_v1_admin_admin_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -264,7 +352,7 @@ func (x *CreateUserResponse) String() string {
 func (*CreateUserResponse) ProtoMessage() {}
 
 func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[4]
+	mi := &file_v1_admin_admin_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -277,7 +365,7 @@ func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{4}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateUserResponse) GetUser() *common.User {
@@ -296,7 +384,7 @@ type GetUserListResponse struct {
 
 func (x *GetUserListResponse) Reset() {
 	*x = GetUserListResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[5]
+	mi := &file_v1_admin_admin_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -308,7 +396,7 @@ func (x *GetUserListResponse) String() string {
 func (*GetUserListResponse) ProtoMessage() {}
 
 func (x *GetUserListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[5]
+	mi := &file_v1_admin_admin_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -321,7 +409,7 @@ func (x *GetUserListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserListResponse.ProtoReflect.Descriptor instead.
 func (*GetUserListResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{5}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetUserListResponse) GetUsers() []*common.User {
@@ -340,7 +428,7 @@ type UpdateUsersRequest struct {
 
 func (x *UpdateUsersRequest) Reset() {
 	*x = UpdateUsersRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[6]
+	mi := &file_v1_admin_admin_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -352,7 +440,7 @@ func (x *UpdateUsersRequest) String() string {
 func (*UpdateUsersRequest) ProtoMessage() {}
 
 func (x *UpdateUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[6]
+	mi := &file_v1_admin_admin_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -365,7 +453,7 @@ func (x *UpdateUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUsersRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUsersRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{6}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateUsersRequest) GetUsers() []*common.User {
@@ -384,7 +472,7 @@ type UpdateUsersResponse struct {
 
 func (x *UpdateUsersResponse) Reset() {
 	*x = UpdateUsersResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[7]
+	mi := &file_v1_admin_admin_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -396,7 +484,7 @@ func (x *UpdateUsersResponse) String() string {
 func (*UpdateUsersResponse) ProtoMessage() {}
 
 func (x *UpdateUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[7]
+	mi := &file_v1_admin_admin_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -409,7 +497,7 @@ func (x *UpdateUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUsersResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUsersResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{7}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateUsersResponse) GetUsers() []*common.User {
@@ -428,7 +516,7 @@ type DeleteUsersRequest struct {
 
 func (x *DeleteUsersRequest) Reset() {
 	*x = DeleteUsersRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[8]
+	mi := &file_v1_admin_admin_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -440,7 +528,7 @@ func (x *DeleteUsersRequest) String() string {
 func (*DeleteUsersRequest) ProtoMessage() {}
 
 func (x *DeleteUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[8]
+	mi := &file_v1_admin_admin_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -453,7 +541,7 @@ func (x *DeleteUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUsersRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUsersRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{8}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeleteUsersRequest) GetNames() []string {
@@ -467,7 +555,7 @@ type GetRoleListRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          *common.PageInfo       `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`                                          // 分页信息
 	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                    // 角色名
-	Label         *string                `protobuf:"bytes,3,opt,name=label,proto3,oneof" json:"label,omitempty"`                                  // 角色标识
+	Code          *string                `protobuf:"bytes,3,opt,name=code,proto3,oneof" json:"code,omitempty"`                                    // 角色标识
 	Status        *common.RoleStatus     `protobuf:"varint,4,opt,name=status,proto3,enum=api.common.v1.RoleStatus,oneof" json:"status,omitempty"` // 状态
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -475,7 +563,7 @@ type GetRoleListRequest struct {
 
 func (x *GetRoleListRequest) Reset() {
 	*x = GetRoleListRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[9]
+	mi := &file_v1_admin_admin_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -487,7 +575,7 @@ func (x *GetRoleListRequest) String() string {
 func (*GetRoleListRequest) ProtoMessage() {}
 
 func (x *GetRoleListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[9]
+	mi := &file_v1_admin_admin_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -500,7 +588,7 @@ func (x *GetRoleListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRoleListRequest.ProtoReflect.Descriptor instead.
 func (*GetRoleListRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{9}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetRoleListRequest) GetPage() *common.PageInfo {
@@ -517,9 +605,9 @@ func (x *GetRoleListRequest) GetName() string {
 	return ""
 }
 
-func (x *GetRoleListRequest) GetLabel() string {
-	if x != nil && x.Label != nil {
-		return *x.Label
+func (x *GetRoleListRequest) GetCode() string {
+	if x != nil && x.Code != nil {
+		return *x.Code
 	}
 	return ""
 }
@@ -540,7 +628,7 @@ type GetRoleListResponse struct {
 
 func (x *GetRoleListResponse) Reset() {
 	*x = GetRoleListResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[10]
+	mi := &file_v1_admin_admin_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -552,7 +640,7 @@ func (x *GetRoleListResponse) String() string {
 func (*GetRoleListResponse) ProtoMessage() {}
 
 func (x *GetRoleListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[10]
+	mi := &file_v1_admin_admin_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -565,7 +653,7 @@ func (x *GetRoleListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRoleListResponse.ProtoReflect.Descriptor instead.
 func (*GetRoleListResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{10}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetRoleListResponse) GetRoles() []*common.Role {
@@ -584,7 +672,7 @@ type UpdateRolesRequest struct {
 
 func (x *UpdateRolesRequest) Reset() {
 	*x = UpdateRolesRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[11]
+	mi := &file_v1_admin_admin_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -596,7 +684,7 @@ func (x *UpdateRolesRequest) String() string {
 func (*UpdateRolesRequest) ProtoMessage() {}
 
 func (x *UpdateRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[11]
+	mi := &file_v1_admin_admin_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -609,7 +697,7 @@ func (x *UpdateRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRolesRequest.ProtoReflect.Descriptor instead.
 func (*UpdateRolesRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{11}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *UpdateRolesRequest) GetRoles() []*common.Role {
@@ -628,7 +716,7 @@ type UpdateRolesResponse struct {
 
 func (x *UpdateRolesResponse) Reset() {
 	*x = UpdateRolesResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[12]
+	mi := &file_v1_admin_admin_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -640,7 +728,7 @@ func (x *UpdateRolesResponse) String() string {
 func (*UpdateRolesResponse) ProtoMessage() {}
 
 func (x *UpdateRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[12]
+	mi := &file_v1_admin_admin_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -653,7 +741,7 @@ func (x *UpdateRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRolesResponse.ProtoReflect.Descriptor instead.
 func (*UpdateRolesResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{12}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *UpdateRolesResponse) GetRoles() []*common.Role {
@@ -665,14 +753,14 @@ func (x *UpdateRolesResponse) GetRoles() []*common.Role {
 
 type DeleteRolesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lables        []string               `protobuf:"bytes,1,rep,name=lables,proto3" json:"lables,omitempty"`
+	Codes         []string               `protobuf:"bytes,1,rep,name=codes,proto3" json:"codes,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteRolesRequest) Reset() {
 	*x = DeleteRolesRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[13]
+	mi := &file_v1_admin_admin_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -684,7 +772,7 @@ func (x *DeleteRolesRequest) String() string {
 func (*DeleteRolesRequest) ProtoMessage() {}
 
 func (x *DeleteRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[13]
+	mi := &file_v1_admin_admin_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -697,12 +785,12 @@ func (x *DeleteRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRolesRequest.ProtoReflect.Descriptor instead.
 func (*DeleteRolesRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{13}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *DeleteRolesRequest) GetLables() []string {
+func (x *DeleteRolesRequest) GetCodes() []string {
 	if x != nil {
-		return x.Lables
+		return x.Codes
 	}
 	return nil
 }
@@ -716,7 +804,7 @@ type GetApiInfoListResponse struct {
 
 func (x *GetApiInfoListResponse) Reset() {
 	*x = GetApiInfoListResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[14]
+	mi := &file_v1_admin_admin_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -728,7 +816,7 @@ func (x *GetApiInfoListResponse) String() string {
 func (*GetApiInfoListResponse) ProtoMessage() {}
 
 func (x *GetApiInfoListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[14]
+	mi := &file_v1_admin_admin_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -741,7 +829,7 @@ func (x *GetApiInfoListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetApiInfoListResponse.ProtoReflect.Descriptor instead.
 func (*GetApiInfoListResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{14}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetApiInfoListResponse) GetApiTypeMap() map[string]*common.ApiTypeInfo {
@@ -753,14 +841,14 @@ func (x *GetApiInfoListResponse) GetApiTypeMap() map[string]*common.ApiTypeInfo 
 
 type RoleGetPolicyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleLable     string                 `protobuf:"bytes,1,opt,name=role_lable,json=roleLable,proto3" json:"role_lable,omitempty"` // 角色名字
+	RoleCode      string                 `protobuf:"bytes,1,opt,name=role_code,json=roleCode,proto3" json:"role_code,omitempty"` // 角色名字
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RoleGetPolicyRequest) Reset() {
 	*x = RoleGetPolicyRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[15]
+	mi := &file_v1_admin_admin_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -772,7 +860,7 @@ func (x *RoleGetPolicyRequest) String() string {
 func (*RoleGetPolicyRequest) ProtoMessage() {}
 
 func (x *RoleGetPolicyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[15]
+	mi := &file_v1_admin_admin_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -785,27 +873,27 @@ func (x *RoleGetPolicyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleGetPolicyRequest.ProtoReflect.Descriptor instead.
 func (*RoleGetPolicyRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{15}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *RoleGetPolicyRequest) GetRoleLable() string {
+func (x *RoleGetPolicyRequest) GetRoleCode() string {
 	if x != nil {
-		return x.RoleLable
+		return x.RoleCode
 	}
 	return ""
 }
 
 type RoleGetPolicyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleLable     string                 `protobuf:"bytes,1,opt,name=role_lable,json=roleLable,proto3" json:"role_lable,omitempty"` // 角色名字
-	ApiInfo       []*common.ApiInfo      `protobuf:"bytes,2,rep,name=api_info,json=apiInfo,proto3" json:"api_info,omitempty"`       // API信息
+	RoleCode      string                 `protobuf:"bytes,1,opt,name=role_code,json=roleCode,proto3" json:"role_code,omitempty"` // 角色名字
+	ApiInfo       []*common.ApiInfo      `protobuf:"bytes,2,rep,name=api_info,json=apiInfo,proto3" json:"api_info,omitempty"`    // API信息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RoleGetPolicyResponse) Reset() {
 	*x = RoleGetPolicyResponse{}
-	mi := &file_v1_admin_admin_proto_msgTypes[16]
+	mi := &file_v1_admin_admin_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -817,7 +905,7 @@ func (x *RoleGetPolicyResponse) String() string {
 func (*RoleGetPolicyResponse) ProtoMessage() {}
 
 func (x *RoleGetPolicyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[16]
+	mi := &file_v1_admin_admin_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -830,12 +918,12 @@ func (x *RoleGetPolicyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleGetPolicyResponse.ProtoReflect.Descriptor instead.
 func (*RoleGetPolicyResponse) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{16}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *RoleGetPolicyResponse) GetRoleLable() string {
+func (x *RoleGetPolicyResponse) GetRoleCode() string {
 	if x != nil {
-		return x.RoleLable
+		return x.RoleCode
 	}
 	return ""
 }
@@ -849,15 +937,15 @@ func (x *RoleGetPolicyResponse) GetApiInfo() []*common.ApiInfo {
 
 type RoleUpdatePolicyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleLable     string                 `protobuf:"bytes,1,opt,name=role_lable,json=roleLable,proto3" json:"role_lable,omitempty"` // 角色名字
-	ApiName       []string               `protobuf:"bytes,2,rep,name=api_name,json=apiName,proto3" json:"api_name,omitempty"`       // 权限名字
+	RoleCode      string                 `protobuf:"bytes,1,opt,name=role_code,json=roleCode,proto3" json:"role_code,omitempty"` // 角色名字
+	ApiName       []string               `protobuf:"bytes,2,rep,name=api_name,json=apiName,proto3" json:"api_name,omitempty"`    // 权限名字
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RoleUpdatePolicyRequest) Reset() {
 	*x = RoleUpdatePolicyRequest{}
-	mi := &file_v1_admin_admin_proto_msgTypes[17]
+	mi := &file_v1_admin_admin_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -869,7 +957,7 @@ func (x *RoleUpdatePolicyRequest) String() string {
 func (*RoleUpdatePolicyRequest) ProtoMessage() {}
 
 func (x *RoleUpdatePolicyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_admin_admin_proto_msgTypes[17]
+	mi := &file_v1_admin_admin_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -882,12 +970,12 @@ func (x *RoleUpdatePolicyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleUpdatePolicyRequest.ProtoReflect.Descriptor instead.
 func (*RoleUpdatePolicyRequest) Descriptor() ([]byte, []int) {
-	return file_v1_admin_admin_proto_rawDescGZIP(), []int{17}
+	return file_v1_admin_admin_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *RoleUpdatePolicyRequest) GetRoleLable() string {
+func (x *RoleUpdatePolicyRequest) GetRoleCode() string {
 	if x != nil {
-		return x.RoleLable
+		return x.RoleCode
 	}
 	return ""
 }
@@ -903,7 +991,11 @@ var File_v1_admin_admin_proto protoreflect.FileDescriptor
 
 const file_v1_admin_admin_proto_rawDesc = "" +
 	"\n" +
-	"\x14v1/admin/admin.proto\x12\fapi.v1.admin\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\x1a\x16v1/common/common.proto\x1a\x16rbac/annotations.proto\"m\n" +
+	"\x14v1/admin/admin.proto\x12\fapi.v1.admin\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\x1a\x16v1/common/common.proto\x1a\x16rbac/annotations.proto\"P\n" +
+	"\x11CreateRoleRequest\x12;\n" +
+	"\x04role\x18\x01 \x01(\v2\x13.api.common.v1.RoleB\x12\xbaG\x0f\x92\x02\f角色信息R\x04role\"Q\n" +
+	"\x12CreateRoleResponse\x12;\n" +
+	"\x04role\x18\x01 \x01(\v2\x13.api.common.v1.RoleB\x12\xbaG\x0f\x92\x02\f角色信息R\x04role\"m\n" +
 	"\x17UpdateUserAvatarRequest\x12\x1e\n" +
 	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b用户IDR\x02id\x122\n" +
 	"\n" +
@@ -932,41 +1024,38 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\x13UpdateUsersResponse\x12)\n" +
 	"\x05users\x18\x01 \x03(\v2\x13.api.common.v1.UserR\x05users\";\n" +
 	"\x12DeleteUsersRequest\x12%\n" +
-	"\x05names\x18\x01 \x03(\tB\x0f\xbaG\f\x92\x02\t用户名R\x05names\"\x92\x02\n" +
+	"\x05names\x18\x01 \x03(\tB\x0f\xbaG\f\x92\x02\t用户名R\x05names\"\x8f\x02\n" +
 	"\x12GetRoleListRequest\x12?\n" +
 	"\x04page\x18\x01 \x01(\v2\x17.api.common.v1.PageInfoB\x12\xbaG\x0f\x92\x02\f分页信息R\x04page\x12(\n" +
-	"\x04name\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t角色名H\x00R\x04name\x88\x01\x01\x12-\n" +
-	"\x05label\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识H\x01R\x05label\x88\x01\x01\x12D\n" +
+	"\x04name\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t角色名H\x00R\x04name\x88\x01\x01\x12+\n" +
+	"\x04code\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识H\x01R\x04code\x88\x01\x01\x12D\n" +
 	"\x06status\x18\x04 \x01(\x0e2\x19.api.common.v1.RoleStatusB\f\xbaG\t\x92\x02\x06状态H\x02R\x06status\x88\x01\x01B\a\n" +
-	"\x05_nameB\b\n" +
-	"\x06_labelB\t\n" +
+	"\x05_nameB\a\n" +
+	"\x05_codeB\t\n" +
 	"\a_status\"@\n" +
 	"\x13GetRoleListResponse\x12)\n" +
 	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleR\x05roles\"S\n" +
 	"\x12UpdateRolesRequest\x12=\n" +
 	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleB\x12\xbaG\x0f\x92\x02\f角色信息R\x05roles\"@\n" +
 	"\x13UpdateRolesResponse\x12)\n" +
-	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleR\x05roles\"@\n" +
-	"\x12DeleteRolesRequest\x12*\n" +
-	"\x06lables\x18\x01 \x03(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\x06lables\"\xe2\x01\n" +
+	"\x05roles\x18\x01 \x03(\v2\x13.api.common.v1.RoleR\x05roles\">\n" +
+	"\x12DeleteRolesRequest\x12(\n" +
+	"\x05codes\x18\x01 \x03(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\x05codes\"\xe2\x01\n" +
 	"\x16GetApiInfoListResponse\x12m\n" +
 	"\fapi_type_map\x18\x02 \x03(\v24.api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntryB\x15\xbaG\x12\x92\x02\x0f分类API数据R\n" +
 	"apiTypeMap\x1aY\n" +
 	"\x0fApiTypeMapEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x120\n" +
-	"\x05value\x18\x02 \x01(\v2\x1a.api.common.v1.ApiTypeInfoR\x05value:\x028\x01\"I\n" +
-	"\x14RoleGetPolicyRequest\x121\n" +
-	"\n" +
-	"role_lable\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\troleLable\"\x8e\x01\n" +
-	"\x15RoleGetPolicyResponse\x121\n" +
-	"\n" +
-	"role_lable\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\troleLable\x12B\n" +
-	"\bapi_info\x18\x02 \x03(\v2\x16.api.common.v1.ApiInfoB\x0f\xbaG\f\x92\x02\tAPI信息R\aapiInfo\"y\n" +
-	"\x17RoleUpdatePolicyRequest\x121\n" +
-	"\n" +
-	"role_lable\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\troleLable\x12+\n" +
+	"\x05value\x18\x02 \x01(\v2\x1a.api.common.v1.ApiTypeInfoR\x05value:\x028\x01\"G\n" +
+	"\x14RoleGetPolicyRequest\x12/\n" +
+	"\trole_code\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\broleCode\"\x8c\x01\n" +
+	"\x15RoleGetPolicyResponse\x12/\n" +
+	"\trole_code\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\broleCode\x12B\n" +
+	"\bapi_info\x18\x02 \x03(\v2\x16.api.common.v1.ApiInfoB\x0f\xbaG\f\x92\x02\tAPI信息R\aapiInfo\"w\n" +
+	"\x17RoleUpdatePolicyRequest\x12/\n" +
+	"\trole_code\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\broleCode\x12+\n" +
 	"\bapi_name\x18\x02 \x03(\tB\x10\xbaG\r\x92\x02\n" +
-	"api 名称R\aapiName2\xc7\x0f\n" +
+	"api 名称R\aapiName2\xd9\x10\n" +
 	"\x05Admin\x12\x90\x01\n" +
 	"\n" +
 	"CreateUser\x12\x1f.api.v1.admin.CreateUserRequest\x1a .api.v1.admin.CreateUserResponse\"?\xbaG\x02Z\x00\x82}\f创建用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/admin/create_user\x12\x9b\x01\n" +
@@ -974,12 +1063,14 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\vUpdateUsers\x12 .api.v1.admin.UpdateUsersRequest\x1a!.api.v1.admin.UpdateUsersResponse\"@\xbaG\x02Z\x00\x82}\f更新用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_users\x12\x89\x01\n" +
 	"\vDeleteUsers\x12 .api.v1.admin.DeleteUsersRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_users\x12\x86\x01\n" +
 	"\fGetUserCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"E\xbaG\x02Z\x00\x82}\x12获取用户数量\x8a}\x04user\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_user_count\x12\x9b\x01\n" +
-	"\vGetRoleList\x12 .api.v1.admin.GetRoleListRequest\x1a!.api.v1.admin.GetRoleListResponse\"G\xbaG\x02Z\x00\x82}\x12获取角色列表\x8a}\x04role\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_role_list\x12\x94\x01\n" +
+	"\vGetRoleList\x12 .api.v1.admin.GetRoleListRequest\x1a!.api.v1.admin.GetRoleListResponse\"G\xbaG\x02Z\x00\x82}\x12获取角色列表\x8a}\x04role\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_role_list\x12\x90\x01\n" +
+	"\n" +
+	"CreateRole\x12\x1f.api.v1.admin.CreateRoleRequest\x1a .api.v1.admin.CreateRoleResponse\"?\xbaG\x02Z\x00\x82}\f创建角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/admin/create_role\x12\x94\x01\n" +
 	"\vUpdateRoles\x12 .api.v1.admin.UpdateRolesRequest\x1a!.api.v1.admin.UpdateRolesResponse\"@\xbaG\x02Z\x00\x82}\f更新角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_roles\x12\x89\x01\n" +
 	"\vDeleteRoles\x12 .api.v1.admin.DeleteRolesRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_roles\x12\x86\x01\n" +
 	"\fGetRoleCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"E\xbaG\x02Z\x00\x82}\x12获取角色数量\x8a}\x04role\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_role_count\x12\x96\x01\n" +
-	"\x0eGetApiInfoList\x12\x16.google.protobuf.Empty\x1a$.api.v1.admin.GetApiInfoListResponse\"F\xbaG\x02Z\x00\x82}\x15获取API信息列表\x8a}\x04rbac\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/get_api_info\x12\xac\x01\n" +
-	"\rRoleGetPolicy\x12\".api.v1.admin.RoleGetPolicyRequest\x1a#.api.v1.admin.RoleGetPolicyResponse\"R\xbaG\x02Z\x00\x82}\x12获取角色权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02+\x12)/api/v1/admin/role_get_policy/:role_lable\x12\x9c\x01\n" +
+	"\x0eGetApiInfoList\x12\x16.google.protobuf.Empty\x1a$.api.v1.admin.GetApiInfoListResponse\"F\xbaG\x02Z\x00\x82}\x15获取API信息列表\x8a}\x04rbac\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/get_api_info\x12\xab\x01\n" +
+	"\rRoleGetPolicy\x12\".api.v1.admin.RoleGetPolicyRequest\x1a#.api.v1.admin.RoleGetPolicyResponse\"Q\xbaG\x02Z\x00\x82}\x12获取角色权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02*\x12(/api/v1/admin/role_get_policy/:role_code\x12\x9c\x01\n" +
 	"\x10RoleUpdatePolicy\x12%.api.v1.admin.RoleUpdatePolicyRequest\x1a\x16.google.protobuf.Empty\"I\xbaG\x02Z\x00\x82}\x12角色更新权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/v1/admin/role_add_policy\x12\xaf\x01\n" +
 	"\x10UpdateUserAvatar\x12%.api.v1.admin.UpdateUserAvatarRequest\x1a&.api.v1.admin.UpdateUserAvatarResponse\"L\xbaG\x02Z\x00\x82}\x12更新用户头像\x8a}\x04user\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/admin/update_user_avatarB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
 
@@ -995,85 +1086,91 @@ func file_v1_admin_admin_proto_rawDescGZIP() []byte {
 	return file_v1_admin_admin_proto_rawDescData
 }
 
-var file_v1_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_v1_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_v1_admin_admin_proto_goTypes = []any{
-	(*UpdateUserAvatarRequest)(nil),  // 0: api.v1.admin.UpdateUserAvatarRequest
-	(*UpdateUserAvatarResponse)(nil), // 1: api.v1.admin.UpdateUserAvatarResponse
-	(*GetUserListRequest)(nil),       // 2: api.v1.admin.GetUserListRequest
-	(*CreateUserRequest)(nil),        // 3: api.v1.admin.CreateUserRequest
-	(*CreateUserResponse)(nil),       // 4: api.v1.admin.CreateUserResponse
-	(*GetUserListResponse)(nil),      // 5: api.v1.admin.GetUserListResponse
-	(*UpdateUsersRequest)(nil),       // 6: api.v1.admin.UpdateUsersRequest
-	(*UpdateUsersResponse)(nil),      // 7: api.v1.admin.UpdateUsersResponse
-	(*DeleteUsersRequest)(nil),       // 8: api.v1.admin.DeleteUsersRequest
-	(*GetRoleListRequest)(nil),       // 9: api.v1.admin.GetRoleListRequest
-	(*GetRoleListResponse)(nil),      // 10: api.v1.admin.GetRoleListResponse
-	(*UpdateRolesRequest)(nil),       // 11: api.v1.admin.UpdateRolesRequest
-	(*UpdateRolesResponse)(nil),      // 12: api.v1.admin.UpdateRolesResponse
-	(*DeleteRolesRequest)(nil),       // 13: api.v1.admin.DeleteRolesRequest
-	(*GetApiInfoListResponse)(nil),   // 14: api.v1.admin.GetApiInfoListResponse
-	(*RoleGetPolicyRequest)(nil),     // 15: api.v1.admin.RoleGetPolicyRequest
-	(*RoleGetPolicyResponse)(nil),    // 16: api.v1.admin.RoleGetPolicyResponse
-	(*RoleUpdatePolicyRequest)(nil),  // 17: api.v1.admin.RoleUpdatePolicyRequest
-	nil,                              // 18: api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry
-	(*common.User)(nil),              // 19: api.common.v1.User
-	(*common.PageInfo)(nil),          // 20: api.common.v1.PageInfo
-	(common.UserStatus)(0),           // 21: api.common.v1.UserStatus
-	(common.RoleStatus)(0),           // 22: api.common.v1.RoleStatus
-	(*common.Role)(nil),              // 23: api.common.v1.Role
-	(*common.ApiInfo)(nil),           // 24: api.common.v1.ApiInfo
-	(*common.ApiTypeInfo)(nil),       // 25: api.common.v1.ApiTypeInfo
-	(*emptypb.Empty)(nil),            // 26: google.protobuf.Empty
-	(*common.IntValue)(nil),          // 27: api.common.v1.IntValue
+	(*CreateRoleRequest)(nil),        // 0: api.v1.admin.CreateRoleRequest
+	(*CreateRoleResponse)(nil),       // 1: api.v1.admin.CreateRoleResponse
+	(*UpdateUserAvatarRequest)(nil),  // 2: api.v1.admin.UpdateUserAvatarRequest
+	(*UpdateUserAvatarResponse)(nil), // 3: api.v1.admin.UpdateUserAvatarResponse
+	(*GetUserListRequest)(nil),       // 4: api.v1.admin.GetUserListRequest
+	(*CreateUserRequest)(nil),        // 5: api.v1.admin.CreateUserRequest
+	(*CreateUserResponse)(nil),       // 6: api.v1.admin.CreateUserResponse
+	(*GetUserListResponse)(nil),      // 7: api.v1.admin.GetUserListResponse
+	(*UpdateUsersRequest)(nil),       // 8: api.v1.admin.UpdateUsersRequest
+	(*UpdateUsersResponse)(nil),      // 9: api.v1.admin.UpdateUsersResponse
+	(*DeleteUsersRequest)(nil),       // 10: api.v1.admin.DeleteUsersRequest
+	(*GetRoleListRequest)(nil),       // 11: api.v1.admin.GetRoleListRequest
+	(*GetRoleListResponse)(nil),      // 12: api.v1.admin.GetRoleListResponse
+	(*UpdateRolesRequest)(nil),       // 13: api.v1.admin.UpdateRolesRequest
+	(*UpdateRolesResponse)(nil),      // 14: api.v1.admin.UpdateRolesResponse
+	(*DeleteRolesRequest)(nil),       // 15: api.v1.admin.DeleteRolesRequest
+	(*GetApiInfoListResponse)(nil),   // 16: api.v1.admin.GetApiInfoListResponse
+	(*RoleGetPolicyRequest)(nil),     // 17: api.v1.admin.RoleGetPolicyRequest
+	(*RoleGetPolicyResponse)(nil),    // 18: api.v1.admin.RoleGetPolicyResponse
+	(*RoleUpdatePolicyRequest)(nil),  // 19: api.v1.admin.RoleUpdatePolicyRequest
+	nil,                              // 20: api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry
+	(*common.Role)(nil),              // 21: api.common.v1.Role
+	(*common.User)(nil),              // 22: api.common.v1.User
+	(*common.PageInfo)(nil),          // 23: api.common.v1.PageInfo
+	(common.UserStatus)(0),           // 24: api.common.v1.UserStatus
+	(common.RoleStatus)(0),           // 25: api.common.v1.RoleStatus
+	(*common.ApiInfo)(nil),           // 26: api.common.v1.ApiInfo
+	(*common.ApiTypeInfo)(nil),       // 27: api.common.v1.ApiTypeInfo
+	(*emptypb.Empty)(nil),            // 28: google.protobuf.Empty
+	(*common.IntValue)(nil),          // 29: api.common.v1.IntValue
 }
 var file_v1_admin_admin_proto_depIdxs = []int32{
-	19, // 0: api.v1.admin.UpdateUserAvatarResponse.user:type_name -> api.common.v1.User
-	20, // 1: api.v1.admin.GetUserListRequest.page:type_name -> api.common.v1.PageInfo
-	21, // 2: api.v1.admin.GetUserListRequest.status:type_name -> api.common.v1.UserStatus
-	19, // 3: api.v1.admin.CreateUserRequest.user:type_name -> api.common.v1.User
-	19, // 4: api.v1.admin.CreateUserResponse.user:type_name -> api.common.v1.User
-	19, // 5: api.v1.admin.GetUserListResponse.users:type_name -> api.common.v1.User
-	19, // 6: api.v1.admin.UpdateUsersRequest.users:type_name -> api.common.v1.User
-	19, // 7: api.v1.admin.UpdateUsersResponse.users:type_name -> api.common.v1.User
-	20, // 8: api.v1.admin.GetRoleListRequest.page:type_name -> api.common.v1.PageInfo
-	22, // 9: api.v1.admin.GetRoleListRequest.status:type_name -> api.common.v1.RoleStatus
-	23, // 10: api.v1.admin.GetRoleListResponse.roles:type_name -> api.common.v1.Role
-	23, // 11: api.v1.admin.UpdateRolesRequest.roles:type_name -> api.common.v1.Role
-	23, // 12: api.v1.admin.UpdateRolesResponse.roles:type_name -> api.common.v1.Role
-	18, // 13: api.v1.admin.GetApiInfoListResponse.api_type_map:type_name -> api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry
-	24, // 14: api.v1.admin.RoleGetPolicyResponse.api_info:type_name -> api.common.v1.ApiInfo
-	25, // 15: api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry.value:type_name -> api.common.v1.ApiTypeInfo
-	3,  // 16: api.v1.admin.Admin.CreateUser:input_type -> api.v1.admin.CreateUserRequest
-	2,  // 17: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
-	6,  // 18: api.v1.admin.Admin.UpdateUsers:input_type -> api.v1.admin.UpdateUsersRequest
-	8,  // 19: api.v1.admin.Admin.DeleteUsers:input_type -> api.v1.admin.DeleteUsersRequest
-	26, // 20: api.v1.admin.Admin.GetUserCount:input_type -> google.protobuf.Empty
-	9,  // 21: api.v1.admin.Admin.GetRoleList:input_type -> api.v1.admin.GetRoleListRequest
-	11, // 22: api.v1.admin.Admin.UpdateRoles:input_type -> api.v1.admin.UpdateRolesRequest
-	13, // 23: api.v1.admin.Admin.DeleteRoles:input_type -> api.v1.admin.DeleteRolesRequest
-	26, // 24: api.v1.admin.Admin.GetRoleCount:input_type -> google.protobuf.Empty
-	26, // 25: api.v1.admin.Admin.GetApiInfoList:input_type -> google.protobuf.Empty
-	15, // 26: api.v1.admin.Admin.RoleGetPolicy:input_type -> api.v1.admin.RoleGetPolicyRequest
-	17, // 27: api.v1.admin.Admin.RoleUpdatePolicy:input_type -> api.v1.admin.RoleUpdatePolicyRequest
-	0,  // 28: api.v1.admin.Admin.UpdateUserAvatar:input_type -> api.v1.admin.UpdateUserAvatarRequest
-	4,  // 29: api.v1.admin.Admin.CreateUser:output_type -> api.v1.admin.CreateUserResponse
-	5,  // 30: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
-	7,  // 31: api.v1.admin.Admin.UpdateUsers:output_type -> api.v1.admin.UpdateUsersResponse
-	26, // 32: api.v1.admin.Admin.DeleteUsers:output_type -> google.protobuf.Empty
-	27, // 33: api.v1.admin.Admin.GetUserCount:output_type -> api.common.v1.IntValue
-	10, // 34: api.v1.admin.Admin.GetRoleList:output_type -> api.v1.admin.GetRoleListResponse
-	12, // 35: api.v1.admin.Admin.UpdateRoles:output_type -> api.v1.admin.UpdateRolesResponse
-	26, // 36: api.v1.admin.Admin.DeleteRoles:output_type -> google.protobuf.Empty
-	27, // 37: api.v1.admin.Admin.GetRoleCount:output_type -> api.common.v1.IntValue
-	14, // 38: api.v1.admin.Admin.GetApiInfoList:output_type -> api.v1.admin.GetApiInfoListResponse
-	16, // 39: api.v1.admin.Admin.RoleGetPolicy:output_type -> api.v1.admin.RoleGetPolicyResponse
-	26, // 40: api.v1.admin.Admin.RoleUpdatePolicy:output_type -> google.protobuf.Empty
-	1,  // 41: api.v1.admin.Admin.UpdateUserAvatar:output_type -> api.v1.admin.UpdateUserAvatarResponse
-	29, // [29:42] is the sub-list for method output_type
-	16, // [16:29] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	21, // 0: api.v1.admin.CreateRoleRequest.role:type_name -> api.common.v1.Role
+	21, // 1: api.v1.admin.CreateRoleResponse.role:type_name -> api.common.v1.Role
+	22, // 2: api.v1.admin.UpdateUserAvatarResponse.user:type_name -> api.common.v1.User
+	23, // 3: api.v1.admin.GetUserListRequest.page:type_name -> api.common.v1.PageInfo
+	24, // 4: api.v1.admin.GetUserListRequest.status:type_name -> api.common.v1.UserStatus
+	22, // 5: api.v1.admin.CreateUserRequest.user:type_name -> api.common.v1.User
+	22, // 6: api.v1.admin.CreateUserResponse.user:type_name -> api.common.v1.User
+	22, // 7: api.v1.admin.GetUserListResponse.users:type_name -> api.common.v1.User
+	22, // 8: api.v1.admin.UpdateUsersRequest.users:type_name -> api.common.v1.User
+	22, // 9: api.v1.admin.UpdateUsersResponse.users:type_name -> api.common.v1.User
+	23, // 10: api.v1.admin.GetRoleListRequest.page:type_name -> api.common.v1.PageInfo
+	25, // 11: api.v1.admin.GetRoleListRequest.status:type_name -> api.common.v1.RoleStatus
+	21, // 12: api.v1.admin.GetRoleListResponse.roles:type_name -> api.common.v1.Role
+	21, // 13: api.v1.admin.UpdateRolesRequest.roles:type_name -> api.common.v1.Role
+	21, // 14: api.v1.admin.UpdateRolesResponse.roles:type_name -> api.common.v1.Role
+	20, // 15: api.v1.admin.GetApiInfoListResponse.api_type_map:type_name -> api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry
+	26, // 16: api.v1.admin.RoleGetPolicyResponse.api_info:type_name -> api.common.v1.ApiInfo
+	27, // 17: api.v1.admin.GetApiInfoListResponse.ApiTypeMapEntry.value:type_name -> api.common.v1.ApiTypeInfo
+	5,  // 18: api.v1.admin.Admin.CreateUser:input_type -> api.v1.admin.CreateUserRequest
+	4,  // 19: api.v1.admin.Admin.GetUserList:input_type -> api.v1.admin.GetUserListRequest
+	8,  // 20: api.v1.admin.Admin.UpdateUsers:input_type -> api.v1.admin.UpdateUsersRequest
+	10, // 21: api.v1.admin.Admin.DeleteUsers:input_type -> api.v1.admin.DeleteUsersRequest
+	28, // 22: api.v1.admin.Admin.GetUserCount:input_type -> google.protobuf.Empty
+	11, // 23: api.v1.admin.Admin.GetRoleList:input_type -> api.v1.admin.GetRoleListRequest
+	0,  // 24: api.v1.admin.Admin.CreateRole:input_type -> api.v1.admin.CreateRoleRequest
+	13, // 25: api.v1.admin.Admin.UpdateRoles:input_type -> api.v1.admin.UpdateRolesRequest
+	15, // 26: api.v1.admin.Admin.DeleteRoles:input_type -> api.v1.admin.DeleteRolesRequest
+	28, // 27: api.v1.admin.Admin.GetRoleCount:input_type -> google.protobuf.Empty
+	28, // 28: api.v1.admin.Admin.GetApiInfoList:input_type -> google.protobuf.Empty
+	17, // 29: api.v1.admin.Admin.RoleGetPolicy:input_type -> api.v1.admin.RoleGetPolicyRequest
+	19, // 30: api.v1.admin.Admin.RoleUpdatePolicy:input_type -> api.v1.admin.RoleUpdatePolicyRequest
+	2,  // 31: api.v1.admin.Admin.UpdateUserAvatar:input_type -> api.v1.admin.UpdateUserAvatarRequest
+	6,  // 32: api.v1.admin.Admin.CreateUser:output_type -> api.v1.admin.CreateUserResponse
+	7,  // 33: api.v1.admin.Admin.GetUserList:output_type -> api.v1.admin.GetUserListResponse
+	9,  // 34: api.v1.admin.Admin.UpdateUsers:output_type -> api.v1.admin.UpdateUsersResponse
+	28, // 35: api.v1.admin.Admin.DeleteUsers:output_type -> google.protobuf.Empty
+	29, // 36: api.v1.admin.Admin.GetUserCount:output_type -> api.common.v1.IntValue
+	12, // 37: api.v1.admin.Admin.GetRoleList:output_type -> api.v1.admin.GetRoleListResponse
+	1,  // 38: api.v1.admin.Admin.CreateRole:output_type -> api.v1.admin.CreateRoleResponse
+	14, // 39: api.v1.admin.Admin.UpdateRoles:output_type -> api.v1.admin.UpdateRolesResponse
+	28, // 40: api.v1.admin.Admin.DeleteRoles:output_type -> google.protobuf.Empty
+	29, // 41: api.v1.admin.Admin.GetRoleCount:output_type -> api.common.v1.IntValue
+	16, // 42: api.v1.admin.Admin.GetApiInfoList:output_type -> api.v1.admin.GetApiInfoListResponse
+	18, // 43: api.v1.admin.Admin.RoleGetPolicy:output_type -> api.v1.admin.RoleGetPolicyResponse
+	28, // 44: api.v1.admin.Admin.RoleUpdatePolicy:output_type -> google.protobuf.Empty
+	3,  // 45: api.v1.admin.Admin.UpdateUserAvatar:output_type -> api.v1.admin.UpdateUserAvatarResponse
+	32, // [32:46] is the sub-list for method output_type
+	18, // [18:32] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_v1_admin_admin_proto_init() }
@@ -1081,15 +1178,15 @@ func file_v1_admin_admin_proto_init() {
 	if File_v1_admin_admin_proto != nil {
 		return
 	}
-	file_v1_admin_admin_proto_msgTypes[2].OneofWrappers = []any{}
-	file_v1_admin_admin_proto_msgTypes[9].OneofWrappers = []any{}
+	file_v1_admin_admin_proto_msgTypes[4].OneofWrappers = []any{}
+	file_v1_admin_admin_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_admin_admin_proto_rawDesc), len(file_v1_admin_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   19,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

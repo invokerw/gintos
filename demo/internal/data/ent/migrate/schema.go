@@ -36,7 +36,7 @@ var (
 		{Name: "update_by", Type: field.TypeUint64, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "name", Type: field.TypeString, Size: 128, Comment: "角色名称"},
-		{Name: "label", Type: field.TypeString, Unique: true, Size: 128, Comment: "角色描述"},
+		{Name: "code", Type: field.TypeString, Unique: true, Size: 128, Comment: "角色标识"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 	}
 	// RolesTable holds the schema information for the "roles" table.
@@ -51,7 +51,7 @@ var (
 				Columns: []*schema.Column{RolesColumns[0]},
 			},
 			{
-				Name:    "role_id_label",
+				Name:    "role_id_code",
 				Unique:  false,
 				Columns: []*schema.Column{RolesColumns[0], RolesColumns[8]},
 			},

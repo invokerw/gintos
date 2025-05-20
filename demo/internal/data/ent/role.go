@@ -32,8 +32,8 @@ type Role struct {
 	Remark *string `json:"remark,omitempty"`
 	// 角色名称
 	Name string `json:"name,omitempty"`
-	// 角色描述
-	Label string `json:"label,omitempty"`
+	// 角色标识
+	Code string `json:"code,omitempty"`
 	// 排序ID
 	SortID       *int32 `json:"sort_id,omitempty"`
 	selectValues sql.SelectValues
@@ -46,7 +46,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldLabel:
+		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode:
 			values[i] = new(sql.NullString)
 		case role.FieldCreateTime, role.FieldUpdateTime:
 			values[i] = new(sql.NullTime)
@@ -119,11 +119,11 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				r.Name = value.String
 			}
-		case role.FieldLabel:
+		case role.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field label", values[i])
+				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				r.Label = value.String
+				r.Code = value.String
 			}
 		case role.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -201,8 +201,8 @@ func (r *Role) String() string {
 	builder.WriteString("name=")
 	builder.WriteString(r.Name)
 	builder.WriteString(", ")
-	builder.WriteString("label=")
-	builder.WriteString(r.Label)
+	builder.WriteString("code=")
+	builder.WriteString(r.Code)
 	builder.WriteString(", ")
 	if v := r.SortID; v != nil {
 		builder.WriteString("sort_id=")

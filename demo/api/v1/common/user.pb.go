@@ -407,7 +407,7 @@ type Role struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            *uint64                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"` // 角色ID
 	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Label         *string                `protobuf:"bytes,3,opt,name=label,proto3,oneof" json:"label,omitempty"`
+	Code          *string                `protobuf:"bytes,3,opt,name=code,proto3,oneof" json:"code,omitempty"`
 	SortId        *int32                 `protobuf:"varint,5,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`
 	Status        *RoleStatus            `protobuf:"varint,32,opt,name=status,proto3,enum=api.common.v1.RoleStatus,oneof" json:"status,omitempty"` // 用户状态
 	Remark        *string                `protobuf:"bytes,33,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                // 备注
@@ -461,9 +461,9 @@ func (x *Role) GetName() string {
 	return ""
 }
 
-func (x *Role) GetLabel() string {
-	if x != nil && x.Label != nil {
-		return *x.Label
+func (x *Role) GetCode() string {
+	if x != nil && x.Code != nil {
+		return *x.Code
 	}
 	return ""
 }
@@ -551,11 +551,11 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\n" +
 	"_authorityB\x0e\n" +
 	"\f_create_timeB\x0e\n" +
-	"\f_update_time\"\x94\x04\n" +
+	"\f_update_time\"\x91\x04\n" +
 	"\x04Role\x12#\n" +
 	"\x02id\x18\x01 \x01(\x04B\x0e\xbaG\v\x92\x02\b角色IDH\x00R\x02id\x88\x01\x01\x12+\n" +
-	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\x04name\x88\x01\x01\x12-\n" +
-	"\x05label\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识H\x02R\x05label\x88\x01\x01\x12,\n" +
+	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\x04name\x88\x01\x01\x12+\n" +
+	"\x04code\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识H\x02R\x04code\x88\x01\x01\x12,\n" +
 	"\asort_id\x18\x05 \x01(\x05B\x0e\xbaG\v\x92\x02\b排序IDH\x03R\x06sortId\x88\x01\x01\x12`\n" +
 	"\x06status\x18  \x01(\x0e2\x19.api.common.v1.RoleStatusB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f角色状态H\x04R\x06status\x88\x01\x01\x12)\n" +
 	"\x06remark\x18! \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x05R\x06remark\x88\x01\x01\x129\n" +
@@ -564,8 +564,8 @@ const file_v1_common_user_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\x03B\x12\xbaG\x0f\x92\x02\f更新时间H\aR\n" +
 	"updateTime\x88\x01\x01B\x05\n" +
 	"\x03_idB\a\n" +
-	"\x05_nameB\b\n" +
-	"\x06_labelB\n" +
+	"\x05_nameB\a\n" +
+	"\x05_codeB\n" +
 	"\n" +
 	"\b_sort_idB\t\n" +
 	"\a_statusB\t\n" +

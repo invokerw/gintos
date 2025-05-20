@@ -110,9 +110,9 @@ func (rc *RoleCreate) SetName(s string) *RoleCreate {
 	return rc
 }
 
-// SetLabel sets the "label" field.
-func (rc *RoleCreate) SetLabel(s string) *RoleCreate {
-	rc.mutation.SetLabel(s)
+// SetCode sets the "code" field.
+func (rc *RoleCreate) SetCode(s string) *RoleCreate {
+	rc.mutation.SetCode(s)
 	return rc
 }
 
@@ -200,12 +200,12 @@ func (rc *RoleCreate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
 		}
 	}
-	if _, ok := rc.mutation.Label(); !ok {
-		return &ValidationError{Name: "label", err: errors.New(`ent: missing required field "Role.label"`)}
+	if _, ok := rc.mutation.Code(); !ok {
+		return &ValidationError{Name: "code", err: errors.New(`ent: missing required field "Role.code"`)}
 	}
-	if v, ok := rc.mutation.Label(); ok {
-		if err := role.LabelValidator(v); err != nil {
-			return &ValidationError{Name: "label", err: fmt.Errorf(`ent: validator failed for field "Role.label": %w`, err)}
+	if v, ok := rc.mutation.Code(); ok {
+		if err := role.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
 		}
 	}
 	if v, ok := rc.mutation.ID(); ok {
@@ -273,9 +273,9 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := rc.mutation.Label(); ok {
-		_spec.SetField(role.FieldLabel, field.TypeString, value)
-		_node.Label = value
+	if value, ok := rc.mutation.Code(); ok {
+		_spec.SetField(role.FieldCode, field.TypeString, value)
+		_node.Code = value
 	}
 	if value, ok := rc.mutation.SortID(); ok {
 		_spec.SetField(role.FieldSortID, field.TypeInt32, value)

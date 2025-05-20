@@ -696,7 +696,7 @@ type RoleMutation struct {
 	addupdate_by  *int64
 	remark        *string
 	name          *string
-	label         *string
+	code          *string
 	sort_id       *int32
 	addsort_id    *int32
 	clearedFields map[string]struct{}
@@ -1181,40 +1181,40 @@ func (m *RoleMutation) ResetName() {
 	m.name = nil
 }
 
-// SetLabel sets the "label" field.
-func (m *RoleMutation) SetLabel(s string) {
-	m.label = &s
+// SetCode sets the "code" field.
+func (m *RoleMutation) SetCode(s string) {
+	m.code = &s
 }
 
-// Label returns the value of the "label" field in the mutation.
-func (m *RoleMutation) Label() (r string, exists bool) {
-	v := m.label
+// Code returns the value of the "code" field in the mutation.
+func (m *RoleMutation) Code() (r string, exists bool) {
+	v := m.code
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldLabel returns the old "label" field's value of the Role entity.
+// OldCode returns the old "code" field's value of the Role entity.
 // If the Role object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RoleMutation) OldLabel(ctx context.Context) (v string, err error) {
+func (m *RoleMutation) OldCode(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldLabel is only allowed on UpdateOne operations")
+		return v, errors.New("OldCode is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldLabel requires an ID field in the mutation")
+		return v, errors.New("OldCode requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldLabel: %w", err)
+		return v, fmt.Errorf("querying old value for OldCode: %w", err)
 	}
-	return oldValue.Label, nil
+	return oldValue.Code, nil
 }
 
-// ResetLabel resets all changes to the "label" field.
-func (m *RoleMutation) ResetLabel() {
-	m.label = nil
+// ResetCode resets all changes to the "code" field.
+func (m *RoleMutation) ResetCode() {
+	m.code = nil
 }
 
 // SetSortID sets the "sort_id" field.
@@ -1343,8 +1343,8 @@ func (m *RoleMutation) Fields() []string {
 	if m.name != nil {
 		fields = append(fields, role.FieldName)
 	}
-	if m.label != nil {
-		fields = append(fields, role.FieldLabel)
+	if m.code != nil {
+		fields = append(fields, role.FieldCode)
 	}
 	if m.sort_id != nil {
 		fields = append(fields, role.FieldSortID)
@@ -1371,8 +1371,8 @@ func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 		return m.Remark()
 	case role.FieldName:
 		return m.Name()
-	case role.FieldLabel:
-		return m.Label()
+	case role.FieldCode:
+		return m.Code()
 	case role.FieldSortID:
 		return m.SortID()
 	}
@@ -1398,8 +1398,8 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldRemark(ctx)
 	case role.FieldName:
 		return m.OldName(ctx)
-	case role.FieldLabel:
-		return m.OldLabel(ctx)
+	case role.FieldCode:
+		return m.OldCode(ctx)
 	case role.FieldSortID:
 		return m.OldSortID(ctx)
 	}
@@ -1460,12 +1460,12 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetName(v)
 		return nil
-	case role.FieldLabel:
+	case role.FieldCode:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetLabel(v)
+		m.SetCode(v)
 		return nil
 	case role.FieldSortID:
 		v, ok := value.(int32)
@@ -1628,8 +1628,8 @@ func (m *RoleMutation) ResetField(name string) error {
 	case role.FieldName:
 		m.ResetName()
 		return nil
-	case role.FieldLabel:
-		m.ResetLabel()
+	case role.FieldCode:
+		m.ResetCode()
 		return nil
 	case role.FieldSortID:
 		m.ResetSortID()

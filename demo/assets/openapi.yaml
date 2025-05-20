@@ -6,6 +6,26 @@ info:
     title: ""
     version: 0.0.1
 paths:
+    /api/v1/admin/create_role:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_CreateRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.admin.CreateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.admin.CreateRoleResponse'
+            security:
+                - {}
     /api/v1/admin/create_user:
         post:
             tags:
@@ -159,13 +179,13 @@ paths:
                     content: {}
             security:
                 - {}
-    /api/v1/admin/role_get_policy/:role_lable:
+    /api/v1/admin/role_get_policy/:role_code:
         get:
             tags:
                 - Admin
             operationId: Admin_RoleGetPolicy
             parameters:
-                - name: role_lable
+                - name: role_code
                   in: query
                   schema:
                     type: string
@@ -413,7 +433,7 @@ components:
                 name:
                     type: string
                     description: 角色名称
-                label:
+                code:
                     type: string
                     description: 角色标识
                 sort_id:
@@ -506,6 +526,16 @@ components:
                     type: string
                     description: 更新时间
             description: 用户
+        api.v1.admin.CreateRoleRequest:
+            type: object
+            properties:
+                role:
+                    $ref: '#/components/schemas/api.common.v1.Role'
+        api.v1.admin.CreateRoleResponse:
+            type: object
+            properties:
+                role:
+                    $ref: '#/components/schemas/api.common.v1.Role'
         api.v1.admin.CreateUserRequest:
             type: object
             properties:
@@ -519,7 +549,7 @@ components:
         api.v1.admin.DeleteRolesRequest:
             type: object
             properties:
-                lables:
+                codes:
                     type: array
                     items:
                         type: string
@@ -548,7 +578,7 @@ components:
                 name:
                     type: string
                     description: 角色名
-                label:
+                code:
                     type: string
                     description: 角色标识
                 status:
@@ -590,7 +620,7 @@ components:
         api.v1.admin.RoleGetPolicyResponse:
             type: object
             properties:
-                role_lable:
+                role_code:
                     type: string
                     description: 角色标识
                 api_info:
@@ -601,7 +631,7 @@ components:
         api.v1.admin.RoleUpdatePolicyRequest:
             type: object
             properties:
-                role_lable:
+                role_code:
                     type: string
                     description: 角色标识
                 api_name:

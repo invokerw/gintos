@@ -74,18 +74,18 @@ func init() {
 			return nil
 		}
 	}()
-	// roleDescLabel is the schema descriptor for label field.
-	roleDescLabel := roleFields[1].Descriptor()
-	// role.LabelValidator is a validator for the "label" field. It is called by the builders before save.
-	role.LabelValidator = func() func(string) error {
-		validators := roleDescLabel.Validators
+	// roleDescCode is the schema descriptor for code field.
+	roleDescCode := roleFields[1].Descriptor()
+	// role.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	role.CodeValidator = func() func(string) error {
+		validators := roleDescCode.Validators
 		fns := [...]func(string) error{
 			validators[0].(func(string) error),
 			validators[1].(func(string) error),
 		}
-		return func(label string) error {
+		return func(code string) error {
 			for _, fn := range fns {
-				if err := fn(label); err != nil {
+				if err := fn(code); err != nil {
 					return err
 				}
 			}

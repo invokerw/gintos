@@ -87,6 +87,18 @@ service Admin {
 		};
 	}
 
+	rpc CreateRole (CreateRoleRequest) returns (CreateRoleResponse) {
+		option (google.api.http) = {
+			post: "/api/v1/admin/create_role"
+			body: "*"
+		};
+		option (rbac.comment) = "创建角色";
+		option (rbac.type) = "role";
+		option(openapi.v3.operation) = {
+			security: {}
+		};
+	}
+
 	rpc UpdateRoles (UpdateRolesRequest) returns (UpdateRolesResponse) {
 		option (google.api.http) = {
 			post: "/api/v1/admin/update_roles"
@@ -135,7 +147,7 @@ service Admin {
 
 	rpc RoleGetPolicy (RoleGetPolicyRequest) returns (RoleGetPolicyResponse) {
 		option (google.api.http) = {
-			get: "/api/v1/admin/role_get_policy/:role_lable"
+			get: "/api/v1/admin/role_get_policy/:role_code"
 		};
 		option (rbac.comment) = "获取角色权限";
 		option (rbac.type) = "rbac";
@@ -168,6 +180,18 @@ service Admin {
 		};
 	}
 
+}
+
+message CreateRoleRequest {
+	common.v1.Role role = 1 [
+		(openapi.v3.property) = {description: "角色信息"}
+	]; // 角色信息
+}
+
+message CreateRoleResponse {
+	common.v1.Role role = 1 [
+		(openapi.v3.property) = {description: "角色信息"}
+	]; // 角色信息
 }
 
 message UpdateUserAvatarRequest {
@@ -243,7 +267,7 @@ message GetRoleListRequest {
 	optional string name = 2 [
 		(openapi.v3.property) = {description: "角色名"}
 	]; // 角色名
-	optional string label = 3 [
+	optional string code = 3 [
 		(openapi.v3.property) = {description: "角色标识"}
 	]; // 角色标识
 	optional common.v1.RoleStatus status = 4 [
@@ -266,7 +290,7 @@ message UpdateRolesResponse {
 }
 
 message DeleteRolesRequest {
-	repeated string lables = 1 [
+	repeated string codes = 1 [
 		(openapi.v3.property) = {description: "角色标识"}
 	];
 }
@@ -278,13 +302,13 @@ message GetApiInfoListResponse {
 }
 
 message RoleGetPolicyRequest {
-	string role_lable = 1 [
+	string role_code = 1 [
 		(openapi.v3.property) = {description: "角色标识"}
 	]; // 角色名字
 }
 
 message RoleGetPolicyResponse {
-	string role_lable = 1 [
+	string role_code = 1 [
 		(openapi.v3.property) = {description: "角色标识"}
 	]; // 角色名字
 	repeated common.v1.ApiInfo api_info = 2 [
@@ -293,7 +317,7 @@ message RoleGetPolicyResponse {
 }
 
 message RoleUpdatePolicyRequest {
-	string role_lable = 1 [
+	string role_code = 1 [
 		(openapi.v3.property) = {description: "角色标识"}
 	]; // 角色名字
 	repeated string api_name = 2 [

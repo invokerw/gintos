@@ -27,8 +27,8 @@ const (
 	FieldRemark = "remark"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
-	// FieldLabel holds the string denoting the label field in the database.
-	FieldLabel = "label"
+	// FieldCode holds the string denoting the code field in the database.
+	FieldCode = "code"
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
 	// Table holds the table name of the role in the database.
@@ -45,7 +45,7 @@ var Columns = []string{
 	FieldUpdateBy,
 	FieldRemark,
 	FieldName,
-	FieldLabel,
+	FieldCode,
 	FieldSortID,
 }
 
@@ -64,8 +64,8 @@ var (
 	DefaultRemark string
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
-	// LabelValidator is a validator for the "label" field. It is called by the builders before save.
-	LabelValidator func(string) error
+	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	CodeValidator func(string) error
 	// DefaultSortID holds the default value on creation for the "sort_id" field.
 	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -141,9 +141,9 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
-// ByLabel orders the results by the label field.
-func ByLabel(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldLabel, opts...).ToFunc()
+// ByCode orders the results by the code field.
+func ByCode(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCode, opts...).ToFunc()
 }
 
 // BySortID orders the results by the sort_id field.

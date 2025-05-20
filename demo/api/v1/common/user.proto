@@ -109,7 +109,7 @@ message Role {
   ];  // 角色ID
 
   optional string name = 2 [ (openapi.v3.property) = {description: "角色名称"}];
-  optional string label = 3 [ (openapi.v3.property) = {description: "角色标识"}];
+  optional string code = 3 [ (openapi.v3.property) = {description: "角色标识"}];
   optional int32 sort_id = 5 [ (openapi.v3.property) = {description: "排序ID"}];
   optional RoleStatus status = 32 [(openapi.v3.property) = {
     description: "角色状态"

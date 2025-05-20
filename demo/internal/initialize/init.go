@@ -28,7 +28,7 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l lo
 		if getRole, _ := role.GetRole(ctx, roleName); getRole == nil {
 			_, err := role.CreateRole(ctx, &common.Role{
 				Name:   &roleName,
-				Label:  &roleName,
+				Code:   &roleName,
 				Remark: &roleName,
 				Status: trans.Ptr(common.RoleStatus_R_ON),
 				SortId: trans.Ptr(sortId),
@@ -116,6 +116,13 @@ func DoInit(user biz.UserRepo, role biz.RoleRepo, enforce *casbin.Enforcer, l lo
 		if err := createRole(roleName, 100, nil); err != nil {
 			return &InitRet{
 				Err: err,
+			}
+		}
+		for i := 0; i < 50; i++ {
+			if err := createRole(fmt.Sprintf("%s_%d", roleName, i), 100, nil); err != nil {
+				return &InitRet{
+					Err: err,
+				}
 			}
 		}
 		for i := 0; i < 50; i++ {

@@ -29,8 +29,8 @@ func (uc *RoleUsecase) CreateRole(ctx *gin.Context, user *common.Role) (*common.
 	return uc.convertToRole(u), nil
 }
 
-func (uc *RoleUsecase) GetRole(ctx *gin.Context, label string) (*common.Role, error) {
-	u, err := uc.repo.GetRole(ctx, label)
+func (uc *RoleUsecase) GetRole(ctx *gin.Context, code string) (*common.Role, error) {
+	u, err := uc.repo.GetRole(ctx, code)
 	if err != nil {
 		return nil, err
 	}
@@ -93,18 +93,23 @@ func (uc *RoleUsecase) convertToStatus(s *role.Status) *common.RoleStatus {
 	if s == nil {
 		return nil
 	}
-	find, ok := common.RoleStatus_value[s.String()]
-	if !ok {
+	var ret common.RoleStatus
+	switch *s {
+	case role.StatusON:
+		ret = common.RoleStatus_R_ON
+	case role.StatusOFF:
+		ret = common.RoleStatus_R_OFF
+	default:
 		return nil
 	}
-	return trans.Ptr(common.RoleStatus(find))
+	return trans.Ptr(ret)
 }
 
 func (uc *RoleUsecase) convertToRole(u *ent.Role) *common.Role {
 	return &common.Role{
 		Id:         trans.Uint64(u.ID),
 		Name:       &u.Name,
-		Label:      &u.Label,
+		Code:       &u.Code,
 		SortId:     u.SortID,
 		Remark:     u.Remark,
 		Status:     uc.convertToStatus(u.Status),
