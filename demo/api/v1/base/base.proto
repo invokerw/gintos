@@ -14,16 +14,47 @@ option go_package = "github/invokerw/gintos/demo/api/v1/base;base";
 
 service Base {
   // 后台获取已经登录的用户的数据
-  rpc GetMe (GetMeRequest) returns (GetMeResponse) {
+  rpc GetMe (google.protobuf.Empty) returns (GetMeResponse) {
     option (google.api.http) = {
       get: "/api/v1/base/me"
     };
   }
+
+  rpc UpdateMe (UpdateMeRequest) returns (UpdateMeResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/base/me"
+      body: "*"
+    };
+  }
+
+  rpc UpdateAvatar (UpdateAvatarRequest) returns (UpdateAvatarResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/base/me/avatar"
+      body: "*"
+    };
+  }
 }
 
-// 获取当前用户信息 - 请求
-message GetMeRequest {
-  uint32 id = 1;
+// 更新当前用户信息 - 请求
+message UpdateMeRequest {
+  common.v1.User user = 1 [(openapi.v3.property) = {description: "角色信息"}];
+}
+
+message UpdateMeResponse {
+  common.v1.User user = 1 [(openapi.v3.property) = {description: "角色信息"}];
+}
+
+// 上传用户头像 - 请求
+message UpdateAvatarRequest {
+  string avatarData = 1 [
+    (openapi.v3.property) = {description: "头像数据"}
+  ]; // 头像数据
+}
+
+message UpdateAvatarResponse {
+  common.v1.User user = 1 [
+    (openapi.v3.property) = {description: "用户信息"}
+  ]; // 用户信息
 }
 
 message GetMeResponse {

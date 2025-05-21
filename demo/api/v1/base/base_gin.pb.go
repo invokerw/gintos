@@ -9,6 +9,7 @@ package base
 import (
 	gin "github.com/gin-gonic/gin"
 	resp "github/invokerw/gintos/common/resp"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -17,25 +18,73 @@ var _ = new(gin.Context)
 var _ = new(resp.Response)
 
 const OperationBaseGetMe = "/api.v1.base.Base/GetMe"
+const OperationBaseUpdateAvatar = "/api.v1.base.Base/UpdateAvatar"
+const OperationBaseUpdateMe = "/api.v1.base.Base/UpdateMe"
 
 type IBaseServer interface {
 	// GetMe 后台获取已经登录的用户的数据
-	GetMe(*gin.Context, *GetMeRequest) (*GetMeResponse, error)
+	GetMe(*gin.Context, *emptypb.Empty) (*GetMeResponse, error)
+	UpdateAvatar(*gin.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error)
+	UpdateMe(*gin.Context, *UpdateMeRequest) (*UpdateMeResponse, error)
 }
 
 func RegisterBaseServer(r gin.IRoutes, srv IBaseServer) {
 	r.GET("/api/v1/base/me", _Base_GetMe0_HTTP_Handler(srv))
+	r.POST("/api/v1/base/me", _Base_UpdateMe0_HTTP_Handler(srv))
+	r.POST("/api/v1/base/me/avatar", _Base_UpdateAvatar0_HTTP_Handler(srv))
 }
 
 func _Base_GetMe0_HTTP_Handler(srv IBaseServer) func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
-		var in GetMeRequest
+		var in emptypb.Empty
 		if err := ctx.BindQuery(&in); err != nil {
 			resp.FailWithMessage(ctx, err.Error())
 			return
 		}
 		// http.SetOperation(ctx, OperationBaseGetMe)
 		reply, err := srv.GetMe(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Base_UpdateMe0_HTTP_Handler(srv IBaseServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in UpdateMeRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationBaseUpdateMe)
+		reply, err := srv.UpdateMe(ctx, &in)
+		if err != nil {
+			resp.FailWithError(ctx, err)
+			return
+		}
+		resp.OkWithData(ctx, reply)
+	}
+}
+
+func _Base_UpdateAvatar0_HTTP_Handler(srv IBaseServer) func(ctx *gin.Context) {
+	return func(ctx *gin.Context) {
+		var in UpdateAvatarRequest
+		if err := ctx.ShouldBindJSON(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			resp.FailWithMessage(ctx, err.Error())
+			return
+		}
+		// http.SetOperation(ctx, OperationBaseUpdateAvatar)
+		reply, err := srv.UpdateAvatar(ctx, &in)
 		if err != nil {
 			resp.FailWithError(ctx, err)
 			return

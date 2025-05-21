@@ -347,12 +347,6 @@ paths:
                 - Base
             description: 后台获取已经登录的用户的数据
             operationId: Base_GetMe
-            parameters:
-                - name: id
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -360,6 +354,41 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.v1.base.GetMeResponse'
+        post:
+            tags:
+                - Base
+            operationId: Base_UpdateMe
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.base.UpdateMeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.base.UpdateMeResponse'
+    /api/v1/base/me/avatar:
+        post:
+            tags:
+                - Base
+            operationId: Base_UpdateAvatar
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.v1.base.UpdateAvatarRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.v1.base.UpdateAvatarResponse'
     /api/v1/helloworld/:name:
         get:
             tags:
@@ -819,6 +848,29 @@ components:
                         type: string
             description: 定义路由元信息
         api.v1.base.GetMeResponse:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+        api.v1.base.UpdateAvatarRequest:
+            type: object
+            properties:
+                avatarData:
+                    type: string
+                    description: 头像数据
+            description: 上传用户头像 - 请求
+        api.v1.base.UpdateAvatarResponse:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+        api.v1.base.UpdateMeRequest:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.common.v1.User'
+            description: 更新当前用户信息 - 请求
+        api.v1.base.UpdateMeResponse:
             type: object
             properties:
                 user:

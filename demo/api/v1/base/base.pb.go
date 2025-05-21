@@ -12,7 +12,7 @@ import (
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/emptypb"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
@@ -26,28 +26,28 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// 获取当前用户信息 - 请求
-type GetMeRequest struct {
+// 更新当前用户信息 - 请求
+type UpdateMeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	User          *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetMeRequest) Reset() {
-	*x = GetMeRequest{}
+func (x *UpdateMeRequest) Reset() {
+	*x = UpdateMeRequest{}
 	mi := &file_v1_base_base_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetMeRequest) String() string {
+func (x *UpdateMeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetMeRequest) ProtoMessage() {}
+func (*UpdateMeRequest) ProtoMessage() {}
 
-func (x *GetMeRequest) ProtoReflect() protoreflect.Message {
+func (x *UpdateMeRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_v1_base_base_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -59,16 +59,149 @@ func (x *GetMeRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetMeRequest.ProtoReflect.Descriptor instead.
-func (*GetMeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateMeRequest.ProtoReflect.Descriptor instead.
+func (*UpdateMeRequest) Descriptor() ([]byte, []int) {
 	return file_v1_base_base_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetMeRequest) GetId() uint32 {
+func (x *UpdateMeRequest) GetUser() *common.User {
 	if x != nil {
-		return x.Id
+		return x.User
 	}
-	return 0
+	return nil
+}
+
+type UpdateMeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateMeResponse) Reset() {
+	*x = UpdateMeResponse{}
+	mi := &file_v1_base_base_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateMeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateMeResponse) ProtoMessage() {}
+
+func (x *UpdateMeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_base_base_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateMeResponse.ProtoReflect.Descriptor instead.
+func (*UpdateMeResponse) Descriptor() ([]byte, []int) {
+	return file_v1_base_base_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UpdateMeResponse) GetUser() *common.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+// 上传用户头像 - 请求
+type UpdateAvatarRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AvatarData    string                 `protobuf:"bytes,1,opt,name=avatarData,proto3" json:"avatarData,omitempty"` // 头像数据
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAvatarRequest) Reset() {
+	*x = UpdateAvatarRequest{}
+	mi := &file_v1_base_base_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAvatarRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAvatarRequest) ProtoMessage() {}
+
+func (x *UpdateAvatarRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_base_base_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAvatarRequest.ProtoReflect.Descriptor instead.
+func (*UpdateAvatarRequest) Descriptor() ([]byte, []int) {
+	return file_v1_base_base_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateAvatarRequest) GetAvatarData() string {
+	if x != nil {
+		return x.AvatarData
+	}
+	return ""
+}
+
+type UpdateAvatarResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *common.User           `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"` // 用户信息
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAvatarResponse) Reset() {
+	*x = UpdateAvatarResponse{}
+	mi := &file_v1_base_base_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAvatarResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAvatarResponse) ProtoMessage() {}
+
+func (x *UpdateAvatarResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_base_base_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAvatarResponse.ProtoReflect.Descriptor instead.
+func (*UpdateAvatarResponse) Descriptor() ([]byte, []int) {
+	return file_v1_base_base_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UpdateAvatarResponse) GetUser() *common.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
 }
 
 type GetMeResponse struct {
@@ -80,7 +213,7 @@ type GetMeResponse struct {
 
 func (x *GetMeResponse) Reset() {
 	*x = GetMeResponse{}
-	mi := &file_v1_base_base_proto_msgTypes[1]
+	mi := &file_v1_base_base_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -92,7 +225,7 @@ func (x *GetMeResponse) String() string {
 func (*GetMeResponse) ProtoMessage() {}
 
 func (x *GetMeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_base_base_proto_msgTypes[1]
+	mi := &file_v1_base_base_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,7 +238,7 @@ func (x *GetMeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMeResponse.ProtoReflect.Descriptor instead.
 func (*GetMeResponse) Descriptor() ([]byte, []int) {
-	return file_v1_base_base_proto_rawDescGZIP(), []int{1}
+	return file_v1_base_base_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetMeResponse) GetUser() *common.User {
@@ -119,13 +252,23 @@ var File_v1_base_base_proto protoreflect.FileDescriptor
 
 const file_v1_base_base_proto_rawDesc = "" +
 	"\n" +
-	"\x12v1/base/base.proto\x12\vapi.v1.base\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\"\x1e\n" +
-	"\fGetMeRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"8\n" +
+	"\x12v1/base/base.proto\x12\vapi.v1.base\x1a\x1cgoogle/api/annotations.proto\x1a\x1copenapi/v3/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14v1/common/user.proto\"N\n" +
+	"\x0fUpdateMeRequest\x12;\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x12\xbaG\x0f\x92\x02\f角色信息R\x04user\"O\n" +
+	"\x10UpdateMeResponse\x12;\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x12\xbaG\x0f\x92\x02\f角色信息R\x04user\"I\n" +
+	"\x13UpdateAvatarRequest\x122\n" +
+	"\n" +
+	"avatarData\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f头像数据R\n" +
+	"avatarData\"S\n" +
+	"\x14UpdateAvatarResponse\x12;\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserB\x12\xbaG\x0f\x92\x02\f用户信息R\x04user\"8\n" +
 	"\rGetMeResponse\x12'\n" +
-	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserR\x04user2_\n" +
-	"\x04Base\x12W\n" +
-	"\x05GetMe\x12\x19.api.v1.base.GetMeRequest\x1a\x1a.api.v1.base.GetMeResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/v1/base/meB.Z,github/invokerw/gintos/demo/api/v1/base;baseb\x06proto3"
+	"\x04user\x18\x01 \x01(\v2\x13.api.common.v1.UserR\x04user2\xb9\x02\n" +
+	"\x04Base\x12T\n" +
+	"\x05GetMe\x12\x16.google.protobuf.Empty\x1a\x1a.api.v1.base.GetMeResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/v1/base/me\x12c\n" +
+	"\bUpdateMe\x12\x1c.api.v1.base.UpdateMeRequest\x1a\x1d.api.v1.base.UpdateMeResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/api/v1/base/me\x12v\n" +
+	"\fUpdateAvatar\x12 .api.v1.base.UpdateAvatarRequest\x1a!.api.v1.base.UpdateAvatarResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v1/base/me/avatarB.Z,github/invokerw/gintos/demo/api/v1/base;baseb\x06proto3"
 
 var (
 	file_v1_base_base_proto_rawDescOnce sync.Once
@@ -139,21 +282,32 @@ func file_v1_base_base_proto_rawDescGZIP() []byte {
 	return file_v1_base_base_proto_rawDescData
 }
 
-var file_v1_base_base_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_v1_base_base_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_v1_base_base_proto_goTypes = []any{
-	(*GetMeRequest)(nil),  // 0: api.v1.base.GetMeRequest
-	(*GetMeResponse)(nil), // 1: api.v1.base.GetMeResponse
-	(*common.User)(nil),   // 2: api.common.v1.User
+	(*UpdateMeRequest)(nil),      // 0: api.v1.base.UpdateMeRequest
+	(*UpdateMeResponse)(nil),     // 1: api.v1.base.UpdateMeResponse
+	(*UpdateAvatarRequest)(nil),  // 2: api.v1.base.UpdateAvatarRequest
+	(*UpdateAvatarResponse)(nil), // 3: api.v1.base.UpdateAvatarResponse
+	(*GetMeResponse)(nil),        // 4: api.v1.base.GetMeResponse
+	(*common.User)(nil),          // 5: api.common.v1.User
+	(*emptypb.Empty)(nil),        // 6: google.protobuf.Empty
 }
 var file_v1_base_base_proto_depIdxs = []int32{
-	2, // 0: api.v1.base.GetMeResponse.user:type_name -> api.common.v1.User
-	0, // 1: api.v1.base.Base.GetMe:input_type -> api.v1.base.GetMeRequest
-	1, // 2: api.v1.base.Base.GetMe:output_type -> api.v1.base.GetMeResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	5, // 0: api.v1.base.UpdateMeRequest.user:type_name -> api.common.v1.User
+	5, // 1: api.v1.base.UpdateMeResponse.user:type_name -> api.common.v1.User
+	5, // 2: api.v1.base.UpdateAvatarResponse.user:type_name -> api.common.v1.User
+	5, // 3: api.v1.base.GetMeResponse.user:type_name -> api.common.v1.User
+	6, // 4: api.v1.base.Base.GetMe:input_type -> google.protobuf.Empty
+	0, // 5: api.v1.base.Base.UpdateMe:input_type -> api.v1.base.UpdateMeRequest
+	2, // 6: api.v1.base.Base.UpdateAvatar:input_type -> api.v1.base.UpdateAvatarRequest
+	4, // 7: api.v1.base.Base.GetMe:output_type -> api.v1.base.GetMeResponse
+	1, // 8: api.v1.base.Base.UpdateMe:output_type -> api.v1.base.UpdateMeResponse
+	3, // 9: api.v1.base.Base.UpdateAvatar:output_type -> api.v1.base.UpdateAvatarResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_v1_base_base_proto_init() }
@@ -167,7 +321,7 @@ func file_v1_base_base_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_base_base_proto_rawDesc), len(file_v1_base_base_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

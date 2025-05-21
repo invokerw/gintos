@@ -10,6 +10,7 @@ import (
 	"github/invokerw/gintos/demo/internal/errs"
 	"github/invokerw/gintos/demo/internal/pkg/trans"
 	"github/invokerw/gintos/demo/internal/pkg/upload"
+	"github/invokerw/gintos/demo/internal/pkg/utils"
 	"github/invokerw/gintos/log"
 	"io"
 	"strings"
@@ -26,6 +27,12 @@ func NewUserUsecase(repo UserRepo, oss upload.OSS, logger log.Logger) *UserUseca
 }
 
 func (uc *UserUsecase) CreateUser(ctx *gin.Context, user *common.User, ignorePassword bool) (*common.User, error) {
+	if user == nil {
+		return nil, errs.ErrUserNotFound
+	}
+	if user.Password != nil && *user.Password != "" {
+		user.Password = trans.Ptr(utils.BcryptHash(*user.Password))
+	}
 	u, err := uc.repo.CreateUsers(ctx, []*common.User{user})
 	if err != nil {
 		return nil, err
@@ -34,6 +41,14 @@ func (uc *UserUsecase) CreateUser(ctx *gin.Context, user *common.User, ignorePas
 }
 
 func (uc *UserUsecase) CreateUsers(ctx *gin.Context, users []*common.User, ignorePassword bool) (*common.User, error) {
+	for _, u := range users {
+		if u == nil {
+			return nil, errs.ErrUserNotFound
+		}
+		if u.Password != nil && *u.Password != "" {
+			u.Password = trans.Ptr(utils.BcryptHash(*u.Password))
+		}
+	}
 	u, err := uc.repo.CreateUsers(ctx, users)
 	if err != nil {
 		return nil, err
@@ -66,6 +81,14 @@ func (uc *UserUsecase) DeleteUsers(ctx *gin.Context, names []string) error {
 }
 
 func (uc *UserUsecase) UpdateUsers(ctx context.Context, users []*common.User, ignorePassword bool) ([]*common.User, error) {
+	for _, u := range users {
+		if u == nil {
+			return nil, errs.ErrUserNotFound
+		}
+		if u.Password != nil && *u.Password != "" {
+			u.Password = trans.Ptr(utils.BcryptHash(*u.Password))
+		}
+	}
 	us, err := uc.repo.UpdateUsers(ctx, users)
 	if err != nil {
 		return nil, err

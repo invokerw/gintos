@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github/invokerw/gintos/demo/internal/g"
 	"net"
@@ -9,6 +10,10 @@ import (
 const (
 	AccessTokenName = "Authorization"
 	ClaimsName      = "claims"
+)
+
+var (
+	ErrUserInfoNotFound = errors.New("用户信息不存在")
 )
 
 func ClearAccessToken(c *gin.Context) {
@@ -68,20 +73,6 @@ func ParseToken(token string) (*CustomClaims, error) {
 	return claims, nil
 }
 
-// GetUserID 从Gin的Context中获取从jwt解析出来的用户ID
-func GetUserID(c *gin.Context) uint64 {
-	if claims, exists := c.Get(ClaimsName); !exists {
-		if cl, err := GetAccessClaims(c); err != nil {
-			return 0
-		} else {
-			return cl.BaseClaims.ID
-		}
-	} else {
-		waitUse := claims.(*CustomClaims)
-		return waitUse.BaseClaims.ID
-	}
-}
-
 // GetUserAuthorityId 从Gin的Context中获取从jwt解析出来的用户角色id
 func GetUserAuthorityId(c *gin.Context) int32 {
 	if claims, exists := c.Get(ClaimsName); !exists {
@@ -111,17 +102,20 @@ func GetUserInfo(c *gin.Context) *CustomClaims {
 }
 
 // GetUserName 从Gin的Context中获取从jwt解析出来的用户名
-func GetUserName(c *gin.Context) string {
-	if claims, exists := c.Get(ClaimsName); !exists {
-		if cl, err := GetAccessClaims(c); err != nil {
-			return ""
-		} else {
-			return cl.Username
-		}
-	} else {
-		waitUse := claims.(*CustomClaims)
-		return waitUse.Username
+func GetUserName(c *gin.Context) (string, error) {
+	cc := GetUserInfo(c)
+	if cc == nil {
+		return "", ErrUserInfoNotFound
 	}
+	return cc.Username, nil
+}
+
+func GetUserID(c *gin.Context) (uint64, error) {
+	cc := GetUserInfo(c)
+	if cc == nil {
+		return 0, ErrUserInfoNotFound
+	}
+	return cc.BaseClaims.ID, nil
 }
 
 func CreateAccessToken(bc BaseClaims) (token string, claims CustomClaims, err error) {
