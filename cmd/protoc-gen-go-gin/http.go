@@ -23,7 +23,7 @@ const (
 var methodSets = make(map[string]int)
 
 // generateFile generates a _http.pb.go file containing kratos errors definitions.
-func generateFile(gen *protogen.Plugin, file *protogen.File, omitempty bool, omitemptyPrefix string) *protogen.GeneratedFile {
+func generateFile(gen *protogen.Plugin, file *protogen.File, omitempty bool, omitemptyPrefix string) []*serviceDesc {
 	if len(file.Services) == 0 || (omitempty && !hasHTTPRule(file.Services)) {
 		return nil
 	}
@@ -41,14 +41,13 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, omitempty bool, omi
 	g.P()
 	g.P("package ", file.GoPackageName)
 	g.P()
-	generateFileContent(gen, file, g, omitempty, omitemptyPrefix)
-	return g
+	return generateFileContent(gen, file, g, omitempty, omitemptyPrefix)
 }
 
 // generateFileContent generates the kratos errors definitions, excluding the package statement.
-func generateFileContent(gen *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile, omitempty bool, omitemptyPrefix string) {
+func generateFileContent(gen *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile, omitempty bool, omitemptyPrefix string) []*serviceDesc {
 	if len(file.Services) == 0 {
-		return
+		return nil
 	}
 	g.P("// This is a compile-time assertion to ensure that this generated file")
 	g.P("// is compatible with the kratos package it is being compiled against.")
@@ -56,21 +55,29 @@ func generateFileContent(gen *protogen.Plugin, file *protogen.File, g *protogen.
 	g.P("var _ = new(", respPackage.Ident("Response"), ")")
 	g.P()
 
+	var ret []*serviceDesc
 	for _, service := range file.Services {
-		genService(gen, file, g, service, omitempty, omitemptyPrefix)
+		sd := genService(gen, file, g, service, omitempty, omitemptyPrefix)
+		if sd != nil {
+			ret = append(ret, sd)
+		}
 	}
+	return ret
 }
 
-func genService(_ *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile, service *protogen.Service, omitempty bool, omitemptyPrefix string) {
+func genService(_ *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile, service *protogen.Service, omitempty bool, omitemptyPrefix string) *serviceDesc {
 	if service.Desc.Options().(*descriptorpb.ServiceOptions).GetDeprecated() {
 		g.P("//")
 		g.P(deprecationComment)
 	}
 	// HTTP Server.
 	sd := &serviceDesc{
-		ServiceType: service.GoName,
-		ServiceName: string(service.Desc.FullName()),
-		Metadata:    file.Desc.Path(),
+		ServiceType:   service.GoName,
+		SnakeCaseType: snakeCase(service.GoName),
+		ServiceName:   string(service.Desc.FullName()),
+		Metadata:      file.Desc.Path(),
+		PackageName:   string(file.GoPackageName),
+		ImportPath:    string(file.GoImportPath),
 	}
 	for _, method := range service.Methods {
 		if method.Desc.IsStreamingClient() || method.Desc.IsStreamingServer() {
@@ -90,6 +97,7 @@ func genService(_ *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFi
 	if len(sd.Methods) != 0 {
 		g.P(sd.execute())
 	}
+	return sd
 }
 
 func hasHTTPRule(services []*protogen.Service) bool {
@@ -211,15 +219,20 @@ func buildMethodDesc(g *protogen.GeneratedFile, m *protogen.Method, method, path
 		comment = "// " + m.GoName + strings.TrimPrefix(strings.TrimSuffix(comment, "\n"), "//")
 	}
 	return &methodDesc{
-		Name:         m.GoName,
-		OriginalName: string(m.Desc.Name()),
-		Num:          methodSets[m.GoName],
-		Request:      g.QualifiedGoIdent(m.Input.GoIdent),
-		Reply:        g.QualifiedGoIdent(m.Output.GoIdent),
-		Comment:      comment,
-		Path:         path,
-		Method:       method,
-		HasVars:      len(vars) > 0,
+		Name:               m.GoName,
+		SnakeCaseName:      snakeCase(m.GoName),
+		OriginalName:       string(m.Desc.Name()),
+		Num:                methodSets[m.GoName],
+		Request:            g.QualifiedGoIdent(m.Input.GoIdent),
+		RequestImportPath:  string(m.Input.GoIdent.GoImportPath),
+		RequestPackageName: getPackageName(string(m.Input.GoIdent.GoImportPath)),
+		Reply:              g.QualifiedGoIdent(m.Output.GoIdent),
+		ReplyPackageName:   getPackageName(string(m.Output.GoIdent.GoImportPath)),
+		ReplyImportPath:    string(m.Output.GoIdent.GoImportPath),
+		Comment:            comment,
+		Path:               path,
+		Method:             method,
+		HasVars:            len(vars) > 0,
 	}
 }
 
