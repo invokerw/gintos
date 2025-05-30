@@ -80,7 +80,7 @@ func (uc *UserUsecase) DeleteUsers(ctx *gin.Context, names []string) error {
 	return nil
 }
 
-func (uc *UserUsecase) UpdateUsers(ctx context.Context, users []*common.User, ignorePassword bool) ([]*common.User, error) {
+func (uc *UserUsecase) UpdateUsers(ctx *gin.Context, users []*common.User, ignorePassword bool) ([]*common.User, error) {
 	for _, u := range users {
 		if u == nil {
 			return nil, errs.ErrUserNotFound

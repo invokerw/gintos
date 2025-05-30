@@ -101,6 +101,18 @@ func (s *AdminService) UpdateRoles(context *gin.Context, request *admin.UpdateRo
 }
 
 func (s *AdminService) UpdateUsers(context *gin.Context, request *admin.UpdateUsersRequest) (*admin.UpdateUsersResponse, error) {
+	info := utils.GetUserInfo(context)
+	if info == nil {
+		return nil, errs.ErrUserNotLogin
+	}
+	// 不能修改 Authority 比你高的用户
+	for _, u := range request.Users {
+		if u.Authority != nil {
+			if int32(*u.Authority) < info.AuthorityId {
+				return nil, errs.ErrUserNotPermission
+			}
+		}
+	}
 	rs, err := s.userUc.UpdateUsers(context, request.Users, true)
 	if err != nil {
 		return nil, err
