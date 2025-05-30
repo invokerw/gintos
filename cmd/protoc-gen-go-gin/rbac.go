@@ -93,13 +93,12 @@ func rbacGenerate(gen *protogen.Plugin, savePath, packageName string, omitempty 
 				if method.Desc.IsStreamingClient() || method.Desc.IsStreamingServer() {
 					continue
 				}
-				comment, ok := proto.GetExtension(method.Desc.Options(), rbac.E_Comment).(string)
-				if !ok || comment == "" {
+				rules, ok := proto.GetExtension(method.Desc.Options(), rbac.E_Rule).(*rbac.Rule)
+				if !ok || rules == nil || rules.Comment == "" {
 					continue
 				}
-				typ, ok := proto.GetExtension(method.Desc.Options(), rbac.E_Type).(string)
-				if !ok || typ == "" {
-					typ = "common"
+				if rules.Type == "" {
+					rules.Type = "common"
 				}
 				rule, ok := proto.GetExtension(method.Desc.Options(), annotations.E_Http).(*annotations.HttpRule)
 				if rule != nil && ok {
@@ -108,8 +107,8 @@ func rbacGenerate(gen *protogen.Plugin, savePath, packageName string, omitempty 
 						api := &rbac.ApiInfo{
 							Method: m,
 							Path:   path,
-							Name:   comment,
-							Type:   typ,
+							Name:   rules.Comment,
+							Type:   rules.Type,
 						}
 						addApiInfo(api)
 					}
@@ -117,8 +116,8 @@ func rbacGenerate(gen *protogen.Plugin, savePath, packageName string, omitempty 
 					api := &rbac.ApiInfo{
 						Method: m,
 						Path:   path,
-						Name:   comment,
-						Type:   typ,
+						Name:   rules.Comment,
+						Type:   rules.Type,
 					}
 					addApiInfo(api)
 				} else if !omitempty {
@@ -126,8 +125,8 @@ func rbacGenerate(gen *protogen.Plugin, savePath, packageName string, omitempty 
 					api := &rbac.ApiInfo{
 						Method: http.MethodPost,
 						Path:   path,
-						Name:   comment,
-						Type:   typ,
+						Name:   rules.Comment,
+						Type:   rules.Type,
 					}
 					addApiInfo(api)
 				}

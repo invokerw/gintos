@@ -11,6 +11,7 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	descriptorpb "google.golang.org/protobuf/types/descriptorpb"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,51 +22,110 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Rule struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Comment       string                 `protobuf:"bytes,1,opt,name=comment,proto3" json:"comment,omitempty"` // 有评论才会生成 rbac 信息
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`       // 分类
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Rule) Reset() {
+	*x = Rule{}
+	mi := &file_rbac_annotations_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Rule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Rule) ProtoMessage() {}
+
+func (x *Rule) ProtoReflect() protoreflect.Message {
+	mi := &file_rbac_annotations_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Rule.ProtoReflect.Descriptor instead.
+func (*Rule) Descriptor() ([]byte, []int) {
+	return file_rbac_annotations_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Rule) GetComment() string {
+	if x != nil {
+		return x.Comment
+	}
+	return ""
+}
+
+func (x *Rule) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
 var file_rbac_annotations_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: (*string)(nil),
-		Field:         2000,
-		Name:          "rbac.comment",
-		Tag:           "bytes,2000,opt,name=comment",
-		Filename:      "rbac/annotations.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: (*string)(nil),
-		Field:         2001,
-		Name:          "rbac.type",
-		Tag:           "bytes,2001,opt,name=type",
+		ExtensionType: (*Rule)(nil),
+		Field:         50000,
+		Name:          "rbac.rule",
+		Tag:           "bytes,50000,opt,name=rule",
 		Filename:      "rbac/annotations.proto",
 	},
 }
 
 // Extension fields to descriptorpb.MethodOptions.
 var (
-	// optional string comment = 2000;
-	E_Comment = &file_rbac_annotations_proto_extTypes[0] // 有评论才会生成 rbac 信息
-	// optional string type = 2001;
-	E_Type = &file_rbac_annotations_proto_extTypes[1] // 分类
+	// optional rbac.Rule rule = 50000;
+	E_Rule = &file_rbac_annotations_proto_extTypes[0] // RBAC 规则
 )
 
 var File_rbac_annotations_proto protoreflect.FileDescriptor
 
 const file_rbac_annotations_proto_rawDesc = "" +
 	"\n" +
-	"\x16rbac/annotations.proto\x12\x04rbac\x1a google/protobuf/descriptor.proto:9\n" +
-	"\acomment\x12\x1e.google.protobuf.MethodOptions\x18\xd0\x0f \x01(\tR\acomment:3\n" +
-	"\x04type\x12\x1e.google.protobuf.MethodOptions\x18\xd1\x0f \x01(\tR\x04typeB(Z&github/invokerw/gintos/proto/rbac;rbacb\x06proto3"
+	"\x16rbac/annotations.proto\x12\x04rbac\x1a google/protobuf/descriptor.proto\"4\n" +
+	"\x04Rule\x12\x18\n" +
+	"\acomment\x18\x01 \x01(\tR\acomment\x12\x12\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type:@\n" +
+	"\x04rule\x12\x1e.google.protobuf.MethodOptions\x18І\x03 \x01(\v2\n" +
+	".rbac.RuleR\x04ruleB(Z&github/invokerw/gintos/proto/rbac;rbacb\x06proto3"
 
+var (
+	file_rbac_annotations_proto_rawDescOnce sync.Once
+	file_rbac_annotations_proto_rawDescData []byte
+)
+
+func file_rbac_annotations_proto_rawDescGZIP() []byte {
+	file_rbac_annotations_proto_rawDescOnce.Do(func() {
+		file_rbac_annotations_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_rbac_annotations_proto_rawDesc), len(file_rbac_annotations_proto_rawDesc)))
+	})
+	return file_rbac_annotations_proto_rawDescData
+}
+
+var file_rbac_annotations_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_rbac_annotations_proto_goTypes = []any{
-	(*descriptorpb.MethodOptions)(nil), // 0: google.protobuf.MethodOptions
+	(*Rule)(nil),                       // 0: rbac.Rule
+	(*descriptorpb.MethodOptions)(nil), // 1: google.protobuf.MethodOptions
 }
 var file_rbac_annotations_proto_depIdxs = []int32{
-	0, // 0: rbac.comment:extendee -> google.protobuf.MethodOptions
-	0, // 1: rbac.type:extendee -> google.protobuf.MethodOptions
+	1, // 0: rbac.rule:extendee -> google.protobuf.MethodOptions
+	0, // 1: rbac.rule:type_name -> rbac.Rule
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	0, // [0:2] is the sub-list for extension extendee
+	1, // [1:2] is the sub-list for extension type_name
+	0, // [0:1] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
 }
 
@@ -80,12 +140,13 @@ func file_rbac_annotations_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_rbac_annotations_proto_rawDesc), len(file_rbac_annotations_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
-			NumExtensions: 2,
+			NumMessages:   1,
+			NumExtensions: 1,
 			NumServices:   0,
 		},
 		GoTypes:           file_rbac_annotations_proto_goTypes,
 		DependencyIndexes: file_rbac_annotations_proto_depIdxs,
+		MessageInfos:      file_rbac_annotations_proto_msgTypes,
 		ExtensionInfos:    file_rbac_annotations_proto_extTypes,
 	}.Build()
 	File_rbac_annotations_proto = out.File

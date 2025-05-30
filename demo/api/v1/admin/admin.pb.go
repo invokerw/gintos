@@ -1055,24 +1055,38 @@ const file_v1_admin_admin_proto_rawDesc = "" +
 	"\x17RoleUpdatePolicyRequest\x12/\n" +
 	"\trole_code\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色标识R\broleCode\x12+\n" +
 	"\bapi_name\x18\x02 \x03(\tB\x10\xbaG\r\x92\x02\n" +
-	"api 名称R\aapiName2\xdc\x10\n" +
-	"\x05Admin\x12\x90\x01\n" +
+	"api 名称R\aapiName2\xf8\x10\n" +
+	"\x05Admin\x12\x92\x01\n" +
 	"\n" +
-	"CreateUser\x12\x1f.api.v1.admin.CreateUserRequest\x1a .api.v1.admin.CreateUserResponse\"?\xbaG\x02Z\x00\x82}\f创建用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/admin/create_user\x12\x9b\x01\n" +
-	"\vGetUserList\x12 .api.v1.admin.GetUserListRequest\x1a!.api.v1.admin.GetUserListResponse\"G\xbaG\x02Z\x00\x82}\x12获取用户列表\x8a}\x04user\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_user_list\x12\x94\x01\n" +
-	"\vUpdateUsers\x12 .api.v1.admin.UpdateUsersRequest\x1a!.api.v1.admin.UpdateUsersResponse\"@\xbaG\x02Z\x00\x82}\f更新用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_users\x12\x89\x01\n" +
-	"\vDeleteUsers\x12 .api.v1.admin.DeleteUsersRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除用户\x8a}\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_users\x12\x86\x01\n" +
-	"\fGetUserCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"E\xbaG\x02Z\x00\x82}\x12获取用户数量\x8a}\x04user\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_user_count\x12\x9b\x01\n" +
-	"\vGetRoleList\x12 .api.v1.admin.GetRoleListRequest\x1a!.api.v1.admin.GetRoleListResponse\"G\xbaG\x02Z\x00\x82}\x12获取角色列表\x8a}\x04role\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_role_list\x12\x90\x01\n" +
+	"CreateUser\x12\x1f.api.v1.admin.CreateUserRequest\x1a .api.v1.admin.CreateUserResponse\"A\xbaG\x02Z\x00\x82\xb5\x18\x14\n" +
+	"\f创建用户\x12\x04user\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/admin/create_user\x12\x9d\x01\n" +
+	"\vGetUserList\x12 .api.v1.admin.GetUserListRequest\x1a!.api.v1.admin.GetUserListResponse\"I\xbaG\x02Z\x00\x82\xb5\x18\x1a\n" +
+	"\x12获取用户列表\x12\x04user\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_user_list\x12\x96\x01\n" +
+	"\vUpdateUsers\x12 .api.v1.admin.UpdateUsersRequest\x1a!.api.v1.admin.UpdateUsersResponse\"B\xbaG\x02Z\x00\x82\xb5\x18\x14\n" +
+	"\f更新用户\x12\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_users\x12\x8b\x01\n" +
+	"\vDeleteUsers\x12 .api.v1.admin.DeleteUsersRequest\x1a\x16.google.protobuf.Empty\"B\xbaG\x02Z\x00\x82\xb5\x18\x14\n" +
+	"\f删除用户\x12\x04user\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_users\x12\x88\x01\n" +
+	"\fGetUserCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"G\xbaG\x02Z\x00\x82\xb5\x18\x1a\n" +
+	"\x12获取用户数量\x12\x04user\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_user_count\x12\x9d\x01\n" +
+	"\vGetRoleList\x12 .api.v1.admin.GetRoleListRequest\x1a!.api.v1.admin.GetRoleListResponse\"I\xbaG\x02Z\x00\x82\xb5\x18\x1a\n" +
+	"\x12获取角色列表\x12\x04role\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api/v1/admin/get_role_list\x12\x92\x01\n" +
 	"\n" +
-	"CreateRole\x12\x1f.api.v1.admin.CreateRoleRequest\x1a .api.v1.admin.CreateRoleResponse\"?\xbaG\x02Z\x00\x82}\f创建角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/admin/create_role\x12\x94\x01\n" +
-	"\vUpdateRoles\x12 .api.v1.admin.UpdateRolesRequest\x1a!.api.v1.admin.UpdateRolesResponse\"@\xbaG\x02Z\x00\x82}\f更新角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_roles\x12\x89\x01\n" +
-	"\vDeleteRoles\x12 .api.v1.admin.DeleteRolesRequest\x1a\x16.google.protobuf.Empty\"@\xbaG\x02Z\x00\x82}\f删除角色\x8a}\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_roles\x12\x86\x01\n" +
-	"\fGetRoleCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"E\xbaG\x02Z\x00\x82}\x12获取角色数量\x8a}\x04role\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_role_count\x12\x96\x01\n" +
-	"\x0eGetApiInfoList\x12\x16.google.protobuf.Empty\x1a$.api.v1.admin.GetApiInfoListResponse\"F\xbaG\x02Z\x00\x82}\x15获取API信息列表\x8a}\x04rbac\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/get_api_info\x12\xab\x01\n" +
-	"\rRoleGetPolicy\x12\".api.v1.admin.RoleGetPolicyRequest\x1a#.api.v1.admin.RoleGetPolicyResponse\"Q\xbaG\x02Z\x00\x82}\x12获取角色权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02*\x12(/api/v1/admin/role_get_policy/:role_code\x12\x9f\x01\n" +
-	"\x10RoleUpdatePolicy\x12%.api.v1.admin.RoleUpdatePolicyRequest\x1a\x16.google.protobuf.Empty\"L\xbaG\x02Z\x00\x82}\x12角色更新权限\x8a}\x04rbac\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/admin/role_update_policy\x12\xaf\x01\n" +
-	"\x10UpdateUserAvatar\x12%.api.v1.admin.UpdateUserAvatarRequest\x1a&.api.v1.admin.UpdateUserAvatarResponse\"L\xbaG\x02Z\x00\x82}\x12更新用户头像\x8a}\x04user\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/admin/update_user_avatarB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
+	"CreateRole\x12\x1f.api.v1.admin.CreateRoleRequest\x1a .api.v1.admin.CreateRoleResponse\"A\xbaG\x02Z\x00\x82\xb5\x18\x14\n" +
+	"\f创建角色\x12\x04role\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/admin/create_role\x12\x96\x01\n" +
+	"\vUpdateRoles\x12 .api.v1.admin.UpdateRolesRequest\x1a!.api.v1.admin.UpdateRolesResponse\"B\xbaG\x02Z\x00\x82\xb5\x18\x14\n" +
+	"\f更新角色\x12\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/update_roles\x12\x8b\x01\n" +
+	"\vDeleteRoles\x12 .api.v1.admin.DeleteRolesRequest\x1a\x16.google.protobuf.Empty\"B\xbaG\x02Z\x00\x82\xb5\x18\x14\n" +
+	"\f删除角色\x12\x04role\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/v1/admin/delete_roles\x12\x88\x01\n" +
+	"\fGetRoleCount\x12\x16.google.protobuf.Empty\x1a\x17.api.common.v1.IntValue\"G\xbaG\x02Z\x00\x82\xb5\x18\x1a\n" +
+	"\x12获取角色数量\x12\x04role\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/v1/admin/get_role_count\x12\x98\x01\n" +
+	"\x0eGetApiInfoList\x12\x16.google.protobuf.Empty\x1a$.api.v1.admin.GetApiInfoListResponse\"H\xbaG\x02Z\x00\x82\xb5\x18\x1d\n" +
+	"\x15获取API信息列表\x12\x04rbac\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/get_api_info\x12\xad\x01\n" +
+	"\rRoleGetPolicy\x12\".api.v1.admin.RoleGetPolicyRequest\x1a#.api.v1.admin.RoleGetPolicyResponse\"S\xbaG\x02Z\x00\x82\xb5\x18\x1a\n" +
+	"\x12获取角色权限\x12\x04rbac\x82\xd3\xe4\x93\x02*\x12(/api/v1/admin/role_get_policy/:role_code\x12\xa1\x01\n" +
+	"\x10RoleUpdatePolicy\x12%.api.v1.admin.RoleUpdatePolicyRequest\x1a\x16.google.protobuf.Empty\"N\xbaG\x02Z\x00\x82\xb5\x18\x1a\n" +
+	"\x12角色更新权限\x12\x04rbac\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/admin/role_update_policy\x12\xb1\x01\n" +
+	"\x10UpdateUserAvatar\x12%.api.v1.admin.UpdateUserAvatarRequest\x1a&.api.v1.admin.UpdateUserAvatarResponse\"N\xbaG\x02Z\x00\x82\xb5\x18\x1a\n" +
+	"\x12更新用户头像\x12\x04user\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/admin/update_user_avatarB0Z.github/invokerw/gintos/demo/api/v1/admin;adminb\x06proto3"
 
 var (
 	file_v1_admin_admin_proto_rawDescOnce sync.Once
